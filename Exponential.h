@@ -13,14 +13,15 @@
 #include "Expression.h"
 class Exponential : public Expression{
 public:
-    Exponential(Expression base, Expression exponent);
+    Exponential(Expression* base, Expression* exponent);
     ~Exponential();
     Expression exponentiate();
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
     
 private:
     Expression* base;
