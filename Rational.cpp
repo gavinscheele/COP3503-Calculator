@@ -8,17 +8,22 @@
 
 #include "Rational.h"
 Rational::Rational(int numerator, int denominator){
+    this->type = "rational";
     this->numerator = numerator;
     this->denominator = denominator;
+    simplify(numerator);
 }
+Rational::Rational(Expression* numerator, Expression* denominator){
+    this->type = "rational";
+    this->eNumerator = numerator;
+    this->eDenominator = denominator;
+    simplify(numerator);
+}
+
 Rational::~Rational(){
     
 }
-ostream& operator<<(ostream& output, const Rational& obj){
-    output << obj.numerator << "/" << obj.denominator;
-    return output;
-}
-Expression Rational::simplify(){
+Expression Rational::simplify(int num){
     //if numerator and denominator are both type pi or type Euler, then simplify to one.
     Expression* c = this;
     
@@ -43,6 +48,14 @@ Expression Rational::simplify(){
     }
     return *c;
 }
+Expression Rational::simplify(Expression* eNumerator){
+    if(eNumerator->type == eDenominator->type){
+        this->numerator = 1;
+        this->denominator = 1;
+    }
+
+    return *this;
+}
 int Rational::findCommonFactor(int n){
     if(n > 9){
         return -1;
@@ -53,19 +66,27 @@ int Rational::findCommonFactor(int n){
         return findCommonFactor(n+1);
     }
 }
-Expression* Rational::add(Expression* a, Expression* b){
+Expression* Rational::add(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Rational::subtract(Expression* a, Expression* b){
+Expression* Rational::subtract(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Rational::multiply(Expression* a, Expression* b){
+Expression* Rational::multiply(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Rational::divide(Expression* a, Expression* b){
+Expression* Rational::divide(Expression* a){
     Expression* c = this;
     return c;
+}
+ostream& Rational::print(std::ostream& output) const{
+    if(this->numerator)
+        output << this->numerator << "/" << this->denominator;
+    else{
+        cout << *eNumerator << "/" << *eDenominator;
+    }
+    return output;
 }
