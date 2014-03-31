@@ -8,8 +8,11 @@
 
 #include "nthRoot.h"
 
-nthRoot::nthRoot(){
-    
+nthRoot::nthRoot(int root, int operand){
+    this->type = "nthRoot";
+    this->operand = operand;
+    this->root = root;
+    this->coefficient = 1;
 }
 nthRoot::~nthRoot(){
     
@@ -20,19 +23,23 @@ Expression nthRoot::simplify(){
 }
 
 
-Expression* nthRoot::add(Expression* a, Expression* b){
+Expression* nthRoot::add(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* nthRoot::subtract(Expression* a, Expression* b){
+Expression* nthRoot::subtract(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* nthRoot::multiply(Expression* a, Expression* b){
+Expression* nthRoot::multiply(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* nthRoot::divide(Expression* a, Expression* b){
+Expression* nthRoot::divide(Expression* a){
     Expression* c = this;
     return c;
+}
+ostream& nthRoot::print(std::ostream& output) const{
+    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    //overlaod cout so that it makes sense
+    return output;
 }
