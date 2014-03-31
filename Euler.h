@@ -13,14 +13,17 @@
 #include "Expression.h"
 
 class Euler : public Expression{
+public:
     Euler();
     ~Euler();
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
 private:
     int coefficient;
 };
 #endif /* defined(__Calculator__Euler__) */
+
