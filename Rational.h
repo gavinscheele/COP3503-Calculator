@@ -11,21 +11,34 @@
 
 #include <iostream>
 #include "Expression.h"
+#include "Exponential.h"
+#include "Logarithm.h"
+#include "Pi.h"
+#include "Euler.h"
+#include "nthRoot.h"
+#include "Integer.h"
 using namespace std;
 class Rational : public Expression {
 public:
     Rational(int numerator, int denominator);
+    Rational(Expression* numerator, Expression* denominator);
+
     ~Rational();
-    Expression simplify();
-    friend ostream& operator<<(ostream& output, const Rational& obj);
+
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
+    
 private:
     int findCommonFactor(int n);
     int numerator;
     int denominator;
+    Expression *eNumerator;
+    Expression *eDenominator;
+    Expression simplify(int num);
+    Expression simplify(Expression* exp);
 };
 #endif /* defined(__Calculator__Rational__) */
