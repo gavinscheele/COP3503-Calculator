@@ -13,13 +13,15 @@
 #include "Expression.h"
 
 class Pi : public Expression{
+public:
     Pi();
     ~Pi();
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
 private:
     int coefficient;
 };
