@@ -10,6 +10,7 @@
 #define __Calculator__Expression__
 
 #include <iostream>
+
 using namespace std;
 
 class Expression {
@@ -20,12 +21,18 @@ public:
     bool canSubtract(Expression* b);
     bool canMultiply(Expression* b);
     bool canDivide(Expression* b);
+    friend ostream& operator<<(ostream &output, Expression &e);
     
+    virtual ostream& print(std::ostream& output) const =0;
+    virtual Expression* add(Expression* a) = 0;
+    virtual Expression* subtract(Expression* a) = 0;
+    virtual Expression* multiply(Expression* a) = 0;
+    virtual Expression* divide(Expression* a) = 0;
     
-    virtual Expression* add(Expression* a, Expression* b) = 0;
-    virtual Expression* subtract(Expression* a, Expression* b) = 0;
-    virtual Expression* multiply(Expression* a, Expression* b) = 0;
-    virtual Expression* divide(Expression* a, Expression* b) = 0;
+
+    string type;
+    
 
 };
 #endif /* defined(__Calculator__Expression__) */
+
