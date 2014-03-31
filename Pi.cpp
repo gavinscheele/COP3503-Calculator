@@ -8,24 +8,29 @@
 
 #include "Pi.h"
 Pi::Pi(){
-    
+    this->type = "pi";
+    this->coefficient = 1;
 }
 Pi::~Pi(){
     
 }
-Expression* Pi::add(Expression* a, Expression* b){
+Expression* Pi::add(Expression* b){
     Expression* c = this;
     return c;
 }
-Expression* Pi::subtract(Expression* a, Expression* b){
+Expression* Pi::subtract(Expression* b){
     Expression* c = this;
     return c;
 }
-Expression* Pi::multiply(Expression* a, Expression* b){
+Expression* Pi::multiply(Expression* b){
     Expression* c = this;
     return c;
 }
-Expression* Pi::divide(Expression* a, Expression* b){
+Expression* Pi::divide(Expression* b){
     Expression* c = this;
     return c;
+}
+ostream& Pi::print(std::ostream& output) const{
+    output << this->coefficient << "Pi";
+    return output;
 }
