@@ -9,6 +9,7 @@
 #include "Logarithm.h"
 
 Logarithm::Logarithm(int base, int operand){
+    this->type = "logarithm";
     this->base = base;
     this->operand = operand;
 }
@@ -22,19 +23,23 @@ Expression Logarithm::simplify(){
 
 
 
-Expression* Logarithm::add(Expression* a, Expression* b){
+Expression* Logarithm::add(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Logarithm::subtract(Expression* a, Expression* b){
+Expression* Logarithm::subtract(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Logarithm::multiply(Expression* a, Expression* b){
+Expression* Logarithm::multiply(Expression* a){
     Expression* c = this;
     return c;
 }
-Expression* Logarithm::divide(Expression* a, Expression* b){
+Expression* Logarithm::divide(Expression* a){
     Expression* c = this;
     return c;
+}
+ostream& Logarithm::print(std::ostream& output) const{
+    output << "Log" << this->base << "(" << this->operand << ")";
+    return output;
 }
