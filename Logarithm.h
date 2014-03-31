@@ -17,10 +17,11 @@ public:
     ~Logarithm();
     Expression simplify();
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
 private:
     int base;
     int operand;
