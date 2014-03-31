@@ -14,10 +14,9 @@ Expression::~Expression(){
 }
 bool Expression::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
     
-    /*if(typeid(this) == typeid(b)){
-        they are the same type
-    }*/
-    
+    if(this->type == b->type){
+        return true;
+    }
     return false;
 }
 bool Expression::canSubtract(Expression* b){
@@ -31,4 +30,7 @@ bool Expression::canMultiply(Expression* b){
 bool Expression::canDivide(Expression* b){
     return false;
 
+}
+ostream& operator<<(ostream &output, Expression &e){
+    return e.print(output);
 }
