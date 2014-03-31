@@ -13,15 +13,19 @@
 #include "Expression.h"
 class nthRoot : public Expression{
 public:
-    nthRoot();
+    nthRoot(int root, int operand);
     ~nthRoot();
     Expression simplify();
     
-    Expression* add(Expression* a, Expression* b);
-    Expression* subtract(Expression* a, Expression* b);
-    Expression* multiply(Expression* a, Expression* b);
-    Expression* divide(Expression* a, Expression* b);
+    Expression* add(Expression* a);
+    Expression* subtract(Expression* a);
+    Expression* multiply(Expression* a);
+    Expression* divide(Expression* a);
+    ostream& print(std::ostream& output) const;
 private:
     int coefficient;
+    int operand;
+    int root;
 };
 #endif /* defined(__Calculator__nthRoot__) */
+
