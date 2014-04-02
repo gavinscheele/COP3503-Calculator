@@ -17,6 +17,7 @@ public:
     ~Exponential();
     Expression exponentiate();
     Expression exponantiate(Expression expression, int exponent)
+    int getExponent();
     
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
