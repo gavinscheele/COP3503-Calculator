@@ -1,4 +1,3 @@
-
 //
 //  Exponent.cpp
 //  Calculator
@@ -17,12 +16,25 @@ Exponential::Exponential(Expression* base, Expression* exponent){
 Exponential::~Exponential(){
     
 }
+
 Expression Exponential::exponentiate(){
-    Expression* c = this;
-    return *c;
+    if (this->exponent>0) {
+        return exponentiate(this->base, this->exponent);
+    }
+    if (this->exponent==0) {
+        return 1;
+    }
+    if (this->exponent<0) {
+        return (1/exponentiate(this->base, this->exponent));
+    }
 }
 
-
+Expression Exponential:exponentiate(Expression expression, int exponent) {
+    if (n>1) {
+    return exponentiate(this*expression, n-1);
+    }
+    return expression;
+}
 
 Expression* Exponential::add(Expression* a){
     Expression* c = this;
