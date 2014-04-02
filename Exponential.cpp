@@ -46,11 +46,23 @@ Expression* Exponential::subtract(Expression* a){
 }
 Expression* Exponential::multiply(Expression* a){
     Expression* c = this;
+    if (*a == *c) //might require overriding
+    {
+        exponent += a->getExponent;
+    }
     return c;
 }
 Expression* Exponential::divide(Expression* a){
     Expression* c = this;
+    if (*a == *c) //might require overriding
+    {
+        c->getExponent -= a->getExponent;
+    }
     return c;
+}
+
+int Exponential::getExponent() {
+    return exponent;
 }
 ostream& Exponential::print(std::ostream& output) const{
     output << this->base << this->exponent; //overload cout so that it makes sense
