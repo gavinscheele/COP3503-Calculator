@@ -17,10 +17,10 @@ public:
     ~Exponential();
     Expression exponentiate();
     Expression exponantiate(Expression expression, int exponent)
-    int getExponent();
-    int getBase();
-    void setExponent();
-    void setBase();
+    Expression* getExponent();
+    Expression* getBase();
+    void setExponent(Expression* e);
+    void setBase(Expression* e);
     
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
