@@ -61,19 +61,19 @@ Expression* Exponential::divide(Expression* a){
     return c;
 }
 
-int Exponential::getExponent() {
+*Expression Exponential::getExponent() {
     return exponent;
 }
 
-int Exponential::getBase() {
+*Expression Exponential::getBase() {
     return base;
 }
 
-void Exponential::setExponent(int n) {
-    exponent = n;
+void Exponential::setExponent(*Expression e) {
+    exponent = e;
 }
 
-void Exponential::setBase(Expression e) {
+void Exponential::setBase(*Expression e) {
     base = e;
 }
 
