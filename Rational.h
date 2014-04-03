@@ -17,6 +17,7 @@
 #include "Euler.h"
 #include "nthRoot.h"
 #include "Integer.h"
+#include <sstream>
 using namespace std;
 class Rational : public Expression {
 public:
@@ -31,6 +32,13 @@ public:
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
+    Expression* geteDenominator();
+    void seteDenominator(Expression* denominator);
+    Expression* geteNumerator();
+    void seteNumerator(Expression* numerator);
+    int getNumerator();
+    int getDenominator();
+    bool hasIntegerOperands();
     
 private:
     int findCommonFactor(int n);
@@ -38,7 +46,8 @@ private:
     int denominator;
     Expression *eNumerator;
     Expression *eDenominator;
-    Expression simplify(int num);
-    Expression simplify(Expression* exp);
+    Expression* simplify(int num);
+    Expression* simplify(Expression* exp);
+    Expression* findCommonDenominator(Rational * a);
 };
 #endif /* defined(__Calculator__Rational__) */
