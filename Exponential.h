@@ -18,6 +18,9 @@ public:
     Expression exponentiate();
     Expression exponantiate(Expression expression, int exponent)
     int getExponent();
+    int getBase();
+    void setExponent();
+    void setBase();
     
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
