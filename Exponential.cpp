@@ -64,6 +64,20 @@ Expression* Exponential::divide(Expression* a){
 int Exponential::getExponent() {
     return exponent;
 }
+
+int Exponential::getBase() {
+    return base;
+}
+
+void Exponential::setExponent(int n) {
+    exponent = n;
+}
+
+void Exponential::setBase(Expression e) {
+    base = e;
+}
+
+
 ostream& Exponential::print(std::ostream& output) const{
     output << this->base << this->exponent; //overload cout so that it makes sense
     return output;
