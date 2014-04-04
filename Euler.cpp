@@ -14,6 +14,14 @@ Euler::Euler(){
 Euler::~Euler(){
     
 }
+int Euler:: getCoefficient()
+{
+	return coefficient;
+}
+void Euler:: setCoefficient(int x)
+{
+	this->coefficient = x;
+}
 Expression* Euler::add(Expression* a){
     Expression* c = this;
     return c;
