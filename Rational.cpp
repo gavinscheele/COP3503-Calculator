@@ -129,11 +129,11 @@ int Rational::findCommonFactor(int n){
 Expression* Rational::add(Expression* a){
     if(a->type == "euler"){
         
-        Euler *b = (Euler *)a;                  //type cast the Expression to a Euler number
+        Euler *b = (Euler *)a;                          //type cast the Expression to a Euler number
         Integer *den1 = (Integer *)this->eDenominator;
-        b->coefficient = den1->getValue();           //set the coefficient of the Euler number to the local denominator
+        b->setCoefficient(den1->getValue());            //set the coefficient of the Euler number to the local denominator
         
-        ostringstream convert;                  //create a string representation of the numerator and denominator
+        ostringstream convert;                          //create a string representation of the numerator and denominator
         convert << *eNumerator;
         string num = convert.str();
         convert.str("");
@@ -172,7 +172,7 @@ Expression* Rational::add(Expression* a){
         
         Pi *b = (Pi *)a;                            //type cast the Expression to a Euler number
         Integer *den1 = (Integer *)this->eDenominator;
-        b->coefficient = den1->getValue();        //set the coefficient of the Euler number to the local denominator
+        b->setCoefficient(den1->getValue());        //set the coefficient of the Euler number to the local denominator
         
         ostringstream convert;                      //create a string representation of the numerator and denominator
         convert << *eNumerator;
