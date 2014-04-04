@@ -30,6 +30,14 @@ Expression* Pi::divide(Expression* b){
     Expression* c = this;
     return c;
 }
+int Pi:: getCoefficient()
+{
+	return coefficient;
+}
+void Pi:: setCoefficient(int x)
+{
+	this->coefficient = x;
+}
 ostream& Pi::print(std::ostream& output) const{
     output << this->coefficient << "Pi";
     return output;
