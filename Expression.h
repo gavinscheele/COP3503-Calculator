@@ -31,7 +31,7 @@ public:
     
 
     string type;
-    
+    string exp;
 
 };
 #endif /* defined(__Calculator__Expression__) */

@@ -130,9 +130,10 @@ Expression* Rational::add(Expression* a){
     if(a->type == "euler"){
         
         Euler *b = (Euler *)a;                  //type cast the Expression to a Euler number
-        b->coefficient = this->eDenominator;    //set the coefficient of the Euler number to the local denominator
+        Integer *den1 = (Integer *)this->eDenominator;
+        b->coefficient = den1->getValue();           //set the coefficient of the Euler number to the local denominator
         
-        ostringstream convert;      //create a string representation of the numerator and denominator
+        ostringstream convert;                  //create a string representation of the numerator and denominator
         convert << *eNumerator;
         string num = convert.str();
         convert.str("");
@@ -153,7 +154,7 @@ Expression* Rational::add(Expression* a){
         
         Integer *b = (Integer *)a;
         if(this->numerator){
-            Rational *c = new Rational(b->value * denominator, denominator);
+            Rational *c = new Rational(b->getValue() * denominator, denominator);
             this->add(c);
         }
         
@@ -170,7 +171,8 @@ Expression* Rational::add(Expression* a){
     }else if(a->type == "pi"){
         
         Pi *b = (Pi *)a;                            //type cast the Expression to a Euler number
-        b->coefficient = this->eDenominator;        //set the coefficient of the Euler number to the local denominator
+        Integer *den1 = (Integer *)this->eDenominator;
+        b->coefficient = den1->getValue();        //set the coefficient of the Euler number to the local denominator
         
         ostringstream convert;                      //create a string representation of the numerator and denominator
         convert << *eNumerator;
@@ -193,13 +195,13 @@ Expression* Rational::add(Expression* a){
             Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
             Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
             
-            this->eNumerator = new Integer(in->value + in2->value);     //Set the value of the numerator to the addition of the two numerators. We can do this because
+            this->eNumerator = new Integer(in->getValue() + in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
                                                                         //They already share a common denominator
             Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
-            this->numerator = num1->value;
+            this->numerator = num1->getValue();
             
             Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
-            this->denominator = den1->value;
+            this->denominator = den1->getValue();
             
             this->simplify(1);                                          //call the simplify method for integer only rationals
             

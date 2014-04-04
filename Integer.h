@@ -16,6 +16,9 @@ public:
     Integer(int value);
     ~Integer();
     
+    int getValue();
+    void setValue(int n);
+    
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
