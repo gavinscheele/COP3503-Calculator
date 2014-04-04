@@ -14,6 +14,12 @@ Integer::Integer(int value){
 Integer::~Integer(){
     
 }
+int Integer::getValue(int n) {
+    return value;
+}
+Integer::setValue(int n) {
+    value = n;
+}
 Expression* Integer::add(Expression* a){
     Expression* c = this;
     return c;
