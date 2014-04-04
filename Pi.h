@@ -21,6 +21,8 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
+	int getCoefficient();
+	void setCoefficient(int x);
     ostream& print(std::ostream& output) const;
 private:
     int coefficient;
