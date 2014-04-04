@@ -14,10 +14,10 @@ Integer::Integer(int value){
 Integer::~Integer(){
     
 }
-int Integer::getValue(int n) {
+int Integer::getValue() {
     return value;
 }
-Integer::setValue(int n) {
+void Integer::setValue(int n) {
     value = n;
 }
 Expression* Integer::add(Expression* a){
@@ -40,3 +40,4 @@ ostream& Integer::print(std::ostream& output) const{
     output << this->value;
     return output;
 }
+
