@@ -16,7 +16,7 @@ public:
     Exponential(Expression* base, Expression* exponent);
     ~Exponential();
     Expression exponentiate();
-    Expression exponantiate(Expression expression, int exponent)
+    Expression exponentiate(Expression expression, int exponent);
     Expression* getExponent();
     Expression* getBase();
     void setExponent(Expression* e);
