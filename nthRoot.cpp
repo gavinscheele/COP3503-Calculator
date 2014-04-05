@@ -13,11 +13,34 @@ nthRoot::nthRoot(int root, int operand){
     this->operand = operand;
     this->root = root;
     this->coefficient = 1;
+    int factors[50];
 }
 nthRoot::~nthRoot(){
     
 }
-Expression nthRoot::simplify(){
+
+int* nthRoot::primeFactorization(int n) {
+    int k = 0;
+    while (n%2 == 0) {
+        factors[k] = 2;
+        k++;
+        n = n/2;
+    }
+    for (i = 3; i <= sqrt(n); i = i + 2) {
+        while (n%1 == 0) {
+            factors[k] = 2;
+            k++;
+            n = n/i;
+        }
+    }
+    if (n > 2) {
+        factors[k] = n;
+    }
+    return factors;
+    // added bonus: factors should be sorted already
+}
+
+Expression* nthRoot::simplify(){
     Expression* c = this;
     return *c;
 }
