@@ -41,6 +41,8 @@ int* nthRoot::primeFactorization(int n) {
 }
 
 Expression* nthRoot::simplify(){
+    int* factorsArray = primeFactorization(operand);
+    //to be filled in
     Expression* c = this;
     return *c;
 }
@@ -61,6 +63,30 @@ Expression* nthRoot::multiply(Expression* a){
 Expression* nthRoot::divide(Expression* a){
     Expression* c = this;
     return c;
+}
+
+int getRoot() {
+    return root;
+}
+
+int getOperand() {
+    return operand;
+}
+
+int getCoefficient() {
+    return coefficient;
+}
+
+void setCoefficient(int n) {
+    this->coefficient = n;
+}
+
+void setOperand(int n) {
+    this->operand = n;
+}
+
+void setRoot(int n) {
+    this->root = n;
 }
 ostream& nthRoot::print(std::ostream& output) const{
     output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    //overlaod cout so that it makes sense
