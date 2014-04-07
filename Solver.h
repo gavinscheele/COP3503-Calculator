@@ -10,19 +10,31 @@
 #define __Calculator__Solver__
 
 #include <iostream>
+#include <vector>
+#include <stack>
 #include "Expression.h"
-#include "Exponential.h"
 #include "Logarithm.h"
 #include "Pi.h"
 #include "Euler.h"
-#include "nthRoot.h"
 #include "Rational.h"
+
+using namespace std;
 class Solver{
 public:
-    Solver(std::string a);
+    Solver(string a);
     ~Solver();
-    std::string solve();
+    string solve();
 private:
-    std::string localExpression;
+    string localExpression;
+    vector<string> expressions;
+    stack<string> tokenStack;
+    string output;
+    void shuntingYard();
+    bool isAnOperator(string tkn);
+    bool isLeftAssociative(string tkn);
+    int getOperatorPrecedence(string tkn);
+    string evaluateString();
+    Expression* bindToExpressionType(string e);
+
 };
 #endif /* defined(__Calculator__Solver__) */

@@ -147,8 +147,7 @@ Expression* Rational::add(Expression* a){
         
     }else if(a->type == "exponential"){
         
-        a = (Exponential *)a;
-        cout << "a:" << *a << endl;
+
         
     }else if(a->type == "integer"){
         
@@ -165,8 +164,7 @@ Expression* Rational::add(Expression* a){
         
     }else if(a->type == "nthRoot"){
         
-        a = (nthRoot *)a;
-        cout << "a:" << *a << endl;
+
         
     }else if(a->type == "pi"){
         
@@ -225,8 +223,7 @@ Expression* Rational::subtract(Expression* a){
         a = (Euler *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "exponential"){
-        a = (Exponential *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "integer"){
         a = (Integer *)a;
         cout << "a:" << *a << endl;
@@ -234,8 +231,7 @@ Expression* Rational::subtract(Expression* a){
         a = (Logarithm *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "nthRoot"){
-        a = (nthRoot *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "pi"){
         a = (Pi *)a;
         cout << "a:" << *a << endl;
@@ -252,8 +248,7 @@ Expression* Rational::multiply(Expression* a){
         a = (Euler *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "exponential"){
-        a = (Exponential *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "integer"){
         a = (Integer *)a;
         cout << "a:" << *a << endl;
@@ -261,8 +256,7 @@ Expression* Rational::multiply(Expression* a){
         a = (Logarithm *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "nthRoot"){
-        a = (nthRoot *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "pi"){
         a = (Pi *)a;
         cout << "a:" << *a << endl;
@@ -279,8 +273,7 @@ Expression* Rational::divide(Expression* a){
         a = (Euler *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "exponential"){
-        a = (Exponential *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "integer"){
         a = (Integer *)a;
         cout << "a:" << *a << endl;
@@ -288,8 +281,7 @@ Expression* Rational::divide(Expression* a){
         a = (Logarithm *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "nthRoot"){
-        a = (nthRoot *)a;
-        cout << "a:" << *a << endl;
+
     }else if(a->type == "pi"){
         a = (Pi *)a;
         cout << "a:" << *a << endl;
