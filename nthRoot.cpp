@@ -8,7 +8,7 @@
 
 #include "nthRoot.h"
 
-nthRoot::nthRoot(int root, int operand){
+nthRoot::nthRoot(int root, int operand, int coefficient){
     this->type = "nthRoot";
     this->operand = operand;
     this->root = root;
@@ -42,8 +42,23 @@ int* nthRoot::primeFactorization(int n) {
 
 Expression* nthRoot::simplify(){
     int* factorsArray = primeFactorization(operand);
-    //to be filled in
-    Expression* c = this;
+    i = 0;
+    while (i <= factors.size()) {
+        j = i;
+        count = 0;
+        while (j <= factors.size() && factors[j + 1] == factors[j]) {
+            count++;
+            j++;
+        }
+        if (count >= root) {
+            coefficient *= (factors[i] ^ (count/root)); //how do I make count/root round down?
+            operand = operand / (factors[i] ^ (count - (count % root)))
+        }
+        i = j + 1;
+    }
+    Expression newRoot = nthRoot(root, operand, coefficient)
+    //how do I delete the old version? 
+    Expression* c = newroot;
     return *c;
 }
 
