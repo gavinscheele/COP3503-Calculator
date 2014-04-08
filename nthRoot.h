@@ -16,11 +16,17 @@ public:
     nthRoot(int root, int operand);
     ~nthRoot();
     Expression simplify();
-    
+    int* primeFactorization(int n);
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
+    int getRoot();
+    int getOperand();
+    int getCoefficient();
+    void setRoot(int n);
+    void setOperand(int n);
+    void setCoefficient(int n);
     ostream& print(std::ostream& output) const;
     Expression* simplify();
     sstream toString();
