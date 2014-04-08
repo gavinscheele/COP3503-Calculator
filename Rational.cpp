@@ -15,6 +15,7 @@ Rational::Rational(int numerator, int denominator){     //constructor for ration
     this->eNumerator = new Integer(numerator);
     this->eDenominator = new Integer(denominator);
     simplify(numerator);
+
 }
 Rational::Rational(Expression* numerator, Expression* denominator){     //constructor for rational that has more complicated numerator and/or denominator
     this->type = "rational";
@@ -127,11 +128,7 @@ int Rational::findCommonFactor(int n){
 }
 
 Expression* Rational::add(Expression* a){
-    if(a->type == "exponential"){
-        
-
-        
-    }else if(a->type == "integer"){
+    if(a->type == "integer"){
         
         Integer *b = (Integer *)a;
         if(this->numerator){
@@ -174,64 +171,114 @@ Expression* Rational::add(Expression* a){
     return this;
 }
 Expression* Rational::subtract(Expression* a){
-    else if(a->type == "exponential"){
-
-    }else if(a->type == "integer"){
-        a = (Integer *)a;
-        cout << "a:" << *a << endl;
+    if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        if(this->numerator){
+            Rational *c = new Rational(b->getValue() * denominator, denominator);
+            this->subtract(c);
+        }
     }else if(a->type == "rational"){
-        a = (Rational *)a;
-        cout << "a:" << *a << endl;
+        Rational *b = (Rational *)a;                                    //cast expression as Rational type
+        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
+        
+        if(commonD->hasIntegerOperands()){                              //If it has integer operands
+            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
+            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
+            
+            this->eNumerator = new Integer(in->getValue() - in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
+            //They already share a common denominator
+            Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
+            this->numerator = num1->getValue();
+            
+            Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
+            this->denominator = den1->getValue();
+            
+            this->simplify(1);                                          //call the simplify method for integer only rationals
+            
+            Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
+            eNumerator = num;
+            
+            Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
+            eDenominator = den;
+        }else{
+            cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
+        }
     }else{
         cout << "type not recognized" << endl;
     }
     return this;
 }
 Expression* Rational::multiply(Expression* a){
-    if(a->type == "euler"){
-        a = (Euler *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "exponential"){
-
-    }else if(a->type == "integer"){
-        a = (Integer *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "logarithm"){
-        a = (Logarithm *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "nthRoot"){
-
-    }else if(a->type == "pi"){
-        a = (Pi *)a;
-        cout << "a:" << *a << endl;
+    if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        if(this->numerator){
+            Rational *c = new Rational(b->getValue() * denominator, denominator);
+            this->multiply(c);
+        }
     }else if(a->type == "rational"){
-        a = (Rational *)a;
-        cout << "a:" << *a << endl;
+        Rational *b = (Rational *)a;                                    //cast expression as Rational type
+        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
+        
+        if(commonD->hasIntegerOperands()){                              //If it has integer operands
+            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
+            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
+            
+            this->eNumerator = new Integer(in->getValue() * in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
+            //They already share a common denominator
+            Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
+            this->numerator = num1->getValue();
+            
+            Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
+            this->denominator = den1->getValue();
+            
+            this->simplify(1);                                          //call the simplify method for integer only rationals
+            
+            Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
+            eNumerator = num;
+            
+            Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
+            eDenominator = den;
+        }else{
+            cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
+        }
     }else{
         cout << "type not recognized" << endl;
     }
     return this;
 }
 Expression* Rational::divide(Expression* a){
-    if(a->type == "euler"){
-        a = (Euler *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "exponential"){
-
-    }else if(a->type == "integer"){
-        a = (Integer *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "logarithm"){
-        a = (Logarithm *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "nthRoot"){
-
-    }else if(a->type == "pi"){
-        a = (Pi *)a;
-        cout << "a:" << *a << endl;
+    if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        if(this->numerator){
+            Rational *c = new Rational(b->getValue() * denominator, denominator);
+            this->divide(c);
+        }
     }else if(a->type == "rational"){
-        a = (Rational *)a;
-        cout << "a:" << *a << endl;
+        Rational *b = (Rational *)a;                                    //cast expression as Rational type
+        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
+        
+        if(commonD->hasIntegerOperands()){                              //If it has integer operands
+            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
+            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
+            
+            this->eNumerator = new Integer(in->getValue() / in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
+            //They already share a common denominator
+            Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
+            this->numerator = num1->getValue();
+            
+            Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
+            this->denominator = den1->getValue();
+            
+            this->simplify(1);                                          //call the simplify method for integer only rationals
+            
+            Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
+            eNumerator = num;
+            
+            Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
+            eDenominator = den;
+        }else{
+            cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
+        }
     }else{
         cout << "type not recognized" << endl;
     }

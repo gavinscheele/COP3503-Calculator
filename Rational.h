@@ -15,6 +15,7 @@
 #include "Pi.h"
 #include "Euler.h"
 #include "Integer.h"
+#include "Exponential.h"
 #include <sstream>
 using namespace std;
 class Rational : public Expression {
