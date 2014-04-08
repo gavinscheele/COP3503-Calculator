@@ -25,13 +25,17 @@ std::string Solver::solve(){
     for(int i = 0; i < localExpression.size(); i ++){       //creates an array of expressions and operations
         if(localExpression.at(i) == ' '){
             temp = "";
+            if(count == 0){
+                temp.push_back(localExpression.at(0));
+                expressions.push_back(temp);
+            }
             for(int j = count+1; j < i; j++){
                 if(j == 1){
                     temp.push_back(localExpression.at(0));
                 }
                 temp.push_back(localExpression.at(j));
             }
-            expressions.push_back(temp);
+            if(i != 0) expressions.push_back(temp);
             count = i;
 
         }else if(i == localExpression.size()-1){
@@ -65,9 +69,9 @@ std::string Solver::solve(){
         }
     }
     
-    cout << output << endl;
+   // cout << output << endl;
     
-    return "Result:" + evaluateString();
+    return "Result:" + output; //+ evaluateString();
 }
 void Solver::shuntingYard(){
     for(int i = 0; i < expressions.size(); i++){
