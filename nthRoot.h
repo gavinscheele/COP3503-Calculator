@@ -22,6 +22,8 @@ public:
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
+    Expression* simplify();
+    sstream toString();
 private:
     int coefficient;
     int operand;
