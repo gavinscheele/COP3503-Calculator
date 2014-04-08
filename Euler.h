@@ -21,12 +21,12 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-	int getCoefficient();
-	void setCoefficient(int x);
+    string toString();
+    Rational* getCoefficient();
+    void setCoefficient(Rational* x);
     ostream& print(std::ostream& output) const;
 private:
-    int coefficient;
+    Rational* coefficient;
 };
 #endif /* defined(__Calculator__Euler__) */
-
 

@@ -107,3 +107,9 @@ ostream& nthRoot::print(std::ostream& output) const{
     output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    //overlaod cout so that it makes sense
     return output;
 }
+
+string nthRoot::toString(){
+    stringstream s;
+    s << coefficient << "*" << root << "rt:" << operand;
+    return s.str();
+}
