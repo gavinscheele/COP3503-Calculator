@@ -31,8 +31,12 @@ public:
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
     Expression* geteDenominator();
+    string toString();
+    
     void seteDenominator(Expression* denominator);
     Expression* geteNumerator();
+    
+    
     void seteNumerator(Expression* numerator);
     int getNumerator();
     int getDenominator();

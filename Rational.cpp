@@ -297,3 +297,9 @@ ostream& Rational::print(std::ostream& output) const{
     cout << *eNumerator << "/" << *eDenominator;
     return output;
 }
+string Rational::toString(){
+    stringstream s;
+    s << *eNumerator << "/" << *eDenominator;
+    return s.str();
+}
+

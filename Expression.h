@@ -24,6 +24,7 @@ public:
     friend ostream& operator<<(ostream &output, Expression &e);
     
     virtual ostream& print(std::ostream& output) const =0;
+    virtual string toString() = 0;
     virtual Expression* add(Expression* a) = 0;
     virtual Expression* subtract(Expression* a) = 0;
     virtual Expression* multiply(Expression* a) = 0;
