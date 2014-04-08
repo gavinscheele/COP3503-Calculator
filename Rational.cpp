@@ -127,25 +127,7 @@ int Rational::findCommonFactor(int n){
 }
 
 Expression* Rational::add(Expression* a){
-    if(a->type == "euler"){
-        
-        Euler *b = (Euler *)a;                          //type cast the Expression to a Euler number
-        Integer *den1 = (Integer *)this->eDenominator;
-        b->setCoefficient(den1->getValue());            //set the coefficient of the Euler number to the local denominator
-        
-        ostringstream convert;                          //create a string representation of the numerator and denominator
-        convert << *eNumerator;
-        string num = convert.str();
-        convert.str("");
-        convert << *b;
-        string e = convert.str();
-        convert.str("");
-        convert << *eDenominator;
-        string den = convert.str();
-        
-        this->exp = "(" + num + "+" + e + ")/" + den; //set the string representation of the expression correctly
-        
-    }else if(a->type == "exponential"){
+    if(a->type == "exponential"){
         
 
         
@@ -156,33 +138,6 @@ Expression* Rational::add(Expression* a){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
             this->add(c);
         }
-        
-    }else if(a->type == "logarithm"){
-        
-        a = (Logarithm *)a;
-        cout << "a:" << *a << endl;
-        
-    }else if(a->type == "nthRoot"){
-        
-
-        
-    }else if(a->type == "pi"){
-        
-        Pi *b = (Pi *)a;                            //type cast the Expression to a Euler number
-        Integer *den1 = (Integer *)this->eDenominator;
-        b->setCoefficient(den1->getValue());        //set the coefficient of the Euler number to the local denominator
-        
-        ostringstream convert;                      //create a string representation of the numerator and denominator
-        convert << *eNumerator;
-        string num = convert.str();
-        convert.str("");
-        convert << *b;
-        string pi = convert.str();
-        convert.str("");
-        convert << *eDenominator;
-        string den = convert.str();
-        
-        this->exp = "(" + num + "+" + pi + ")/" + den; //set the string representation of the expression correctly
         
     }else if(a->type == "rational"){
         
@@ -219,21 +174,10 @@ Expression* Rational::add(Expression* a){
     return this;
 }
 Expression* Rational::subtract(Expression* a){
-    if(a->type == "euler"){
-        a = (Euler *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "exponential"){
+    else if(a->type == "exponential"){
 
     }else if(a->type == "integer"){
         a = (Integer *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "logarithm"){
-        a = (Logarithm *)a;
-        cout << "a:" << *a << endl;
-    }else if(a->type == "nthRoot"){
-
-    }else if(a->type == "pi"){
-        a = (Pi *)a;
         cout << "a:" << *a << endl;
     }else if(a->type == "rational"){
         a = (Rational *)a;
