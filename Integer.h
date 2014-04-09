@@ -15,16 +15,17 @@ class Integer : public Expression{
 public:
     Integer(int value);
     ~Integer();
-    
+
     int getValue();
     void setValue(int n);
-    
+    string toString();
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
-    
+
 private:
     int value;
 };
