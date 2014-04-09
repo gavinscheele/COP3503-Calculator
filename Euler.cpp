@@ -4,7 +4,7 @@
 //
 //  Created by Gavin Scheele on 3/27/14.
 //  Copyright (c) 2014 Gavin Scheele. All rights reserved.
-//Messing with GUTHUBBBBBB
+//
 //
 
 #include "Euler.h"
