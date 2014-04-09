@@ -28,8 +28,38 @@ Exponential::~Exponential(){
 }
 
 bool Exponential::canExponentiate() {
-    // will return true if expression can be multiplied out
-    return true;
+    if(base->type == "euler"){
+        return false;
+
+    }else if(base->type == "exponential"){
+        //multiply exponents together then call canExponentiate again
+
+    }else if(base->type == "integer"){
+        return true;
+        
+
+    }else if(base->type == "logarithm"){
+        return false;
+
+    }else if(base->type == "nthRoot"){
+        //if root and exponent are divisible, exponentiate. Otherwise don't.
+
+    }else if(base->type == "pi"){
+        return false;
+
+    }else if(base->type == "rational"){
+        Rational* r = (rational *) base;
+        if (r->getNumerator->type == "integer") {
+          // numerator is an integer, more code goes here 
+        } 
+        if (r->getDenominator->type == "integer") {
+            // denominator is an integer, more code goes here
+        }
+
+    }else{
+        cout << "type not recognized" << endl;
+    }
+    return false;
 }
 
 Expression* Exponential::exponentiate(){
