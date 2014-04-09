@@ -11,25 +11,30 @@
 
 #include <iostream>
 #include "Expression.h"
+#include "Rational.h"
+#include "Integer.h"
+#include "nthRoot.h"
+
 class Exponential : public Expression{
 public:
-    Exponential(Expression* base, Expression* exponent);
+    Exponential(Expression* base, Rational* exponent);
     ~Exponential();
-    Expression exponentiate();
-    Expression exponentiate(Expression expression, int exponent);
-    Expression* getExponent();
+    Expression* exponentiate();
+    Rational getExponent();
     Expression* getBase();
-    void setExponent(Expression* e);
+    void setExponent(Rational e);
     void setBase(Expression* e);
-    
+    bool canExponentiate();
+    string toString();
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
-    
+
 private:
     Expression* base;
-    Expression* exponent;
+    Rational* exponent;
 };
 #endif /* defined(__Calculator__Exponential__) */
