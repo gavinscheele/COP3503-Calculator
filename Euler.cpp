@@ -13,7 +13,7 @@ Euler::Euler(){
     this->coefficient = new Integer(1);
 }
 Euler::~Euler(){
-
+    delete this;
 }
 Integer* Euler:: getCoefficient()
 {
@@ -70,9 +70,8 @@ Expression* Euler::multiply(Expression* a){
             Integer* Coef = c->getCoefficient();
             Expression* d = Coef->multiply(product);
             return d;
+            }
         }
-
-	}
 
 	}
 

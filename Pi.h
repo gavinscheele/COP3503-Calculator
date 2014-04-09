@@ -6,25 +6,34 @@
 //  Copyright (c) 2014 Gavin Scheele. All rights reserved.
 //
 
-#ifndef __Calculator__Pi__
-#define __Calculator__Pi__
+#ifndef __Calculator__Euler__
+#define __Calculator__Euler__
 
 #include <iostream>
 #include "Expression.h"
+#include "Exponential.h"
+#include "Logarithm.h"
+#include "Pi.h"
+#include "Euler.h"
+#include "nthRoot.h"
+#include "Integer.h"
+#include "Rational.h"
+#include <sstream>
 
 class Pi : public Expression{
 public:
     Pi();
     ~Pi();
-    
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-	int getCoefficient();
-	void setCoefficient(int x);
+    string toString();
+	Integer* getCoefficient();
+	void setCoefficient(Integer* x);
     ostream& print(std::ostream& output) const;
 private:
-    int coefficient;
+    Integer* coefficient;
 };
 #endif /* defined(__Calculator__Pi__) */
