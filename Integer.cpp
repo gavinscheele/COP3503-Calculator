@@ -26,6 +26,8 @@ Expression* Integer::add(Expression* a){
     }else if(a->type == "exponential"){
 
     }else if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        this->value+=b->getValue;
 
     }else if(a->type == "logarithm"){
 
@@ -34,6 +36,9 @@ Expression* Integer::add(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
+        Rational *b = (Rational *) a;
+        b->setNumerator(b->getNumerator->add(this->multiply(b->getDenominator)));
+        this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -46,6 +51,8 @@ Expression* Integer::subtract(Expression* a){
     }else if(a->type == "exponential"){
 
     }else if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        this->value-=b->getValue;
 
     }else if(a->type == "logarithm"){
 
@@ -54,6 +61,9 @@ Expression* Integer::subtract(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
+        Rational *b = (Rational *) a;
+        b->setNumerator(b->getNumerator->subtract(this->multiply(b->getDenominator)));
+        this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -66,6 +76,8 @@ Expression* Integer::multiply(Expression* a){
     }else if(a->type == "exponential"){
 
     }else if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        this->value*=b->getValue;
 
     }else if(a->type == "logarithm"){
 
@@ -74,6 +86,9 @@ Expression* Integer::multiply(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
+        Rational *b = (Rational *) a;
+        b->setNumerator(b->getNumerator->multiply(this));
+        this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -86,6 +101,8 @@ Expression* Integer::divide(Expression* a){
     }else if(a->type == "exponential"){
 
     }else if(a->type == "integer"){
+        Integer *b = (Integer *)a;
+        this->value/=b->getValue;
 
     }else if(a->type == "logarithm"){
 
@@ -94,6 +111,9 @@ Expression* Integer::divide(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
+        Rational *b = (Rational *) a;
+        b->setDenominator(b->getDenominator->multiply(this));
+        this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -106,6 +126,6 @@ ostream& Integer::print(std::ostream& output) const{
 }
 
 string Integer::toString() {
-    string str = value;
+    string str = (string) value;
     return str;
 }
