@@ -11,22 +11,29 @@
 
 #include <iostream>
 #include "Expression.h"
+#include "Exponential.h"
+#include "Logarithm.h"
+#include "Pi.h"
+#include "Euler.h"
+#include "nthRoot.h"
+#include "Integer.h"
+#include "Rational.h"
+#include <sstream>
 
 class Euler : public Expression{
 public:
     Euler();
     ~Euler();
-    
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-    string toString();
-    Rational* getCoefficient();
-    void setCoefficient(Rational* x);
+	string toString();
+	Integer* getCoefficient();
+	void setCoefficient(Integer* x);
     ostream& print(std::ostream& output) const;
 private:
-    Rational* coefficient;
+    Integer* coefficient;
 };
 #endif /* defined(__Calculator__Euler__) */
-

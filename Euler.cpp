@@ -9,100 +9,102 @@
 #include "Euler.h"
 Euler::Euler(){
     this->type = "euler";
-    this->coefficient = 1;
+    this->coefficient = new Integer(1);
 }
 Euler::~Euler(){
-    
+
 }
-Expression* Euler:: getCoefficient()
+Integer* Euler:: getCoefficient()
 {
 	return coefficient;
 }
-void Euler:: setCoefficient(Expression* x)
+void Euler:: setCoefficient(Integer* x)
 {
 	this->coefficient = x;
 }
 Expression* Euler::add(Expression* a){
-   Expression* c = this;
-    
+   Euler* c = this;
+
 	if(a->type == "euler"){
-		Rational* aCoef = a->getCoefficient();
-		Rational* thisCoef = c->getCoefficient();
-		Rational* sum = thisCoef->add(aCoef);
+        Euler *b = (Euler *)a;
+		Integer* aCoef = b->getCoefficient();
+		Integer* thisCoef = c->getCoefficient();
+		Integer* sum = thisCoef->add(aCoef);
 		c->setCoefficient(sum);
-		return c;	
+		return c;
 	}
 
 }
 Expression* Euler::subtract(Expression* a){
 
-  Expression* c = this;
-   
+  Euler* c = this;
+
 	if(a->type == "euler"){
-		Rational* aCoef = a->getCoefficient();
-		Rational* thisCoef = c->getCoefficient();
-		Rational* sum = thisCoef->subtract(aCoef);
+        Euler *b = (Euler *)a;
+		Integer* aCoef = b->getCoefficient();
+		Integer* thisCoef = c->getCoefficient();
+		Integer* sum = thisCoef->subtract(aCoef);
 		c->setCoefficient(sum);
-		return c;	
+		return c;
 	}
 
 }
 Expression* Euler::multiply(Expression* a){
-    Expression* c = this;
-	 if(a->type == "integer"){
-		Rational* a1 = new Rational(a->getValue(),1);
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->multiply(a1);
-		c->setCoefficient(product);
-		return c;	
-	}
-	 if(a->type == "euler"){
-		Rational* aCoef = a->getCoefficient();
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->multiply(aCoef);
-		Exponential* e = new (e,2)
-		Exponential* e = e->multiply(product)
-		return e;	
-	}
-	
-	if(a->type == "rational"){
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->multiply(a1);
-		c->setCoefficient(product);
-		return c;	
-	} 
-	
-	
-	
-}
-Expression* Euler::divide(Expression* a){
-    Expression* c = this;
+    Euler* c = this;
 
-	 if(a->type == "integer"){
-		Rational* a1 = new Rational(a->getValue(),1);
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->divide(a1);
-		c->setCoefficient(product);
-		return c;	
-	}
 	 if(a->type == "euler"){
-		Rational* aCoef = a->getCoefficient();
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->divide(aCoef);
-		Exponential* e = new (e,2)
-		Exponential* e = e->multiply(product)
-		return e;	
+        Euler *b = (Euler *)a;
+		Integer* aCoef = b->getCoefficient();
+		Integer* thisCoef = c->getCoefficient();
+		Integer* product = thisCoef->multiply(aCoef);
+		Exponential* e = new Exponential(e,2);
+		Expression* d = e->multiply(product);
+		return d;
+		}
+	else if(a->type == "exponential"){
+        Exponential *b = (Exponential *)a;
+        if(b->getBase() == "e"){
+            Expression* exponent = b->getExponent();
+            Exponential* product = new Exponential("e",exponent + 1);
+            Integer* Coef = c->getCoefficient();
+            Expression* d = Coef->multiply(product);
+            return d;
+        }
+
 	}
-	
-	if(a->type == "rational"){
-		Rational* thisCoef = c->getCoefficient();
-		Rational* product = thisCoef->divide(a);
-		c->setCoefficient(product);
-		return c;	
-	} 
-	
-   
-}
+
+	}
+
+
+Expression* Euler::divide(Expression* a){
+
+
+	  Euler* c = this;
+
+	 if(a->type == "euler"){
+        Euler *b = (Euler *)a;
+		Integer* aCoef = b->getCoefficient();
+		Integer* thisCoef = c->getCoefficient();
+		Integer* product = thisCoef->divide(aCoef);
+		Exponential* e = new Exponential(e,2);
+		Expression* d = e->multiply(product);
+		return d;
+		}
+	else if(a->type == "exponential"){
+        Exponential *b = (Exponential *)a;
+        if(b->getBase() == "e"){
+            Expression* exponent = b->getExponent();
+            Exponential* product = new Exponential("e",1 - exponent);
+            Integer* Coef = c->getCoefficient();
+            Expression* d = Coef->multiply(product);
+            return d;
+        }
+
+	}
+
+	}
+
+
 string Euler:: toString()
 {
 	stringstream s;
