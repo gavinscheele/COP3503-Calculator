@@ -48,7 +48,7 @@ bool Expression::canSubtract(Expression* b){
 bool Expression::canMultiply(Expression* b){
     if (this->type == b->type) {
         if (type == "nthRoot") {
-            if (this operand == b.getOperand()) {
+            if (this root == b.getRoot()) {
                 return true;
             }
             else {
@@ -66,7 +66,7 @@ bool Expression::canMultiply(Expression* b){
 bool Expression::canDivide(Expression* b){
     if (this->type == b->type) {
         if (type == "nthRoot") {
-            if (this operand == b.getOperand()) {
+            if (this root == b.getRoot()) {
                 return true;
             }
             else {
