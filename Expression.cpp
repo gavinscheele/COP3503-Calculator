@@ -15,6 +15,14 @@ Expression::~Expression(){
 bool Expression::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
     
     if (this->type == b->type) {
+        if (type == "nthRoot") {
+            if (this operand == b.getOperand() && this root == b.getRoot()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return true;
     }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
         return true;
