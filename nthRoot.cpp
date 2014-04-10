@@ -57,20 +57,34 @@ Expression* nthRoot::simplify(){
         i = j + 1;
     }
     Expression newRoot = nthRoot(root, operand, coefficient)
-    //how do I delete the old version? 
+    this.~nthRoot();
     Expression* c = newroot;
     return *c;
 }
 
 
 Expression* nthRoot::add(Expression* a){
-    Expression* c = this;
+    asRoot = a.getRoot();
+    asOperand = a.getOperand();
+    asCoefficient = a.getCoefficient();
+    //make sure that in the canAdd method the operands and roots are the same!
+    newCoefficient = asCoefficient + coefficient;
+    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
+    Expression* c = newNthRoot;
     return c;
+    
 }
 Expression* nthRoot::subtract(Expression* a){
-    Expression* c = this;
+    asRoot = a.getRoot();
+    asOperand = a.getOperand();
+    asCoefficient = a.getCoefficient();
+    //make sure that in the canSubtract method the operands and roots are the same!
+    newCoefficient = coefficient - asCoefficient;
+    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
+    Expression* c = newNthRoot;
     return c;
 }
+
 Expression* nthRoot::multiply(Expression* a){
     Expression* c = this;
     return c;
@@ -104,7 +118,7 @@ void setRoot(int n) {
     this->root = n;
 }
 ostream& nthRoot::print(std::ostream& output) const{
-    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    //overlaod cout so that it makes sense
+    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    
     return output;
 }
 
