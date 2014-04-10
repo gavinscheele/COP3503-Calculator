@@ -20,7 +20,7 @@ public:
     Exponential(Expression* base, Rational* exponent);
     ~Exponential();
     Expression* exponentiate();
-    Rational getExponent();
+    Rational* getExponent();
     Expression* getBase();
     void setExponent(Rational e);
     void setBase(Expression* e);

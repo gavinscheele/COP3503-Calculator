@@ -30,10 +30,11 @@ Expression* Pi::add(Expression* a){
         Pi *b = (Pi *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* sum = thisCoef->add(aCoef);
+		Integer* sum = (Integer *)thisCoef->add(aCoef);
 		c->setCoefficient(sum);
-		return c;
 	}
+    return c;
+
 }
 Expression* Pi::subtract(Expression* a){
     Pi* c = this;
@@ -42,10 +43,11 @@ Expression* Pi::subtract(Expression* a){
         Pi *b = (Pi *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* sum = thisCoef->subtract(aCoef);
+		Integer* sum = (Integer *)thisCoef->subtract(aCoef);
 		c->setCoefficient(sum);
-		return c;
 	}
+    return c;
+
 
 }
 Expression* Pi::multiply(Expression* a){
@@ -55,14 +57,14 @@ Expression* Pi::multiply(Expression* a){
         Pi *b = (Pi *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* product = thisCoef->multiply(aCoef);
+		Integer* product = (Integer *)thisCoef->multiply(aCoef);
 		Exponential* e = new Exponential(pi,2);
 		Expression* d = e->multiply(product);
 		return d;
 		}
 	else if(a->type == "exponential"){
         Exponential *b = (Exponential *)a;
-        if(b->getBase() == "pi"){
+        if(b->getBase()->type == "pi"){
             Expression* exponent = b->getExponent();
             Exponential* product = new Exponential("pi",exponent + 1);
             Integer* Coef = c->getCoefficient();
@@ -79,14 +81,14 @@ Expression* Pi::divide(Expression* a){
         Pi *b = (Pi *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* product = thisCoef->divide(aCoef);
+		Integer* product = (Integer *)thisCoef->divide(aCoef);
 		Exponential* e = new Exponential(e,2);
 		Expression* d = e->multiply(product);
 		return d;
 		}
 	else if(a->type == "exponential"){
         Exponential *b = (Exponential *)a;
-        if(b->getBase() == "pi"){
+        if(b->getBase()->type == "pi"){
             Expression* exponent = b->getExponent();
             Exponential* product = new Exponential("pi",1 - exponent);
             Integer* Coef = c->getCoefficient();
@@ -105,7 +107,6 @@ string Pi:: toString(){
 	return s.str();
 }
 
-}
 ostream& Pi::print(std::ostream& output) const{
     output << this->coefficient << "Pi";
     return output;

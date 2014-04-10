@@ -30,10 +30,10 @@ Expression* Euler::add(Expression* a){
         Euler *b = (Euler *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* sum = thisCoef->add(aCoef);
+		Integer* sum = (Integer *)thisCoef->add(aCoef);
 		c->setCoefficient(sum);
-		return c;
 	}
+    return c;
 
 }
 Expression* Euler::subtract(Expression* a){
@@ -44,10 +44,11 @@ Expression* Euler::subtract(Expression* a){
         Euler *b = (Euler *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* sum = thisCoef->subtract(aCoef);
+		Integer* sum = (Integer *)thisCoef->subtract(aCoef);
 		c->setCoefficient(sum);
-		return c;
 	}
+    return c;
+
 
 }
 Expression* Euler::multiply(Expression* a){
@@ -57,15 +58,15 @@ Expression* Euler::multiply(Expression* a){
         Euler *b = (Euler *)a;
 		Integer* aCoef = b->getCoefficient();
 		Integer* thisCoef = c->getCoefficient();
-		Integer* product = thisCoef->multiply(aCoef);
+		Integer* product = (Integer *)thisCoef->multiply(aCoef);
 		Exponential* e = new Exponential(e,2);
 		Expression* d = e->multiply(product);
 		return d;
 		}
 	else if(a->type == "exponential"){
         Exponential *b = (Exponential *)a;
-        if(b->getBase() == "e"){
-            Expression* exponent = b->getExponent();
+        if(b->getBase()->type == "e"){
+            Rational* exponent = b->getExponent();
             Exponential* product = new Exponential("e",exponent + 1);
             Integer* Coef = c->getCoefficient();
             Expression* d = Coef->multiply(product);

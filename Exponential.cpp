@@ -178,7 +178,7 @@ Expression* Exponential::divide(Expression* a){
     return this;
 }
 
-Rational Exponential::getExponent() {
+Rational* Exponential::getExponent() {
     return exponent;
 }
 

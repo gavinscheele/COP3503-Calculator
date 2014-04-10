@@ -41,8 +41,8 @@ Expression* Integer::add(Expression* a){
         
         //did you mean return b ?
         //you can't set this whole class to a Rational type
-        
-        this = b;
+        return b;
+       // this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -67,7 +67,8 @@ Expression* Integer::subtract(Expression* a){
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
         b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
-        this = b;
+        return b;
+        //this = b;
 
     }else{
         cout << "type not recognized" << endl;
@@ -92,8 +93,8 @@ Expression* Integer::multiply(Expression* a){
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
         b->setNumerator(b->geteNumerator()->multiply(this));
-        this = b;
-
+        return b;
+        //this = b;
     }else{
         cout << "type not recognized" << endl;
     }
@@ -117,8 +118,8 @@ Expression* Integer::divide(Expression* a){
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
         b->setDenominator(b->geteDenominator()->multiply(this));
-        this = b;
-
+        return b;
+        //this = b;
     }else{
         cout << "type not recognized" << endl;
     }

@@ -23,7 +23,7 @@ class nthRoot : public Expression{
 public:
     nthRoot(int root, int operand);
     ~nthRoot();
-    Expression simplify();
+    //Expression simplify();
     int* primeFactorization(int n);
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
@@ -37,7 +37,7 @@ public:
     void setCoefficient(int n);
     ostream& print(std::ostream& output) const;
     Expression* simplify();
-    sstream toString();
+    string toString();
 private:
     int coefficient;
     int operand;

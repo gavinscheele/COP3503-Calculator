@@ -47,5 +47,7 @@ private:
     Expression* simplify(int num);
     Expression* simplify(Expression* exp);
     Expression* findCommonDenominator(Rational * a);
+    void syncIntToExp();
+    void syncExpToInt();
 };
 #endif /* defined(__Calculator__Rational__) */

@@ -83,12 +83,11 @@ Expression* Rational::simplify(int num){
     
     else{
         int commonFactor = findCommonFactor(2);
-        if(commonFactor == -1){
-            return this;
-        }else{
+        while (commonFactor != -1) {
             this->numerator = this->numerator/commonFactor;
             this->denominator = this->denominator/commonFactor;
-            findCommonFactor(2);
+            syncExpToInt();
+            commonFactor = findCommonFactor(2);
         }
     }
     return this;
@@ -111,7 +110,7 @@ Expression* Rational::findCommonDenominator(Rational* a){
         eDenominator = den;
         a->setNumerator(new Integer(aNum));
         a->setDenominator(new Integer(aDen));
-        a->simplify(1);
+        //a->simplify(1);
     }
     return a;
 }
@@ -185,7 +184,8 @@ Expression* Rational::subtract(Expression* a){
             Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
             Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
             
-            this->eNumerator = new Integer(in->getValue() - in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
+           this->eNumerator = new Integer(in->getValue() - in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
+
             //They already share a common denominator
             Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
             this->numerator = num1->getValue();
@@ -283,6 +283,19 @@ Expression* Rational::divide(Expression* a){
         cout << "type not recognized" << endl;
     }
     return this;
+}
+void Rational::syncExpToInt(){
+    Expression *a = new Integer(this->numerator);
+    Expression *b = new Integer(this->denominator);
+    this->eNumerator = a;
+    this->eDenominator = b;
+}
+void Rational::syncIntToExp(){
+    Integer *a = (Integer *)eNumerator;
+    this->numerator = a->getValue();
+    
+    Integer *b = (Integer *)eDenominator;
+    this->numerator = b->getValue();
 }
 ostream& Rational::print(std::ostream& output) const{
     cout << *eNumerator << "/" << *eDenominator;
