@@ -19,7 +19,7 @@ nthRoot::~nthRoot(){
     
 }
 
-int* nthRoot::primeFactorization(int n) {
+int nthRoot::primeFactorization(int n) {
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
@@ -86,12 +86,23 @@ Expression* nthRoot::subtract(Expression* a){
 }
 
 Expression* nthRoot::multiply(Expression* a){
-    
-    Expression* c = this;
+    asOperand = a.getOperand();
+    asCoefficient = a.getCoefficient();
+    newCoefficient = asCoefficient * coefficient;
+    newOperand = operand * asOperand;
+    nthRoot newNthRoot = new nthRoot(root, newOperand, newCoefficient)
+    nthRoot simplifiedVersion = newNthRoot.simplify();
+    Expression* c = simplifiedVersion;
     return c;
 }
 Expression* nthRoot::divide(Expression* a){
-    Expression* c = this;
+    asRoot = a.getRoot();
+    asCoefficient = a.getCoefficient();
+    newCoefficient = coefficient / asCoefficient;
+    newRoot = root - asRoot;
+    nthRoot newNthRoot = new nthRoot(newRoot, operand, newCoefficient)
+    nthRoot simplifiedVersion = newNthRoot.simplify();
+    Expression* c = simplifiedVersion;
     return c;
 }
 
