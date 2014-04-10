@@ -31,6 +31,14 @@ bool Expression::canAdd(Expression* b){     //use "this" as comparison. Solver w
 }
 bool Expression::canSubtract(Expression* b){
     if (this->type == b->type) {
+        if (type == "nthRoot") {
+            if (this operand == b.getOperand() && this root == b.getRoot()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return true;
     }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
         return true;
@@ -39,6 +47,14 @@ bool Expression::canSubtract(Expression* b){
 }
 bool Expression::canMultiply(Expression* b){
     if (this->type == b->type) {
+        if (type == "nthRoot") {
+            if (this operand == b.getOperand()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return true;
     }
     else if(this->type == "int" && b->type == "rational") return true;
@@ -49,6 +65,14 @@ bool Expression::canMultiply(Expression* b){
 }
 bool Expression::canDivide(Expression* b){
     if (this->type == b->type) {
+        if (type == "nthRoot") {
+            if (this operand == b.getOperand()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return true;
     }
     else if(this->type == "int"){
