@@ -66,7 +66,7 @@ bool Expression::canMultiply(Expression* b){
 bool Expression::canDivide(Expression* b){
     if (this->type == b->type) {
         if (this->type == "nthRoot") {
-            if (this root == b.getRoot()) {
+            if (this root == b.getRoot() && ((this->operand / b.getOperand()) % 1) == 0 ) {
                 return true;
             }
             else {
