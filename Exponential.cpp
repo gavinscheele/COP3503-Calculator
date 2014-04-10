@@ -32,7 +32,10 @@ bool Exponential::canExponentiate() {
         return false;
 
     }else if(base->type == "exponential"){
-        //multiply exponents together then call canExponentiate again
+	Exponential* ex = (exponential *) base;
+	this->exponent *= ex->getExponent();
+	ex->setExponent(1);			// may need to be corrected because exponent is not an int
+        return false;			// false is returned because the base itself would have already been exponentiated if it were possible
 
     }else if(base->type == "integer"){
         return true;
@@ -42,7 +45,10 @@ bool Exponential::canExponentiate() {
         return false;
 
     }else if(base->type == "nthRoot"){
-        //if root and exponent are divisible, exponentiate. Otherwise don't.
+	nthRoot* nr = (nthRoot *) base;
+	Rational* r = new Rational(this->exponent, nr->getRoot());
+	this->exponent = r;
+	nr->setRoot()=1;
 
     }else if(base->type == "pi"){
         return false;
@@ -66,11 +72,12 @@ Expression* Exponential::exponentiate(){
     Expression* toReturn = base;
     Expression* constantBase = base;
     if (this->exponent.getNumerator()==0) {
-        Integer ret = new Integer(1);
+        Integer* ret = new Integer(1);
         return ret;
     }
     bool toFlip = false;
     if (exnu<0) {
+	    exnu*=-1;
             toFlip = true;
     }
     Expression* e = this;
@@ -79,7 +86,8 @@ Expression* Exponential::exponentiate(){
     }
     exnu = 1;
     if (toFlip()) {
-        return 1/toReturn;
+	Rational* r = new Rational(1, toReturn);
+        return r;
     }
     return toReturn;
 
@@ -89,6 +97,12 @@ Expression* Exponential::add(Expression* a){
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
+	Exponential* ex = (Exponential *) a;
+	if (ex->getBase()==this->base) {
+		if (ex->getExponent()==this->exponent) {
+			this*=2;
+		}
+	}
 
     }else if(a->type == "integer"){
 
@@ -109,7 +123,12 @@ Expression* Exponential::subtract(Expression* a){
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
-
+	Exponential* ex = (Exponential *) a;
+	if (ex->getBase()==this->base) {
+		if (ex->getExponent()==this->exponent) {
+			this*=0;
+		}
+	}
     }else if(a->type == "integer"){
 
     }else if(a->type == "logarithm"){
@@ -135,6 +154,10 @@ Expression* Exponential::multiply(Expression* a){
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
+	Exponential* ex = (Exponential *) a;
+	if (this->base == ex->getBase()) {
+		this->exponent += ex->getExponent();
+	}
 
     }else if(a->type == "integer"){
 
@@ -145,7 +168,10 @@ Expression* Exponential::multiply(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
-
+	Rational* r = (Rational *) r;
+	r->setNumerator(r->getNumerator.multiply(this));
+	this = r;
+	
     }else{
         cout << "type not recognized" << endl;
     }
@@ -161,6 +187,10 @@ Expression* Exponential::divide(Expression* a){
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
+	Exponential* ex = (Exponential *) a;
+	if (this->base == ex->getBase()) {
+		this->exponent -= ex->getExponent();
+	}
 
     }else if(a->type == "integer"){
 
@@ -171,6 +201,9 @@ Expression* Exponential::divide(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
+	Rational* r = (Rational *) r;
+	r->setDenominator(r->getDenominator.multiply(this));
+	this = r;
 
     }else{
         cout << "type not recognized" << endl;
