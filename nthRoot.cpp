@@ -86,6 +86,7 @@ Expression* nthRoot::subtract(Expression* a){
 }
 
 Expression* nthRoot::multiply(Expression* a){
+    
     Expression* c = this;
     return c;
 }
