@@ -42,6 +42,7 @@ private:
     int coefficient;
     int operand;
     int root;
+    int factors[50];
 };
 #endif /* defined(__Calculator__nthRoot__) */
 
