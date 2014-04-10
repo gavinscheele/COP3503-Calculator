@@ -25,5 +25,7 @@ public:
 private:
     int base;
     int operand;
+    Expression* eBase;
+    Expression* eOperand;
 };
 #endif /* defined(__Calculator__Logarithm__) */
