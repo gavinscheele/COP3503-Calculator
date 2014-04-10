@@ -11,11 +11,7 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Logarithm.h"
-#include "Pi.h"
-#include "Euler.h"
 #include "Integer.h"
-#include "Exponential.h"
 #include <sstream>
 using namespace std;
 class Rational : public Expression {
@@ -31,16 +27,15 @@ public:
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
-    Expression* geteDenominator();
     string toString();
     
-    void seteDenominator(Expression* denominator);
+    Expression* geteDenominator();
     Expression* geteNumerator();
-    
-    
-    void seteNumerator(Expression* numerator);
+    void setDenominator(Expression* denominator);
+    void setNumerator(Expression* numerator);
     int getNumerator();
     int getDenominator();
+    
     bool hasIntegerOperands();
     
 private:

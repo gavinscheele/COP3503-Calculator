@@ -32,14 +32,14 @@ Rational::~Rational(){
 Expression* Rational::geteDenominator(){
     return this->eDenominator;
 }
-void Rational::seteDenominator(Expression* denominator){
+void Rational::setDenominator(Expression* denominator){
     this->eDenominator = denominator;
 }
 
 Expression* Rational::geteNumerator(){
     return this->eNumerator;
 }
-void Rational::seteNumerator(Expression* numerator){
+void Rational::setNumerator(Expression* numerator){
     this->eNumerator = numerator;
 }
 int Rational::getNumerator(){
@@ -109,8 +109,8 @@ Expression* Rational::findCommonDenominator(Rational* a){
         this->denominator *= a->getDenominator();
         Integer *den = new Integer(this->denominator);
         eDenominator = den;
-        a->seteNumerator(new Integer(aNum));
-        a->seteDenominator(new Integer(aDen));
+        a->setNumerator(new Integer(aNum));
+        a->setDenominator(new Integer(aDen));
         a->simplify(1);
     }
     return a;

@@ -27,7 +27,7 @@ Expression* Integer::add(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value+=b->getValue;
+        this->value+=b->getValue();
 
     }else if(a->type == "logarithm"){
 
@@ -37,7 +37,11 @@ Expression* Integer::add(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->getNumerator->add(this->multiply(b->getDenominator)));
+        b->setNumerator(b->geteNumerator()->add(this->multiply(b->geteDenominator())));
+        
+        //did you mean return b ?
+        //you can't set this whole class to a Rational type
+        
         this = b;
 
     }else{
@@ -52,7 +56,7 @@ Expression* Integer::subtract(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value-=b->getValue;
+        this->value-=b->getValue();
 
     }else if(a->type == "logarithm"){
 
@@ -62,7 +66,7 @@ Expression* Integer::subtract(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->getNumerator->subtract(this->multiply(b->getDenominator)));
+        b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
         this = b;
 
     }else{
@@ -77,7 +81,7 @@ Expression* Integer::multiply(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value*=b->getValue;
+        this->value*=b->getValue();
 
     }else if(a->type == "logarithm"){
 
@@ -87,7 +91,7 @@ Expression* Integer::multiply(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->getNumerator->multiply(this));
+        b->setNumerator(b->geteNumerator()->multiply(this));
         this = b;
 
     }else{
@@ -102,7 +106,7 @@ Expression* Integer::divide(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value/=b->getValue;
+        this->value/=b->getValue();
 
     }else if(a->type == "logarithm"){
 
@@ -112,7 +116,7 @@ Expression* Integer::divide(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setDenominator(b->getDenominator->multiply(this));
+        b->setDenominator(b->geteDenominator()->multiply(this));
         this = b;
 
     }else{
@@ -126,6 +130,7 @@ ostream& Integer::print(std::ostream& output) const{
 }
 
 string Integer::toString() {
-    string str = (string) value;
-    return str;
+    stringstream ss;
+    ss << value;
+    return ss.str();
 }
