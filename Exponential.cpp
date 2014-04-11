@@ -55,11 +55,11 @@ bool Exponential::canExponentiate() {
 
     }else if(base->type == "rational"){
         Rational* r = (rational *) base;
-        if (r->getNumerator->type == "integer") {
-          // numerator is an integer, more code goes here 
-        } 
-        if (r->getDenominator->type == "integer") {
-            // denominator is an integer, more code goes here
+        if (r->getNumerator->type == "integer" && r->getDenominator->type == "integer") {
+          Exponential* nu = new Exponential(r->getNumerator, this->exponent);
+          r->setNumerator(nu);
+          Exponential* de = new Exponential(r->getDenominator, this->exponent);
+          r->setDenominator(de);
         }
 
     }else{
@@ -215,9 +215,25 @@ Rational* Exponential::getExponent() {
     return exponent;
 }
 
-*Expression Exponential::getBase() {
+Expression* Exponential::getBase() {
     return base;
 }
+
+Integer* Exponential::getExnu() {
+	return exnu;
+}
+
+Integer* Exponential::getExde() {
+	return exde;
+}
+
+void Exponential::setExnu(Integer* n) {
+	exnu = n;
+}
+
+void Exponential::setExde(Integer* n) {
+	exde = n;
+} 
 
 void Exponential::setExponent(Rational e) {
     exponent = e;
