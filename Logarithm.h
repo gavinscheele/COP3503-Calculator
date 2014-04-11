@@ -14,9 +14,9 @@
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
-    Logarithm::Logarithm(int base, Expression* eOperand);
-    Logarithm::Logarithm(Expression* eBase, int operand){
-    Logarithm::Logarithm(Expression* eBase, Expression* eOperand)
+    Logarithm(int base, Expression* eOperand);
+    Logarithm(Expression* eBase, int operand);
+    Logarithm(Expression* eBase, Expression* eOperand);
     ~Logarithm();
     Expression* simplify();
     Expression* add(Expression* a);
