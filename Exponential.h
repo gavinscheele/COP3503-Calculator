@@ -20,8 +20,13 @@ public:
     Exponential(Expression* base, Rational* exponent);
     ~Exponential();
     Expression* exponentiate();
+    Expression* exponentiate(Rational* expo); //exponentiate using parameter as exponent
     Rational* getExponent();
     Expression* getBase();
+    Integer* getExnu();
+    Integer* getExde();
+    void setExnu(Integer* n);
+    void setExde(Integer* n);
     void setExponent(Rational e);
     void setBase(Expression* e);
     bool canExponentiate();
