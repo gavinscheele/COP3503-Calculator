@@ -24,7 +24,7 @@ void Pi:: setCoefficient(Integer* x)
 }
 
 Expression* Pi::add(Expression* a){
-    Pi* c = this;
+   Pi* c = this;
 
 	if(a->type == "pi"){
         Pi *b = (Pi *)a;
@@ -37,7 +37,8 @@ Expression* Pi::add(Expression* a){
 
 }
 Expression* Pi::subtract(Expression* a){
-    Pi* c = this;
+
+  Pi* c = this;
 
 	if(a->type == "pi"){
         Pi *b = (Pi *)a;
@@ -54,52 +55,56 @@ Expression* Pi::multiply(Expression* a){
     Pi* c = this;
 
 	 if(a->type == "pi"){
-        Pi *b = (Pi *)a;
-		Integer* aCoef = b->getCoefficient();
-		Integer* thisCoef = c->getCoefficient();
-		Integer* product = (Integer *)thisCoef->multiply(aCoef);
-		Exponential* e = new Exponential(pi,2);
-		Expression* d = e->multiply(product);
+        Pi *b = (Pi *)a;//Casts a
+		Integer* aCoef = b->getCoefficient();//Gets coefficient of the thing that's being multiplied
+		Integer* thisCoef = c->getCoefficient();//Gets coefficient of this
+		Integer* product = (Integer *)thisCoef->multiply(aCoef);//Multiplies two coefficients together
+		Pi* pi1 = new Pi();//creates new Pi
+		Exponential* exponential = new Exponential((Expression *)pi1,(Rational *)2);//Creates new Exponential with base pi and exponent 2
+		Expression* d = exponential->multiply(product);//multiplies the new pi^2 by the multiplied product
 		return d;
 		}
 	else if(a->type == "exponential"){
-        Exponential *b = (Exponential *)a;
-        if(b->getBase()->type == "pi"){
-            Expression* exponent = b->getExponent();
-            Exponential* product = new Exponential("pi",exponent + 1);
-            Integer* Coef = c->getCoefficient();
-            Expression* d = Coef->multiply(product);
+        Exponential *b = (Exponential *)a;//Casts a
+        if(b->getBase()->type == "pi"){ // Checks to see if the base is pi
+            Rational* exponent = b->getExponent();//gets exponent of b
+            Pi* pi2 = new Pi();//creates new Pi
+            Rational* one = new Rational(1,1);
+            Exponential* product = new Exponential((Expression*)pi2,(Rational *)(exponent->add(one)));
+            Integer* Coef = c->getCoefficient();//Gets the coefficient of the type pi
+            Expression* d = Coef->multiply(product);//multiplies the coefficient of e with the new Exponential type
             return d;
             }
-        }
-
-}
-Expression* Pi::divide(Expression* a){
-     Pi* c = this;
-
-	 if(a->type == "pi"){
-        Pi *b = (Pi *)a;
-		Integer* aCoef = b->getCoefficient();
-		Integer* thisCoef = c->getCoefficient();
-		Integer* product = (Integer *)thisCoef->divide(aCoef);
-		Exponential* e = new Exponential(e,2);
-		Expression* d = e->multiply(product);
-		return d;
-		}
-	else if(a->type == "exponential"){
-        Exponential *b = (Exponential *)a;
-        if(b->getBase()->type == "pi"){
-            Expression* exponent = b->getExponent();
-            Exponential* product = new Exponential("pi",1 - exponent);
-            Integer* Coef = c->getCoefficient();
-            Expression* d = Coef->multiply(product);
-            return d;
         }
 
 	}
 
 
-}
+Expression* Pi::divide(Expression* a){
+	  Pi* c = this;
+
+	 if(a->type == "pi"){
+        Pi *b = (Pi *)a;//Casts a
+		Integer* aCoef = b->getCoefficient();//Gets coefficient of the thing that's dividing (x/a)...a
+		Integer* thisCoef = c->getCoefficient();//Gets coefficient of this(x/a)..x
+		Integer* product = (Integer *)thisCoef->divide(aCoef);//Divides this by a
+		return product;//pi divided by pi is 1, so we just return the product
+		}
+	else if(a->type == "exponential"){
+        Exponential *b = (Exponential *)a;//Casts a
+        if(b->getBase()->type == "pi"){ // Checks to see if the base is pi
+            Rational* exponent = b->getExponent();//gets exponent of b
+            Pi* pi2 = new Pi();//creates new Pi
+            Rational* one = new Rational(1,1);
+            Exponential* product = new Exponential((Expression*)pi2,(Rational *)(one->subtract(exponent)));// creates new Exponential with base e and exponent 1 - previous exponent
+            Integer* Coef = c->getCoefficient();//Gets the coefficient of the type pi
+            Expression* d = Coef->multiply(product);//multiplies the coefficient of pi with the new Exponential type
+            return d;
+            }
+        }
+
+	}
+
 
 string Pi:: toString(){
     stringstream s;

@@ -8,18 +8,19 @@
 
 #include "nthRoot.h"
 
-nthRoot::nthRoot(int root, int operand, int coefficient){
+nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->type = "nthRoot";
     this->operand = operand;
     this->root = root;
-    this->coefficient = 1;
+    this->coefficient = coefficient;
     int factors[50];
 }
-nthRoot::~nthRoot(){
+
+nthRoot::~nthRoot() {
     
 }
 
-int* nthRoot::primeFactorization(int n) {
+int nthRoot::primeFactorization(int n) {
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
@@ -57,26 +58,47 @@ Expression* nthRoot::simplify(){
         i = j + 1;
     }
     Expression newRoot = nthRoot(root, operand, coefficient)
-    //how do I delete the old version? 
+    this.~nthRoot();
     Expression* c = newroot;
     return *c;
 }
 
 
-Expression* nthRoot::add(Expression* a){
-    Expression* c = this;
+Expression* nthRoot::add(Expression* a) {
+    asCoefficient = a.getCoefficient();
+    newCoefficient = asCoefficient + coefficient;
+    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
+    Expression* c = newNthRoot;
+    return c;
+    
+}
+
+Expression* nthRoot::subtract(Expression* a) {
+    asCoefficient = a.getCoefficient();
+    newCoefficient = coefficient - asCoefficient;
+    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
+    Expression* c = newNthRoot;
     return c;
 }
-Expression* nthRoot::subtract(Expression* a){
-    Expression* c = this;
+
+Expression* nthRoot::multiply(Expression* a) {
+    asOperand = a.getOperand();
+    asCoefficient = a.getCoefficient();
+    newCoefficient = asCoefficient * coefficient;
+    newOperand = operand * asOperand;
+    nthRoot newNthRoot = new nthRoot(root, newOperand, newCoefficient)
+    nthRoot simplifiedVersion = newNthRoot.simplify();
+    Expression* c = simplifiedVersion;
     return c;
 }
-Expression* nthRoot::multiply(Expression* a){
-    Expression* c = this;
-    return c;
-}
-Expression* nthRoot::divide(Expression* a){
-    Expression* c = this;
+Expression* nthRoot::divide(Expression* a) {
+    asOperand = a.getOperand();
+    asCoefficient = a.getCoefficient();
+    newCoefficient = coefficient / asCoefficient;
+    newOperand = operand / asOperand;
+    nthRoot newNthRoot = new nthRoot(root, newOperand, newCoefficient)
+    nthRoot simplifiedVersion = newNthRoot.simplify();
+    Expression* c = simplifiedVersion;
     return c;
 }
 
@@ -103,13 +125,13 @@ void setOperand(int n) {
 void setRoot(int n) {
     this->root = n;
 }
-ostream& nthRoot::print(std::ostream& output) const{
-    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    //overlaod cout so that it makes sense
+ostream& nthRoot::print(std::ostream& output) const {
+    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    
     return output;
 }
 
-string nthRoot::toString(){
-    stringstream s;
+string nthRoot::toString() {
+    stringstream s; 
     s << coefficient << "*" << root << "rt:" << operand;
     return s.str();
 }
