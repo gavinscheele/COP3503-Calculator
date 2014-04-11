@@ -46,7 +46,7 @@ private:
     Expression *eDenominator;
     Expression* simplify(int num);
     Expression* simplify(Expression* exp);
-    Expression* findCommonDenominator(Rational * a);
+    Rational* findCommonDenominator(Rational * a);
     void syncIntToExp();
     void syncExpToInt();
 };

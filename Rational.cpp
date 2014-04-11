@@ -90,26 +90,41 @@ Expression* Rational::simplify(int num){
             commonFactor = findCommonFactor(2);
         }
     }
+    if(denominator < 0 && numerator > 0){
+        denominator *= -1;
+        numerator *= -1;
+        syncExpToInt();
+    }
     return this;
 }
 Expression* Rational::simplify(Expression* eNumerator){
 
     return this;
 }
-Expression* Rational::findCommonDenominator(Rational* a){
+Rational* Rational::findCommonDenominator(Rational* a){
+    
+    //      a = -2/1
+    //      this = -7/4
+    //
     if(a->hasIntegerOperands()){
-        int aNum = a->getNumerator();
-        int aDen = a->getDenominator();
-        aNum *= this->denominator;
-        this->numerator *= aDen;
-        Integer *num = new Integer(this->numerator);
-        eNumerator = num;
-        aDen *= this->denominator;
-        this->denominator *= a->getDenominator();
-        Integer *den = new Integer(this->denominator);
-        eDenominator = den;
-        a->setNumerator(new Integer(aNum));
-        a->setDenominator(new Integer(aDen));
+        int aNum = a->getNumerator();           // aNum = -2
+        int aDen = a->getDenominator();         //aDen = 1
+        aNum *= this->denominator;              // aNum = -8
+        this->numerator *= aDen;                // numerator = 1
+        Integer *num = new Integer(this->numerator);    //num = 1
+        eNumerator = num;                               //eNumerator = 1
+        aDen *= this->denominator;                      // aDen = 4
+        this->denominator *= a->getDenominator();       //denominator = 4
+        Integer *den = new Integer(this->denominator); //den = 4
+        eDenominator = den;                             //edenominator = 4
+        a->setNumerator(new Integer(aNum));             //numerator = -2
+        a->setDenominator(new Integer(aDen));           //denominator = 1
+        
+        Integer *v = (Integer *)a->geteNumerator();
+        a->numerator = v->getValue();
+        
+        Integer *w = (Integer *)a->geteDenominator();
+        a->denominator = w->getValue();
         //a->simplify(1);
     }
     return a;
@@ -136,9 +151,9 @@ Expression* Rational::add(Expression* a){
         }
         
     }else if(a->type == "rational"){
-        
-        Rational *b = (Rational *)a;                                    //cast expression as Rational type
-        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
+
+        Rational *b =  (Rational *)a;                                    //cast expression as Rational type
+        Rational *commonD = this->findCommonDenominator(b);             //Find a common denominator between "this" and the passed expression. Save that to commonD
         
         if(commonD->hasIntegerOperands()){                              //If it has integer operands
             Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
@@ -155,10 +170,17 @@ Expression* Rational::add(Expression* a){
             this->simplify(1);                                          //call the simplify method for integer only rationals
             
             Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
-            eNumerator = num;
-            
             Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
-            eDenominator = den;
+            if((num->getValue() < 0) && (den->getValue() < 0)){
+                Integer *g = new Integer(-1);
+                eNumerator->multiply(g);
+                
+                eDenominator->multiply(g);
+
+            }else{
+                eNumerator = num;
+                eDenominator = den;
+            }
         }else{
             cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
         }
@@ -181,8 +203,8 @@ Expression* Rational::subtract(Expression* a){
         Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
         
         if(commonD->hasIntegerOperands()){                              //If it has integer operands
-            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
-            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
+            Integer *in2 = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
+            Integer *in = (Integer *)eNumerator;                       //Make an Integer type for this numerator
             
            this->eNumerator = new Integer(in->getValue() - in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
 
@@ -196,10 +218,17 @@ Expression* Rational::subtract(Expression* a){
             this->simplify(1);                                          //call the simplify method for integer only rationals
             
             Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
-            eNumerator = num;
-            
             Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
-            eDenominator = den;
+            if((num->getValue() < 0) && (den->getValue() < 0)){
+                Integer *g = new Integer(-1);
+                eNumerator->multiply(g);
+                
+                eDenominator->multiply(g);
+
+            }else{
+                eNumerator = num;
+                eDenominator = den;
+            }
         }else{
             cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
         }
@@ -213,34 +242,23 @@ Expression* Rational::multiply(Expression* a){
         Integer *b = (Integer *)a;
         if(this->numerator){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
-            this->multiply(c);
+            c->syncIntToExp();
+            Rational *z = (Rational *)this->multiply(c);
+            this->numerator = z->getNumerator();
+            this->denominator = z->getDenominator();
+            this->eDenominator = z->geteDenominator();
+            this->eNumerator = z->geteNumerator();
         }
     }else if(a->type == "rational"){
         Rational *b = (Rational *)a;                                    //cast expression as Rational type
-        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
-        
-        if(commonD->hasIntegerOperands()){                              //If it has integer operands
-            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
-            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
-            
-            this->eNumerator = new Integer(in->getValue() * in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
-            //They already share a common denominator
-            Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
-            this->numerator = num1->getValue();
-            
-            Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
-            this->denominator = den1->getValue();
-            
-            this->simplify(1);                                          //call the simplify method for integer only rationals
-            
-            Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
-            eNumerator = num;
-            
-            Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
-            eDenominator = den;
-        }else{
-            cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
-        }
+        b->eNumerator->multiply(this->eNumerator);
+        b->eDenominator->multiply(this->eDenominator);
+        Integer *num = (Integer *)b->eNumerator;
+        b->numerator = num->getValue();
+        Integer *den = (Integer *)b->eDenominator;
+        b->denominator = den->getValue();
+        b->simplify(1);
+        return b;
     }else{
         cout << "type not recognized" << endl;
     }
@@ -255,31 +273,21 @@ Expression* Rational::divide(Expression* a){
         }
     }else if(a->type == "rational"){
         Rational *b = (Rational *)a;                                    //cast expression as Rational type
-        Rational *commonD = (Rational *)this->findCommonDenominator(b); //Find a common denominator between "this" and the passed expression. Save that to commonD
+        Expression *den1 = b->eNumerator;
+        b->eNumerator = b->eDenominator;
+        b->eDenominator = den1;
+        b->syncIntToExp();
         
-        if(commonD->hasIntegerOperands()){                              //If it has integer operands
-            Integer *in = (Integer *)commonD->eNumerator;               //Make an Integer type for the numerator of the first rational
-            Integer *in2 = (Integer *)eNumerator;                       //Make an Integer type for this numerator
-            
-            this->eNumerator = new Integer(in->getValue() / in2->getValue());     //Set the value of the numerator to the addition of the two numerators. We can do this because
-            //They already share a common denominator
-            Integer *num1 = (Integer *)eNumerator;                      //update the value of numerator to match eNumerator
-            this->numerator = num1->getValue();
-            
-            Integer *den1 = (Integer *)eDenominator;                    //update the value of denominator to match eDenominator
-            this->denominator = den1->getValue();
-            
-            this->simplify(1);                                          //call the simplify method for integer only rationals
-            
-            Integer *num = new Integer(this->numerator);                //update the value of eNumerator to match numerator
-            eNumerator = num;
-            
-            Integer *den = new Integer(this->denominator);              //update the value of eDenominator to match denominator
-            eDenominator = den;
-        }else{
-            cout << "non integer rational operands not yet implemented. Returning first argument" << endl;
-        }
-    }else{
+        b->eNumerator->multiply(this->eNumerator);
+        b->eDenominator->multiply(this->eDenominator);
+        Integer *num = (Integer *)b->eNumerator;
+        b->numerator = num->getValue();
+        Integer *den = (Integer *)b->eDenominator;
+        b->denominator = den->getValue();
+        b->simplify(1);
+        return b;
+    }
+    else{
         cout << "type not recognized" << endl;
     }
     return this;
@@ -295,7 +303,7 @@ void Rational::syncIntToExp(){
     this->numerator = a->getValue();
     
     Integer *b = (Integer *)eDenominator;
-    this->numerator = b->getValue();
+    this->denominator = b->getValue();
 }
 ostream& Rational::print(std::ostream& output) const{
     cout << *eNumerator << "/" << *eDenominator;
