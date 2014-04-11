@@ -19,9 +19,14 @@ Rational::Rational(int numerator, int denominator){     //constructor for ration
 }
 Rational::Rational(Expression* numerator, Expression* denominator){     //constructor for rational that has more complicated numerator and/or denominator
     this->type = "rational";
-    this->eNumerator = numerator;
-    this->eDenominator = denominator;
-    simplify(numerator);
+    if (numerator->type == denominator->type && numerator->type != "integer") {
+        this->eNumerator = new Integer(1);
+        this->eDenominator = new Integer(1);
+    }else{
+        this->eNumerator = numerator;
+        this->eDenominator = denominator;
+        simplify(numerator);
+    }
 }
 
 Rational::~Rational(){
