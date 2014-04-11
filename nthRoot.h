@@ -18,10 +18,10 @@
 #include "Pi.h"
 #include "Rational.h"
 #include "Solver.h"
-
+#include <math.h>
 class nthRoot : public Expression{
 public:
-    nthRoot(int root, int operand);
+    nthRoot(int root, int operand, int coefficient);
     ~nthRoot();
     //Expression simplify();
     int* primeFactorization(int n);

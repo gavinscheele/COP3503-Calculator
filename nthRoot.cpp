@@ -13,21 +13,21 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->operand = operand;
     this->root = root;
     this->coefficient = coefficient;
-    int factors[50];
+   // int factors[50];    you don't need this in the constructor
 }
 
 nthRoot::~nthRoot() {
     
 }
 
-int nthRoot::primeFactorization(int n) {
+int* nthRoot::primeFactorization(int n) {
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
         k++;
         n = n/2;
     }
-    for (i = 3; i <= sqrt(n); i = i + 2) {
+    for (int i = 3; i <= sqrt(n); i = i + 2) {
         while (n%1 == 0) {
             factors[k] = 2;
             k++;
@@ -43,10 +43,10 @@ int nthRoot::primeFactorization(int n) {
 
 Expression* nthRoot::simplify(){
     int* factorsArray = primeFactorization(operand);
-    i = 0;
+    int i = 0;
     while (i <= factors.size()) {
-        j = i;
-        count = 0;
+        int j = i;
+        int count = 0;
         while (j <= factors.size() && factors[j + 1] == factors[j]) {
             count++;
             j++;
@@ -57,72 +57,73 @@ Expression* nthRoot::simplify(){
         }
         i = j + 1;
     }
-    Expression newRoot = nthRoot(root, operand, coefficient)
-    this.~nthRoot();
-    Expression* c = newroot;
-    return *c;
+    Expression* newRoot = new nthRoot(root, operand, coefficient);
+   // this.~nthRoot();    //what ? you never call a deconstructor. You use delete
+    //Expression* c = newroot;
+    return newRoot;
 }
 
 
 Expression* nthRoot::add(Expression* a) {
-    asCoefficient = a.getCoefficient();
-    newCoefficient = asCoefficient + coefficient;
-    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
-    Expression* c = newNthRoot;
-    return c;
+    nthRoot *b = (nthRoot *)a;
+    int asCoefficient = b->getCoefficient();                //does the same thing you had, just a few syntax things
+    int newCoefficient = asCoefficient + coefficient;
+    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+    return newNthRoot;
     
 }
 
 Expression* nthRoot::subtract(Expression* a) {
-    asCoefficient = a.getCoefficient();
-    newCoefficient = coefficient - asCoefficient;
-    nthRoot newNthRoot = new nthRoot(root, operand, newCoefficient);
-    Expression* c = newNthRoot;
-    return c;
+    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+    int asCoefficient = b->getCoefficient();
+    int newCoefficient = coefficient - asCoefficient;
+    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+    return newNthRoot;
 }
 
 Expression* nthRoot::multiply(Expression* a) {
-    asOperand = a.getOperand();
-    asCoefficient = a.getCoefficient();
-    newCoefficient = asCoefficient * coefficient;
-    newOperand = operand * asOperand;
-    nthRoot newNthRoot = new nthRoot(root, newOperand, newCoefficient)
-    nthRoot simplifiedVersion = newNthRoot.simplify();
+    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+    int asCoefficient = b->getCoefficient();
+    int newCoefficient = asCoefficient * coefficient;
+    int newOperand = operand * asOperand;       //asOperand doesnt exist?
+    nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+    nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
     Expression* c = simplifiedVersion;
     return c;
 }
 Expression* nthRoot::divide(Expression* a) {
-    asOperand = a.getOperand();
-    asCoefficient = a.getCoefficient();
-    newCoefficient = coefficient / asCoefficient;
-    newOperand = operand / asOperand;
-    nthRoot newNthRoot = new nthRoot(root, newOperand, newCoefficient)
-    nthRoot simplifiedVersion = newNthRoot.simplify();
-    Expression* c = simplifiedVersion;
-    return c;
+    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+
+    int asOperand = b->getOperand();
+    int asCoefficient = b->getCoefficient();
+    int newCoefficient = coefficient / asCoefficient;
+    int newOperand = operand / asOperand;
+    nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+    nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+    return simplifiedVersion;
 }
 
-int getRoot() {
+int nthRoot::getRoot() {
     return root;
 }
 
-int getOperand() {
+int nthRoot::getOperand() {
     return operand;
 }
 
-int getCoefficient() {
+int nthRoot::getCoefficient() {
     return coefficient;
 }
 
-void setCoefficient(int n) {
+void nthRoot::setCoefficient(int n) {
     this->coefficient = n;
 }
 
-void setOperand(int n) {
+void nthRoot::setOperand(int n) {
     this->operand = n;
 }
 
-void setRoot(int n) {
+void nthRoot::setRoot(int n) {
     this->root = n;
 }
 ostream& nthRoot::print(std::ostream& output) const {
