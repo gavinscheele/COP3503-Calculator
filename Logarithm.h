@@ -1,9 +1,9 @@
 //
-//  Logarithm.h
-//  Calculator
+// Logarithm.h
+// Calculator
 //
-//  Created by Gavin Scheele on 3/27/14.
-//  Copyright (c) 2014 Gavin Scheele. All rights reserved.
+// Created by Gavin Scheele on 3/27/14.
+// Copyright (c) 2014 Gavin Scheele. All rights reserved.
 //
 
 #ifndef __Calculator__Logarithm__
@@ -14,9 +14,11 @@
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
+    Logarithm::Logarithm(int base, Expression* eOperand);
+    Logarithm::Logarithm(Expression* eBase, int operand){
+    Logarithm::Logarithm(Expression* eBase, Expression* eOperand)
     ~Logarithm();
     Expression simplify();
-    
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
