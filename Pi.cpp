@@ -76,7 +76,8 @@ Expression* Pi::multiply(Expression* a){
             return d;
             }
         }
-
+        //need to return something if its not these two cases. Added return c.
+        return c;
 	}
 
 
@@ -102,6 +103,8 @@ Expression* Pi::divide(Expression* a){
             return d;
             }
         }
+    //need to return something if neither of these cases are met. added return c.
+    return c;
 
 	}
 
