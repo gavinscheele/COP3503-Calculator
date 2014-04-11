@@ -15,8 +15,8 @@ class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
     ~Logarithm();
-    Expression simplify();
-    
+    Expression* simplify();
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
