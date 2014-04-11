@@ -34,7 +34,8 @@ bool Exponential::canExponentiate() {
     }else if(base->type == "exponential"){
 	Exponential* ex = (exponential *) base;
 	this->exponent *= ex->getExponent();
-	ex->setExponent(1);			// may need to be corrected because exponent is not an int
+	Integer* numSum = new Integer (1);
+	ex->getExponent->setNumerator(numSum);
         return false;			// false is returned because the base itself would have already been exponentiated if it were possible
 
     }else if(base->type == "integer"){
@@ -145,12 +146,6 @@ Expression* Exponential::subtract(Expression* a){
     return this;
 }
 Expression* Exponential::multiply(Expression* a){
-    /*Expression* c = this;
-    if (*a == *c) //might require overriding
-    {
-        exponent += a->getExponent;
-    }
-    return c;*/
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
@@ -178,12 +173,6 @@ Expression* Exponential::multiply(Expression* a){
     return this;
 }
 Expression* Exponential::divide(Expression* a){
-    /*Expression* c = this;
-    if (*a == *c) //might require overriding
-    {
-        c->getExponent -= a->getExponent;
-    }
-    return c;*/
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
