@@ -18,12 +18,7 @@ public:
     Logarithm::Logarithm(Expression* eBase, int operand){
     Logarithm::Logarithm(Expression* eBase, Expression* eOperand)
     ~Logarithm();
-<<<<<<< HEAD
     Expression* simplify();
-
-=======
-    Expression simplify();
->>>>>>> 1ad63953519a972b908370cd7401ffca05cc861c
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
