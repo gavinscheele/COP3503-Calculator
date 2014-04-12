@@ -52,8 +52,8 @@ Expression* nthRoot::simplify(){
             j++;
         }
         if (count >= root) {
-            coefficient *= (factors[i] ^ (count/root)); //how do I make count/root round down?
-            operand = operand / (factors[i] ^ (count - (count % root)))
+            coefficient *= (factors[i] ^ (count/root)); //how do I make count/root round down?      //if you make count/root an int, it will cancatenate the decimal.
+            operand = operand / (factors[i] ^ (count - (count % root)))             //so if the value was 1.6, 1.9, or 1.2 it would just be 1.
         }
         i = j + 1;
     }
