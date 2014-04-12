@@ -38,55 +38,84 @@ Logarithm::~Logarithm(){
     delete this; 
 }
 
+
 Expression* Logarithm::simplify(){
     	if (base && operand) {
 		if (base == operand){
 			Expression* simplified = new Integer(1);
 			return simplified; }
-		else if(base == (1/operand)){
+		else if(base == (1/operand){
 			Expression* simplified = new Integer(-1);
 			return simplified;}
 }
 		else{
-			int x = operand;
-			int primefactors[] = primeFactorization(x);     
+			int x= operand;
+			int primefactors[] = primeFactorization(x);
 			int size;
-			size = sizeof primefactors/sizeof (int);	//compiler says you cant use sizeof for int[]
+			size = sizeof primefactors/sizeof (int);			
 			Expression* finalsimp;
 
-			for (int i = 0; i <= size-1; i++) {
+			for (i = 0; i <= size-1; i++) {
 			if (size ==1) {
 			finalsimp = new Logarithm(base,operand);	
-            }
-			Expression* seperatedlogs[size]= new Logarithm(base,primefactors[i]) ;     //error here. "variable-sized object may not be initialized
+}
+			Expression* seperatedlogs[size]= new Logarithm(base,primefactors[i]) ;
 			if (seperatedlogs[size]->simplify()  != seperatedlogs[i]){
 				Expression* simp = seperatedlogs[i]->simplify()
 				seperatedlogs[i]= simp;
 			}
-			for (int i = 0; i<= size-2; i++){
-				finalsimp= seperatedlogs[size]->add(seperatedlogs[i+1]
+			for (i = 0; i<= size-2; i++){
+				finalsimp= seperatedlogs[size]->add(seperatedlogs[i+1])
 			}	
 			return finalsimp;
 }
 }
-	if (base && eOperand) {
-	
+	else if (base && eOperand) {
+		// INSERT (call solver) here on eOperand 
+		// create new array of eOperand simplified values
+		// if array is of size 1, check if that value equals eOperand
+		// if so return the original logarithm back b/c cannot be simplified
+		// for all other scenarios, run simplify method again for each log in array
 }	
-	if (eBase && operand) {
+	else if (eBase && operand) {
+		// ISERT (call solver) here on eBase
+		// For the most part will only be able to specifically deal with
+		// eBase being Pi or e, but will still need to use solver first
+		// in case there is an entry for eBase being something that can first be 
+		// simplified. Using the simplified eBase, use conversion formula change of base
+		// to set both values as log base (?? i think it should be 2, but not sure whats the
+		// best way of determining that. Maybe it would be smart to set base equal to whatever the 		// original operand is in order to automatically change that value to 1.)
+		// Implement change of base formula.
+		// Call simplify on both the bottom and top logarithms.
+		// Return the result of simplify. 
+		
 }
-	if (eBase && eOperand){
+	else if (eBase && eOperand){
 		if (eBase == eOperand){
 			Expression* simplified = new Integer(1);
 			return simplified; }
-		else if(eBase == (1/eOperand){      //error here. "Invalid operands to binary expression ('int' and 'Expression *')
+		else if(eBase == (1/eOperand){
 			Expression* simplified = new Integer(-1);
 			return simplified;}
-}
-			
-//you have mismatched {} somewhere. You need to add a } or remove a { somewhere in the method above. Its hard to tell where because of the formatting
+}	 
+		// below, attempting to take nth root of eOperand in order to see if pi
+		// is the nth root of this eOperand. If so, n will be returned.
+		else if (eBase == pi && nrt(eOperand)== pi){
+			// not sure how, but take nth root of eOperand and find its value.
+			// use this value as n
+			Expression* simplified = new Integer(n);
+			return simplified; } 
+		else if (eBase == euler && nrt(eOperand) == euler) {
+			// again not sure exactly how, but take nth root of eOperand to see if
+			// euler is the nth root of the eOperand. If so n will be returned. 
+			Expression* simplified = new Integer(n);
+			return simplified; }
+		else{ 
+		// INSERT (call solver) here on eOperand and eBase	
+		// Call simplify method again on newly created logarithm after calling solver on the logarithm
 		
-	     
 }
+
 
 int[] Logarithm::primeFactorization(int n) {
     int k = 0; 
