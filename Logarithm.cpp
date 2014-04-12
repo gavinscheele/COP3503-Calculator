@@ -71,7 +71,16 @@ Expression* Logarithm::simplify(){
 	if (base && eOperand) {
 	
 }	
-		 
+	if (eBase && operand) {
+}
+	if (eBase && eOperand){
+		if (eBase == eOperand){
+			Expression* simplified = new Integer(1);
+			return simplified; }
+		else if(eBase == (1/eOperand){
+			Expression* simplified = new Integer(-1);
+			return simplified;}
+}	 
 			
 
 		
