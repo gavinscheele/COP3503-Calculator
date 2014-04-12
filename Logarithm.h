@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "Expression.h"
+#include "Integer.h"
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
@@ -24,6 +25,7 @@ public:
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
+    string toString();
 private:
     int base;
     int operand;

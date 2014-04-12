@@ -43,26 +43,26 @@ Expression* Logarithm::simplify(){
 		if (base == operand){
 			Expression* simplified = new Integer(1);
 			return simplified; }
-		else if(base == (1/operand){
+		else if(base == (1/operand)){
 			Expression* simplified = new Integer(-1);
 			return simplified;}
 }
 		else{
-			int primefactors[] = primeFactorization(x);
+			int primefactors[] = primeFactorization(x);     // x is not a declared variable
 			int size;
-			size = sizeof primefactors/sizeof (int);			
+			size = sizeof primefactors/sizeof (int);	//compiler says you cant use sizeof for int[]
 			Expression* finalsimp;
 
-			for (i = 0; i <= size-1; i++) {
+			for (int i = 0; i <= size-1; i++) {
 			if (size ==1) {
 			finalsimp = new Logarithm(base,operand);	
-}
-			Expression* seperatedlogs[i]= new Logarithm(base,primefactors[i]) ;
+            }
+			Expression* seperatedlogs[i]= new Logarithm(base,primefactors[i]) ;     //error here. "variable-sized object may not be initialized
 			if (seperatedlogs[i]->simplify()  != seperatedlogs[i]){
 				Expression* simp = seperatedlogs[i]->simplify()
 				seperatedlogs[i]= simp;
 			}
-			for (i = 0; i<= size-2; i++){
+			for (int i = 0; i<= size-2; i++){
 				finalsimp= seperatedlogs[i]->add(seperatedlogs[i+1]
 			}	
 			return finalsimp;
@@ -77,12 +77,12 @@ Expression* Logarithm::simplify(){
 		if (eBase == eOperand){
 			Expression* simplified = new Integer(1);
 			return simplified; }
-		else if(eBase == (1/eOperand){
+		else if(eBase == (1/eOperand){      //error here. "Invalid operands to binary expression ('int' and 'Expression *')
 			Expression* simplified = new Integer(-1);
 			return simplified;}
-}	 
+}
 			
-
+//you have mismatched {} somewhere. You need to add a } or remove a { somewhere in the method above. Its hard to tell where because of the formatting
 		
 	     
 }
@@ -106,7 +106,7 @@ int[] Logarithm::primeFactorization(int n) {
     }
     return factors;
 }
-
+                
 
 Expression* Logarithm::add(Expression* a){
     Expression* c = this;
@@ -125,10 +125,13 @@ Expression* Logarithm::divide(Expression* a){
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log" << this->base << "(" << this->operand << ")";
+    output << "Log_" << this->base << ":" << this->operand;
     return output;
 }
-
+string Logarithm::toString(){
+    stringstream ss;
+    ss << "Log_" << this->base << "(" << this->operand;
+};
 
 
 // might need later had in simplify metthod not sure
