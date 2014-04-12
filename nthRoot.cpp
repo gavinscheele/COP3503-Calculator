@@ -13,7 +13,6 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->operand = operand;
     this->root = root;
     this->coefficient = coefficient;
-   // int factors[50];    you don't need this in the constructor
 }
 
 nthRoot::~nthRoot() {
@@ -42,6 +41,7 @@ int* nthRoot::primeFactorization(int n) {
 }
 
 Expression* nthRoot::simplify(){
+    //if coefficient == 0 then return 0?
     int* factorsArray = primeFactorization(operand);
     int i = 0;
     while (i <= factors.size()) {
@@ -57,10 +57,16 @@ Expression* nthRoot::simplify(){
         }
         i = j + 1;
     }
-    Expression* newRoot = new nthRoot(root, operand, coefficient);
-   // this.~nthRoot();    //what ? you never call a deconstructor. You use delete
-    //Expression* c = newroot;
-    return newRoot;
+    if (operand == 1) {
+        Integer newInt = new Integer(coefficient);
+        return newInt;
+    }
+    else {
+        Expression* newRoot = new nthRoot(root, operand, coefficient);
+        delete this;  //is this necessary?
+        return newRoot;
+    }
+    
 }
 
 
