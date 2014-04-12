@@ -48,7 +48,8 @@ Expression* Logarithm::simplify(){
 			return simplified;}
 }
 		else{
-			int primefactors[] = primeFactorization(x);     // x is not a declared variable
+			int x = operand;
+			int primefactors[] = primeFactorization(x);     
 			int size;
 			size = sizeof primefactors/sizeof (int);	//compiler says you cant use sizeof for int[]
 			Expression* finalsimp;
@@ -57,13 +58,13 @@ Expression* Logarithm::simplify(){
 			if (size ==1) {
 			finalsimp = new Logarithm(base,operand);	
             }
-			Expression* seperatedlogs[i]= new Logarithm(base,primefactors[i]) ;     //error here. "variable-sized object may not be initialized
-			if (seperatedlogs[i]->simplify()  != seperatedlogs[i]){
+			Expression* seperatedlogs[size]= new Logarithm(base,primefactors[i]) ;     //error here. "variable-sized object may not be initialized
+			if (seperatedlogs[size]->simplify()  != seperatedlogs[i]){
 				Expression* simp = seperatedlogs[i]->simplify()
 				seperatedlogs[i]= simp;
 			}
 			for (int i = 0; i<= size-2; i++){
-				finalsimp= seperatedlogs[i]->add(seperatedlogs[i+1]
+				finalsimp= seperatedlogs[size]->add(seperatedlogs[i+1]
 			}	
 			return finalsimp;
 }
