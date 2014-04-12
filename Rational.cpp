@@ -150,7 +150,7 @@ Expression* Rational::add(Expression* a){
     if(a->type == "integer"){
         
         Integer *b = (Integer *)a;
-        if(this->numerator){
+        if(this->numerator || this->numerator == 0){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
             this->add(c);
         }
@@ -199,7 +199,7 @@ Expression* Rational::add(Expression* a){
 Expression* Rational::subtract(Expression* a){
     if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        if(this->numerator){
+        if(this->numerator || this->numerator == 0){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
             this->subtract(c);
         }
@@ -245,7 +245,7 @@ Expression* Rational::subtract(Expression* a){
 Expression* Rational::multiply(Expression* a){
     if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        if(this->numerator){
+        if(this->numerator || this->numerator == 0){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
             c->syncIntToExp();
             Rational *z = (Rational *)this->multiply(c);
@@ -272,7 +272,7 @@ Expression* Rational::multiply(Expression* a){
 Expression* Rational::divide(Expression* a){
     if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        if(this->numerator){
+        if(this->numerator || this->numerator == 0){
             Rational *c = new Rational(b->getValue() * denominator, denominator);
             this->divide(c);
         }
@@ -295,6 +295,7 @@ Expression* Rational::divide(Expression* a){
     else{
         cout << "type not recognized" << endl;
     }
+    this->simplify(1);
     return this;
 }
 void Rational::syncExpToInt(){
