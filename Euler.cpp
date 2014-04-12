@@ -76,6 +76,8 @@ Expression* Euler::multiply(Expression* a){
             return d;
             }
         }
+    
+    return c;   //added this line to silence error of not returning anything
 
 	}
 
@@ -102,6 +104,8 @@ Expression* Euler::divide(Expression* a){
             return d;
             }
         }
+    
+    return c;   //added this line to silence error of not returning anything
 
 	}
 
