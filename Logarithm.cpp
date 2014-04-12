@@ -51,21 +51,36 @@ Expression* Logarithm::simplify(){
 			int primefactors[] = primeFactorization(x);
 			int size;
 			size = sizeof primefactors/sizeof (int);			
+			Expression* finalsimp;
+
 			for (i = 0; i <= size-1; i++) {
-			Expression* seperatedlogs[i]= new Logarithm(base, primefactors[i]) ;
+			if (size ==1) {
+			finalsimp = new Logarithm(base,operand);	
+}
+			Expression* seperatedlogs[i]= new Logarithm(base,primefactors[i]) ;
 			if (seperatedlogs[i]->simplify()  != seperatedlogs[i]){
 				Expression* simp = seperatedlogs[i]->simplify()
 				seperatedlogs[i]= simp;
 			}
-			Expression* finalsimp;
 			for (i = 0; i<= size-2; i++){
 				finalsimp= seperatedlogs[i]->add(seperatedlogs[i+1]
 			}	
 			return finalsimp;
-
 }
-		
-		 
+}
+	if (base && eOperand) {
+	
+}	
+	if (eBase && operand) {
+}
+	if (eBase && eOperand){
+		if (eBase == eOperand){
+			Expression* simplified = new Integer(1);
+			return simplified; }
+		else if(eBase == (1/eOperand){
+			Expression* simplified = new Integer(-1);
+			return simplified;}
+}	 
 			
 
 		

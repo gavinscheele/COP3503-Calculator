@@ -34,7 +34,8 @@ bool Exponential::canExponentiate() {
     }else if(base->type == "exponential"){
 	Exponential* ex = (exponential *) base;
 	this->exponent *= ex->getExponent();
-	ex->setExponent(1);			// may need to be corrected because exponent is not an int
+	Integer* numSum = new Integer (1);
+	ex->getExponent->setNumerator(numSum);
         return false;			// false is returned because the base itself would have already been exponentiated if it were possible
 
     }else if(base->type == "integer"){
@@ -55,11 +56,11 @@ bool Exponential::canExponentiate() {
 
     }else if(base->type == "rational"){
         Rational* r = (rational *) base;
-        if (r->getNumerator->type == "integer") {
-          // numerator is an integer, more code goes here 
-        } 
-        if (r->getDenominator->type == "integer") {
-            // denominator is an integer, more code goes here
+        if (r->getNumerator->type == "integer" && r->getDenominator->type == "integer") {
+          Exponential* nu = new Exponential(r->getNumerator, this->exponent);
+          r->setNumerator(nu);
+          Exponential* de = new Exponential(r->getDenominator, this->exponent);
+          r->setDenominator(de);
         }
 
     }else{
@@ -145,12 +146,6 @@ Expression* Exponential::subtract(Expression* a){
     return this;
 }
 Expression* Exponential::multiply(Expression* a){
-    /*Expression* c = this;
-    if (*a == *c) //might require overriding
-    {
-        exponent += a->getExponent;
-    }
-    return c;*/
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
@@ -178,12 +173,6 @@ Expression* Exponential::multiply(Expression* a){
     return this;
 }
 Expression* Exponential::divide(Expression* a){
-    /*Expression* c = this;
-    if (*a == *c) //might require overriding
-    {
-        c->getExponent -= a->getExponent;
-    }
-    return c;*/
     if(a->type == "euler"){
 
     }else if(a->type == "exponential"){
@@ -215,9 +204,25 @@ Rational* Exponential::getExponent() {
     return exponent;
 }
 
-*Expression Exponential::getBase() {
+Expression* Exponential::getBase() {
     return base;
 }
+
+Integer* Exponential::getExnu() {
+	return exnu;
+}
+
+Integer* Exponential::getExde() {
+	return exde;
+}
+
+void Exponential::setExnu(Integer* n) {
+	exnu = n;
+}
+
+void Exponential::setExde(Integer* n) {
+	exde = n;
+} 
 
 void Exponential::setExponent(Rational e) {
     exponent = e;
