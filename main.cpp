@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-    Rational *a = new Rational(0,2);
+    Rational *a = new Rational(2,0);
     Rational *b = new Rational(1,-8);
     Rational *c = new Rational(2,1);
     Integer *d = new Integer(4);

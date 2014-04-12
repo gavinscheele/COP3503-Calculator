@@ -74,15 +74,24 @@ Expression* Rational::simplify(int num){
     else if(this->numerator % this->denominator == 0 ){   //the numerator and denominator are evenly divisible
         this->numerator = this->numerator/this->denominator;
         this->denominator = 1;
+        syncExpToInt();
     }
     else if(this->denominator % this->numerator == 0){
         if(this->numerator < 0){
             this->denominator = this->denominator/(-this->numerator);
+            syncExpToInt();
         }else{
             this->denominator = this->denominator/this->numerator;
+            syncExpToInt();
         }
-        if(this->numerator < 0) this->numerator = -1;
-        else this->numerator = 1;
+        if(this->numerator < 0){
+            this->numerator = -1;
+            syncExpToInt();
+        }
+        else{
+            this->numerator = 1;
+            syncExpToInt();
+        }
 
     }
     
@@ -103,34 +112,28 @@ Expression* Rational::simplify(int num){
     return this;
 }
 Expression* Rational::simplify(Expression* eNumerator){
-
+    if(this->eNumerator->type == eNumerator->type){
+        this->numerator = 1;
+        this->denominator = 1;
+        syncExpToInt();
+    }
     return this;
 }
 Rational* Rational::findCommonDenominator(Rational* a){
-    
-    //      a = -2/1
-    //      this = -7/4
-    //
+
     if(a->hasIntegerOperands()){
-        int aNum = a->getNumerator();           // aNum = -2
-        int aDen = a->getDenominator();         //aDen = 1
-        aNum *= this->denominator;              // aNum = -8
-        this->numerator *= aDen;                // numerator = 1
-        Integer *num = new Integer(this->numerator);    //num = 1
-        eNumerator = num;                               //eNumerator = 1
-        aDen *= this->denominator;                      // aDen = 4
-        this->denominator *= a->getDenominator();       //denominator = 4
-        Integer *den = new Integer(this->denominator); //den = 4
-        eDenominator = den;                             //edenominator = 4
-        a->setNumerator(new Integer(aNum));             //numerator = -2
-        a->setDenominator(new Integer(aDen));           //denominator = 1
+        int aNum = a->getNumerator();
+        int aDen = a->getDenominator();
+        aNum *= this->denominator;
+        this->numerator *= aDen;
+        aDen *= this->denominator;
+        this->denominator *= a->getDenominator();
+        syncExpToInt();
+
+        a->setNumerator(new Integer(aNum));
+        a->setDenominator(new Integer(aDen));
         
-        Integer *v = (Integer *)a->geteNumerator();
-        a->numerator = v->getValue();
-        
-        Integer *w = (Integer *)a->geteDenominator();
-        a->denominator = w->getValue();
-        //a->simplify(1);
+        a->syncIntToExp();
     }
     return a;
 }
