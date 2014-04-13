@@ -72,19 +72,33 @@ Expression* nthRoot::simplify(){
 
 Expression* nthRoot::add(Expression* a) {
     nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient();    
-    int newCoefficient = asCoefficient + coefficient;
-    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-    return newNthRoot;
+    int asCoefficient = b->getCoefficient(); 
+    int asOperand = b->getOperand();
+    int asRoot = b->getRoot();
+    if (root == asRoot && operand == asOperand) {
+        int newCoefficient = asCoefficient + coefficient;
+        nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+        return newNthRoot;
+    }
+    else {
+        return this;
+    }
     
 }
 
 Expression* nthRoot::subtract(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                          
-    int asCoefficient = b->getCoefficient();
-    int newCoefficient = coefficient - asCoefficient;
-    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-    return newNthRoot;
+    nthRoot *b = (nthRoot *)a;
+    int asCoefficient = b->getCoefficient(); 
+    int asOperand = b->getOperand();
+    int asRoot = b->getRoot();
+    if (root == asRoot && operand == asOperand) {
+        int newCoefficient = coefficient - asCoefficient;
+        nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+        return newNthRoot;
+    }
+    else {
+        return this;
+    }
 }
 
 Expression* nthRoot::multiply(Expression* a) {
