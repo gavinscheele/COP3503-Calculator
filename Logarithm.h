@@ -13,6 +13,7 @@
 #include "Expression.h"
 #include "Integer.h"
 #include <vector>
+#include <math.h>
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
@@ -32,6 +33,8 @@ private:
     int operand;
     Expression* eBase;
     Expression* eOperand;
-    int[] primeFactorization(int n);
+    int* primeFactorization(int n);
+    int factors[50];
+
 };
 #endif /* defined(__Calculator__Logarithm__) */

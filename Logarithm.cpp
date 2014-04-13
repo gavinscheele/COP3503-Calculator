@@ -51,10 +51,10 @@ Expression* Logarithm::simplify(){
         }
 		else{
 			int x= operand;
-			int primefactors[] = primeFactorization();
+			int *primefactors = primeFactorization(x);
 			int size = 0;
-			size = sizeof (primefactors[])/sizeof (int);
-			Expression* finalsimp;
+			size = sizeof (primefactors)/sizeof (int);
+			Expression* finalsimp = nullptr;
             
             vector<Logarithm *> seperatedLogs;
 
@@ -123,14 +123,14 @@ Expression* Logarithm::simplify(){
 }
                 
 
-int[] Logarithm::primeFactorization(int n) {
+int* Logarithm::primeFactorization(int n) {
     int k = 0; 
     while (n%2 == 0) {
         factors[k] = 2;
         k++;
         n = n/2;
     }
-    for (i = 3; i <= sqrt(n); i = i + 2) {
+    for (int i = 3; i <= sqrt(n); i = i + 2) {
         while (n%1 == 0) {
             factors[k] = 2;
             k++;
