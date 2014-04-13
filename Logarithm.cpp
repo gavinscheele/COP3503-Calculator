@@ -44,11 +44,11 @@ Expression* Logarithm::simplify(){
 		if (base == operand){
 			Expression* simplified = new Integer(1);
 			return simplified;
-        }
+		}
 		else if(base == (1/operand)){
 			Expression* simplified = new Integer(-1);
 			return simplified;}
-        }
+        
 		else{
 			int x= operand;
 			int *primefactors = primeFactorization(x);
@@ -71,11 +71,12 @@ Expression* Logarithm::simplify(){
             
 			for (int i = 0; i<= size-2; i++){
 				finalsimp= seperatedLogs.at(size)->add(seperatedLogs.at(i+1));
-			}	
+			}
+			}
 			return finalsimp;
             }
         }
-    }
+    
 	else if (base && eOperand) {
 		// INSERT (call solver) here on eOperand 
 		// create new array of eOperand simplified values
