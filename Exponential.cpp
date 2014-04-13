@@ -75,29 +75,31 @@ bool Exponential::canExponentiate() {
     return false;
 }
 
-Expression* Exponential::exponentiate(){
-    Expression* toReturn = base;
+void Exponential::exponentiate(){
+	
     Expression* constantBase = base;
     if (this->exponent->getNumerator()==0) { 
-        Integer* ret = new Integer(1); 
-        return ret;
+        Integer* oneInt = new Integer(1); 
+        Rational* oneRat = new Rational(1, 1);
+       this->exponent=oneRat;
+       this->base=oneInt;
+       
     }
     bool toFlip = false;
-    if (exnu->getValue()<0) {  
+    if (exnu->getValue()<0) {  				
 	    exnu->setValue(exnu->getValue()*-1);
             toFlip = true;
             //handles negative exponents
     }
-    Expression* e = this;                           //unused variable e
-    for (int i = 1; i < exnu->getValue(); i++) {
-        toReturn->multiply(constantBase);
+    while (exponent->getNumerator()>1)
+    	{
+        base->multiply(constantBase);
+        exponent->setNumerator(exponent->getNumerator()-1);
     }
-    exnu = new Integer(1);
     if (toFlip) {
-	Rational* r = new Rational(exnu, toReturn);
-        return r;
-    }
-    return toReturn;                               
+    	Rational* mouse = new Rational(oneInt, base);
+    	base = mouse;
+    }                              
 
 }
 
