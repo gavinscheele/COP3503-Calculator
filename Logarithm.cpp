@@ -32,15 +32,31 @@ Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->eOperand = eOperand;
 }
 
-int Logarithm::getBase();
-int Logarithm::getOperand();
-Expression* Logarithm::getEBase();
-Expression* Logarithm::getEOperand();
+int Logarithm::getBase(){
+	return base;
+}
+int Logarithm::getOperand(){
+	return operand;
+}
+Expression* Logarithm::getEBase(){
+	return eBase;
+}
+Expression* Logarithm::getEOperand(){
+	return eOperand;
+}
 
-void Logarithm::setBase(int x);
-void Logarithm::setOperand(int x);
-void Logarithm::setEBase(Expression* x);
-void Logarithm::setEOperand(Expression* x);
+void Logarithm::setBase(int x){
+	this->base = x;
+}
+void Logarithm::setOperand(int x){
+	this->operand = x;
+}
+void Logarithm::setEBase(Expression* x){
+	this->eBase = x;
+}
+void Logarithm::setEOperand(Expression* x){
+	this->eOperand = x;
+}
 
 Logarithm::~Logarithm(){
     delete this; 
