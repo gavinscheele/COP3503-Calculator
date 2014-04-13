@@ -9,6 +9,9 @@
 
 #include "Rational.h"
 Rational::Rational(int numerator, int denominator){     //constructor for rational with two integers
+    if (denominator == 0) {
+        throw runtime_error("Cannot Divide By Zero");
+    }
     this->type = "rational";
     this->numerator = numerator;
     this->denominator = denominator;
@@ -18,6 +21,14 @@ Rational::Rational(int numerator, int denominator){     //constructor for ration
 
 }
 Rational::Rational(Expression* numerator, Expression* denominator){     //constructor for rational that has more complicated numerator and/or denominator
+    
+    if (denominator->type == "integer") {
+        Integer *a = (Integer *)denominator;
+        if(a->getValue() == 0){
+            throw runtime_error("Cannot Divide By Zero");
+        }
+    }
+    
     this->type = "rational";
     if (numerator->type == denominator->type && numerator->type != "integer") {
         this->eNumerator = new Integer(1);
@@ -112,10 +123,27 @@ Expression* Rational::simplify(int num){
     return this;
 }
 Expression* Rational::simplify(Expression* eNumerator){
-    if(this->eNumerator->type == eNumerator->type){
-        this->numerator = 1;
-        this->denominator = 1;
-        syncExpToInt();
+    if(this->eNumerator->type == this->eDenominator->type){
+        if(this->eNumerator->type == "euler"){
+            Euler *num = (Euler *)eNumerator;
+            Euler *den = (Euler *)eDenominator;
+            eNumerator = num->getCoefficient();
+            eDenominator = den->getCoefficient();
+            simplify(1);
+        }else if(this->eNumerator->type == "pi"){
+            Pi *num = (Pi *)eNumerator;
+            Pi *den = (Pi *)eDenominator;
+            eNumerator = num->getCoefficient();
+            eDenominator = den->getCoefficient();
+            simplify(1);
+        }else if(this->eNumerator->type == "nthRoot"){
+            nthRoot *num = (nthRoot *)eNumerator;
+            nthRoot *den = (nthRoot *)eDenominator;
+            eNumerator = num->getCoefficient();
+            eDenominator = den->getCoefficient();
+            simplify(1);
+        }
+        syncIntToExp();
     }
     return this;
 }
