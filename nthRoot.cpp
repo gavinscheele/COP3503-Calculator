@@ -44,8 +44,7 @@ Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
     //if operand < 0 throw an error
     if ((root % 2) == 0 && operand < 0) {   //this needs to be made right
-        cout<<"Error: Can't take the root of a negative number \n Source" << this->toString(); //needs to say, for example, Source: Sqrt:-1
-        return this;
+        throw runtime_error("unreal answer");
     }
     factors = this->primeFactorization();
     int i = 0;
