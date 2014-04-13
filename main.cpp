@@ -23,7 +23,7 @@ int main(int argc, char * argv[])
 //    cout << *a->multiply(e) << endl;
 //    cout << *a->divide(b) << endl;
     
-    Solver *s = new Solver("3 - 300");
+    Solver *s = new Solver("");
     cout << s->solve() << endl;;
     
     

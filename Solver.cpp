@@ -151,27 +151,27 @@ string Solver::evaluateString(){
             //check function call and call appropriate method
             if(token == "+"){
                 if(e1->canAdd(e2)){
-                    e1->add(e2);
-                    stk.push(e1->toString());
-                    out = e1->toString();
+                    Expression *result = e1->add(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "+" + e2->exp);
                     out += e1->exp + " + " + e2->exp;
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
-                    e1->subtract(e2);
-                    stk.push(e1->toString());
-                    out = e1->toString();
+                   Expression *result =  e1->subtract(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "-" + e2->exp);
                     out += e1->exp + " - " + e2->exp;
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
-                    e1->multiply(e2);
-                    stk.push(e1->toString());
-                    out = e1->toString();
+                    Expression *result = e1->multiply(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "*" + e2->exp);
                     out += e1->exp + " * " + e2->exp;
@@ -185,12 +185,16 @@ string Solver::evaluateString(){
                         e1 = new Rational(e1,e2);
                         stk.push(e1->toString());
                         out += e1->toString();
+                    }else if(e1->canDivide(e2)){
+                        Expression *result = e1->divide(e2);
+                        stk.push(result->toString());
+                        out = result->toString();
                     }
                 }
                 else if(e1->canDivide(e2)){
-                    e1->divide(e2);
-                    stk.push(e1->toString());
-                    out = e1->toString();
+                    Expression *result = e1->divide(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }
             }else if(token == "^"){
              //   Expression *a = new Exponential(e1,e2);
