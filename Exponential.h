@@ -26,7 +26,7 @@ public:
     Integer* getExde();
     void setExnu(Integer* n);
     void setExde(Integer* n);
-    void setExponent(Rational e);
+    void setExponent(Rational* e);
     void setBase(Expression* e);
     bool canExponentiate();
     string toString();

@@ -23,7 +23,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     }
     this->exnu = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    	this* = exponentiate();
+    	this* = exponentiate();                 //cant assign this
     }
 }
 Exponential::~Exponential(){
@@ -88,7 +88,7 @@ Expression* Exponential::exponentiate(){
             toFlip = true;
             //handles negative exponents
     }
-    Expression* e = this;
+    Expression* e = this;                           //unused variable e
     for (int i = 1; i < exnu->getValue(); i++) {
         toReturn->multiply(constantBase);
     }
@@ -173,7 +173,7 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator->multiply(this*));
+	r->setNumerator(r->getNumerator()->multiply(this*));        //
 	return r;                                       
 	
     }else{
@@ -187,7 +187,7 @@ Expression* Exponential::divide(Expression* a){
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
 	if (this->base == ex->getBase()) {
-		this->exponent -= ex->getExponent(); //warning
+		this->exponent->subtract(ex->getExponent());
 	}
 
     }else if(a->type == "integer"){
@@ -200,7 +200,7 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setDenominator(r->getDenominator->multiply(this*));
+	r->setDenominator(r->getDenominator->multiply(this*));      //
 	return r;                                                  
 
     }else{
@@ -233,17 +233,19 @@ void Exponential::setExde(Integer* n) {
 	exde = n;
 } 
 
-void Exponential::setExponent(Rational e) {
+void Exponential::setExponent(Rational* e) {
     exponent = e;
 }
 
-void Exponential::setBase(*Expression e) {
+void Exponential::setBase(Expression* e) {
     base = e;
 }
 
 string Exponential::toString() {
-    string str = base + "^" + exponent;
-    return str;
+  //  string str = base + "^" + exponent;
+    stringstream str;
+    str << base << "^" << exponent;
+    return str.str();
 }
 
 
