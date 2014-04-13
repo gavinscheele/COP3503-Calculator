@@ -125,22 +125,22 @@ Expression* Rational::simplify(int num){
 Expression* Rational::simplify(Expression* eNumerator){
     if(this->eNumerator->type == this->eDenominator->type){
         if(this->eNumerator->type == "euler"){
-            Euler *num = (Euler *)eNumerator;
-            Euler *den = (Euler *)eDenominator;
-            eNumerator = num->getCoefficient();
-            eDenominator = den->getCoefficient();
+         //   Euler *num = (Euler *)eNumerator;
+         //   Euler *den = (Euler *)eDenominator;
+         //   eNumerator = num->getCoefficient();
+         //   eDenominator = den->getCoefficient();
             simplify(1);
         }else if(this->eNumerator->type == "pi"){
-            Pi *num = (Pi *)eNumerator;
-            Pi *den = (Pi *)eDenominator;
-            eNumerator = num->getCoefficient();
-            eDenominator = den->getCoefficient();
+         //   Pi *num = (Pi *)eNumerator;
+         //   Pi *den = (Pi *)eDenominator;
+         //   eNumerator = num->getCoefficient();
+         //   eDenominator = den->getCoefficient();
             simplify(1);
         }else if(this->eNumerator->type == "nthRoot"){
-            nthRoot *num = (nthRoot *)eNumerator;
-            nthRoot *den = (nthRoot *)eDenominator;
-            eNumerator = num->getCoefficient();
-            eDenominator = den->getCoefficient();
+          //  nthRoot *num = (nthRoot *)eNumerator;
+          //  nthRoot *den = (nthRoot *)eDenominator;
+          //  eNumerator = num->getCoefficient();
+          //  eDenominator = den->getCoefficient();
             simplify(1);
         }
         syncIntToExp();
