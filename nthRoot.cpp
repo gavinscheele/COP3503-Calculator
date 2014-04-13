@@ -52,8 +52,8 @@ Expression* nthRoot::simplify(){
             j++;
         }
         if (count >= root) {
-            coefficient *= (factors[i] ^ (count/root)); //how do I make count/root round down?      //if you make count/root an int, it will cancatenate the decimal.
-            operand = operand / (factors[i] ^ (count - (count % root)))             //so if the value was 1.6, 1.9, or 1.2 it would just be 1.
+            coefficient *= (factors[i] ^ (count/root)); 
+            operand = operand / (factors[i] ^ (count - (count % root))) 
         }
         i = j + 1;
     }
@@ -72,7 +72,7 @@ Expression* nthRoot::simplify(){
 
 Expression* nthRoot::add(Expression* a) {
     nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient();                //does the same thing you had, just a few syntax things
+    int asCoefficient = b->getCoefficient();    
     int newCoefficient = asCoefficient + coefficient;
     nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
     return newNthRoot;
@@ -80,7 +80,7 @@ Expression* nthRoot::add(Expression* a) {
 }
 
 Expression* nthRoot::subtract(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+    nthRoot *b = (nthRoot *)a;                          
     int asCoefficient = b->getCoefficient();
     int newCoefficient = coefficient - asCoefficient;
     nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
@@ -88,7 +88,7 @@ Expression* nthRoot::subtract(Expression* a) {
 }
 
 Expression* nthRoot::multiply(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+    nthRoot *b = (nthRoot *)a;                      
     int asCoefficient = b->getCoefficient();
     int newCoefficient = asCoefficient * coefficient;
     int newOperand = operand * asOperand;       //asOperand doesnt exist?
@@ -98,7 +98,7 @@ Expression* nthRoot::multiply(Expression* a) {
     return c;
 }
 Expression* nthRoot::divide(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                              //does the same thing you had, syntax
+    nthRoot *b = (nthRoot *)a;                  
 
     int asOperand = b->getOperand();
     int asCoefficient = b->getCoefficient();
