@@ -43,40 +43,46 @@ Expression* Logarithm::simplify(){
     	if (base && operand) {
 		if (base == operand){
 			Expression* simplified = new Integer(1);
-			return simplified; }
-		else if(base == (1/operand){
+			return simplified;
+        }
+		else if(base == (1/operand)){
 			Expression* simplified = new Integer(-1);
 			return simplified;}
-}
+        }
 		else{
 			int x= operand;
-			int primefactors[] = primeFactorization(x);
-			int size;
-			size = sizeof primefactors/sizeof (int);			
+			int primefactors[] = primeFactorization();
+			int size = 0;
+			size = sizeof (primefactors[])/sizeof (int);
 			Expression* finalsimp;
+            
+            vector<Logarithm *> seperatedLogs;
 
-			for (i = 0; i <= size-1; i++) {
+			for (int i = 0; i <= size-1; i++) {
 			if (size ==1) {
-			finalsimp = new Logarithm(base,operand);	
-}
-			Expression* seperatedlogs[size]= new Logarithm(base,primefactors[i]) ;
-			if (seperatedlogs[size]->simplify()  != seperatedlogs[i]){
-				Expression* simp = seperatedlogs[i]->simplify()
-				seperatedlogs[i]= simp;
+                finalsimp = new Logarithm(base,operand);
+            }
+            seperatedLogs.push_back(new Logarithm(base, primefactors[i]));
+            //Expression* seperatedlogs[size] = new Logarithm(base,primefactors[i]) ;
+			if (seperatedLogs.at(size)->simplify()  != seperatedLogs.at(i)){
+				Expression* simp = seperatedLogs.at(i)->simplify();
+				seperatedLogs.at(i) = (Logarithm *)simp;
 			}
-			for (i = 0; i<= size-2; i++){
-				finalsimp= seperatedlogs[size]->add(seperatedlogs[i+1])
+            
+			for (int i = 0; i<= size-2; i++){
+				finalsimp= seperatedLogs.at(size)->add(seperatedLogs.at(i+1));
 			}	
 			return finalsimp;
-}
-}
+            }
+        }
+    }
 	else if (base && eOperand) {
 		// INSERT (call solver) here on eOperand 
 		// create new array of eOperand simplified values
 		// if array is of size 1, check if that value equals eOperand
 		// if so return the original logarithm back b/c cannot be simplified
 		// for all other scenarios, run simplify method again for each log in array
-}	
+    }
 	else if (eBase && operand) {
 		// ISERT (call solver) here on eBase
 		// For the most part will only be able to specifically deal with
@@ -89,7 +95,7 @@ Expression* Logarithm::simplify(){
 		// Call simplify on both the bottom and top logarithms.
 		// Return the result of simplify. 
 		
-}
+    }
 	else if (eBase && eOperand){
 		if (eBase == eOperand){
 			Expression* simplified = new Integer(1);
@@ -115,7 +121,7 @@ Expression* Logarithm::simplify(){
 		// Call simplify method again on newly created logarithm after calling solver on the logarithm
 		
 }
-
+                
 
 int[] Logarithm::primeFactorization(int n) {
     int k = 0; 

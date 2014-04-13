@@ -12,6 +12,7 @@
 #include <iostream>
 #include "Expression.h"
 #include "Integer.h"
+#include <vector>
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
@@ -31,5 +32,6 @@ private:
     int operand;
     Expression* eBase;
     Expression* eOperand;
+    int[] primeFactorization(int n);
 };
 #endif /* defined(__Calculator__Logarithm__) */
