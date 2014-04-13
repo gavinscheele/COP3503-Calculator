@@ -25,18 +25,11 @@ std::string Solver::solve(){
     for(int i = 0; i < localExpression.size(); i ++){       //creates an array of expressions and operations
         if(localExpression.at(i) == ' '){
             temp = "";
-            if(count == 0){
-                temp.push_back(localExpression.at(0));
-                expressions.push_back(temp);
-            }
-            for(int j = count+1; j < i; j++){
-                if(j == 1){
-                    temp.push_back(localExpression.at(0));
-                }
+            for (int j = count; j < i; j++) {
                 temp.push_back(localExpression.at(j));
             }
-            if(i == 0) expressions.push_back(temp);
-            count = i;
+            expressions.push_back(temp);
+            count = i+1;
 
         }else if(i == localExpression.size()-1){
             temp = "";
@@ -49,18 +42,16 @@ std::string Solver::solve(){
     
     expressions.clear();
     count = 0;
-    for(int i = 0; i < output.size(); i ++){       //creates an array of expressions and operations in RPN form
+    
+    
+    for(int i = 0; i < output.size(); i ++){       //creates an array of expressions and operations
         if(output.at(i) == ' '){
             temp = "";
-            for(int j = count+1; j < i; j++){
-                if(j == 1){
-                    temp.push_back(localExpression.at(0));
-                }
+            for (int j = count; j < i; j++) {
                 temp.push_back(output.at(j));
             }
-            if(i != 0) expressions.push_back(temp);
-
-            count = i;
+            expressions.push_back(temp);
+            count = i+1;
             
         }else if(i == output.size()-1){
             temp = "";
@@ -70,7 +61,7 @@ std::string Solver::solve(){
     }
     
    // cout << output << endl;
-    
+    cout << evaluateString() << endl;
     return "Result:" + output; //+ evaluateString();
 }
 void Solver::shuntingYard(){
@@ -110,6 +101,9 @@ void Solver::shuntingYard(){
     while (!tokenStack.empty()) {
         output += " " + tokenStack.top();
         tokenStack.pop();
+    }
+    if(output.at(0) == ' '){
+        output.erase(0,1);
     }
 }
 bool Solver::isAnOperator(string tkn){
@@ -154,6 +148,7 @@ string Solver::evaluateString(){
                 if(e1->canAdd(e2)){
                     e1->add(e2);
                     stk.push(e1->exp);
+                    out += e1->toString();
                 }else{
                     stk.push(e1->exp + "+" + e2->exp);
                     out += e1->exp + " + " + e2->exp;
@@ -161,6 +156,7 @@ string Solver::evaluateString(){
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
                     e1->subtract(e2);
+                    out += e1->toString();
                 }else{
                     stk.push(e1->exp + "-" + e2->exp);
                     out += e1->exp + " - " + e2->exp;
@@ -168,6 +164,7 @@ string Solver::evaluateString(){
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
                     e1->multiply(e2);
+                    out += e1->toString();
                 }else{
                     stk.push(e1->exp + "*" + e2->exp);
                     out += e1->exp + " * " + e2->exp;
@@ -176,6 +173,7 @@ string Solver::evaluateString(){
             }else if(token == "/"){
                 if(e1->canDivide(e2)){
                     e1->divide(e2);
+                    out += e1->toString();
                 }else{
                     e1 = new Rational(e1,e2);
                     stk.push(e1->exp + "/" + e2->exp);
