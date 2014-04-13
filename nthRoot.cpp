@@ -7,7 +7,7 @@
 //
 
 #include "nthRoot.h"
-
+using namespace std;
 nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->type = "nthRoot";
     this->operand = operand;
@@ -42,6 +42,11 @@ int* nthRoot::primeFactorization(int n) {
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
+    //if operand < 0 throw an error
+    if ((root % 2) == 0 && operand < 0) {   //this needs to be made right
+        cout<<"Error: Can't take the root of a negative number"; //needs to say, for example, Source: Sqrt:-1
+        return this;
+    }
     factors = this->primeFactorization();
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
