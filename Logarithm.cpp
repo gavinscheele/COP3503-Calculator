@@ -9,11 +9,18 @@
 #include "Logarithm.h"
 
 Logarithm::Logarithm(int base, int operand){
+    if (operand == 0){
+    throw runtime_error("Logarithms of 0 are undefined.");
+    }
+    if (operand < 0) {
+    throw runtime_error("Logarithms of negative numbers are undefined.")
+    }
     this->type = "logarithm";
     this->base = base;
     this->operand = operand;
-    this->eOperand = new Integer(operand)
-    this->eBase = new Integer(base)
+    this->eOperand = new Integer(operand);
+    this->eBase = new Integer(base);
+    
 }
 
 Logarithm::Logarithm(int base, Expression* eOperand){
@@ -24,6 +31,12 @@ Logarithm::Logarithm(int base, Expression* eOperand){
 }
 
 Logarithm::Logarithm(Expression* eBase, int operand){
+    if (operand == 0){
+    throw runtime_error("Logarithms of 0 are undefined.");
+    }
+    if (operand < 0) {
+    throw runtime_error("Logarithms of negative numbers are undefined.")
+    }
     this->type = "logarithm";
     this->eBase = eBase;
     this->operand = operand;
