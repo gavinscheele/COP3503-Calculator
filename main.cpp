@@ -8,9 +8,9 @@
 
 #include "Solver.h"
 using namespace std;
-int main(int argc, char * argv[])  {//a main method shouldn't have perameters - at least I don't think so. -Dan
-    string choice = "z";
-    
+int main(int argc, char * argv[])  {//A main method shouldn't have perameters - at least I don't think so. -Dan
+    string choice = "z";            //Any things which would be parameters should be parameters in methods which
+                                    //are called from the main method.
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
            "a. Compute a new expression" << "\n" <<
