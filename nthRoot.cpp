@@ -42,12 +42,14 @@ int* nthRoot::primeFactorization(int n) {
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
-    int* factorsArray = primeFactorization(operand);
+//    int* factorsArray = primeFactorization(operand);
     int i = 0;
-    while (i <= factors.size()) {
+    int factorsSize = sizeof(factors)/sizeof(factors[0]);
+
+    while (i <= factorsSize) {
         int j = i;
         int count = 0;
-        while (j <= factors.size() && factors[j + 1] == factors[j]) {
+        while (j <= factorsSize && factors[j + 1] == factors[j]) {
             count++;
             j++;
         }
@@ -58,7 +60,7 @@ Expression* nthRoot::simplify(){
         i = j + 1;
     }
     if (operand == 1) {
-        Integer newInt = new Integer(coefficient);
+        Integer* newInt = new Integer(coefficient);
         return newInt;
     }
     else {
@@ -111,7 +113,7 @@ Expression* nthRoot::multiply(Expression* a) {
         int newOperand = operand * asOperand;       //asOperand doesnt exist?
         nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
-        return simplified Version;
+        return simplifiedVersion;
     }
     else {
         return this;
