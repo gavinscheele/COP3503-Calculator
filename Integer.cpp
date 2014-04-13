@@ -90,7 +90,8 @@ Expression* Integer::multiply(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->getNumerator()->multiply(this));
+        Integer *i = new Integer(b->getNumerator()*this->getValue());
+        b->setNumerator(i);
         //multiplies the Integer with the numerator of the Rational
         return b;
     }else{
