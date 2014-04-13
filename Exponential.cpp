@@ -23,7 +23,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     }
     this->exnu = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    	exponentiate();
+    	this* = exponentiate();
     }
 }
 Exponential::~Exponential(){
@@ -75,12 +75,12 @@ bool Exponential::canExponentiate() {
     return false;
 }
 
-void Exponential::exponentiate(){
+Expression* Exponential::exponentiate(){
     Expression* toReturn = base;
     Expression* constantBase = base;
     if (this->exponent->getNumerator()==0) { 
-        Integer* ret = new Integer(1);          //warning
-      //  return ret;
+        Integer* ret = new Integer(1); 
+        return ret;
     }
     bool toFlip = false;
     if (exnu->getValue()<0) {  
@@ -94,10 +94,10 @@ void Exponential::exponentiate(){
     }
     exnu = new Integer(1);
     if (toFlip) {
-	Rational* r = new Rational(exnu, toReturn);     //warning
-       // return r;
+	Rational* r = new Rational(exnu, toReturn);
+        return r;
     }
-    this* = toReturn;                               //
+    return toReturn;                               
 
 }
 
@@ -108,7 +108,8 @@ Expression* Exponential::add(Expression* a){
 	Exponential* ex = (Exponential *) a;
 	if (ex->getBase()==this->base) {
 		if (ex->getExponent()==this->exponent) {
-			this*=2;                                //
+			Integer* two = new Integer(2);
+			this->multiply(two);
 		}
 	}
 
@@ -134,7 +135,8 @@ Expression* Exponential::subtract(Expression* a){
 	Exponential* ex = (Exponential *) a;
 	if (ex->getBase()==this->base) {
 		if (ex->getExponent()==this->exponent) {
-			this*=0;                                //
+			Integer* zero = new Integer(0);
+			this->multiply(zero);
 		}
 	}
     }else if(a->type == "integer"){
@@ -158,7 +160,7 @@ Expression* Exponential::multiply(Expression* a){
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
 	if (this->base == ex->getBase()) {
-		this->exponent += ex->getExponent();    //
+		this->exponent->add(ex->getExponent());
 	}
 
     }else if(a->type == "integer"){
@@ -171,8 +173,8 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator.multiply(this)); //
-	this = r;                                       //
+	r->setNumerator(r->getNumerator->multiply(this*));
+	return r;                                       
 	
     }else{
         cout << "type not recognized" << endl;
@@ -198,8 +200,8 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setDenominator(r->getDenominator.multiply(this));        //
-	this = r;                                                   //
+	r->setDenominator(r->getDenominator->multiply(this*));
+	return r;                                                  
 
     }else{
         cout << "type not recognized" << endl;
