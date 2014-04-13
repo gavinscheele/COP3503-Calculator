@@ -12,18 +12,22 @@ Logarithm::Logarithm(int base, int operand){
     this->type = "logarithm";
     this->base = base;
     this->operand = operand;
+    this->eOperand = new Integer(operand)
+    this->eBase = new Integer(base)
 }
 
 Logarithm::Logarithm(int base, Expression* eOperand){
     this->type = "logarithm";
     this->base = base;
     this->eOperand = eOperand;
+    this->eBase = new Integer(base);
 }
 
 Logarithm::Logarithm(Expression* eBase, int operand){
     this->type = "logarithm";
     this->eBase = eBase;
     this->operand = operand;
+    this->eOperand = new Integer (operand);
 }
 
 Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
@@ -45,16 +49,10 @@ Expression* Logarithm::getEOperand(){
 	return eOperand;
 }
 
-void Logarithm::setBase(int x){
-	this->base = x;
-}
-void Logarithm::setOperand(int x){
-	this->operand = x;
-}
-void Logarithm::setEBase(Expression* x){
+void Logarithm::setBase(Expression* x){
 	this->eBase = x;
 }
-void Logarithm::setEOperand(Expression* x){
+void Logarithm::setOperand(Expression* x){
 	this->eOperand = x;
 }
 
