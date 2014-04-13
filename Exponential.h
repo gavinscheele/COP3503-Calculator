@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Rational.h"
 #include "Integer.h"
 #include "nthRoot.h"
 
