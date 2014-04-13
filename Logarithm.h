@@ -14,6 +14,8 @@
 #include "Integer.h"
 #include <vector>
 #include <math.h>
+#include "Solver.h"
+
 class Logarithm : public Expression{
 public:
     Logarithm(int base, int operand);
