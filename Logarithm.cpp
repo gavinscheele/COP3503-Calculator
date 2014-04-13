@@ -7,27 +7,15 @@
 //
 
 #include "Logarithm.h"
+#include <vector>
+#include<math.h>
 
 Logarithm::Logarithm(int base, int operand){
     this->type = "logarithm";
     this->base = base;
     this->operand = operand;
-    this->eOperand = new Integer(operand)
-    this->eBase = new Integer(base)
-}
-
-Logarithm::Logarithm(int base, Expression* eOperand){
-    this->type = "logarithm";
-    this->base = base;
-    this->eOperand = eOperand;
+    this->eOperand = new Integer(operand);
     this->eBase = new Integer(base);
-}
-
-Logarithm::Logarithm(Expression* eBase, int operand){
-    this->type = "logarithm";
-    this->eBase = eBase;
-    this->operand = operand;
-    this->eOperand = new Integer (operand);
 }
 
 Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
@@ -57,126 +45,67 @@ void Logarithm::setOperand(Expression* x){
 }
 
 Logarithm::~Logarithm(){
-    delete this; 
+    delete this;
 }
 
 
 Expression* Logarithm::simplify(){
-    	if (base && operand) {
-		if (base == operand){
-			Expression* simplified = new Integer(1);
-			return simplified;
-		}
-		else if(base == (1/operand)){
-			Expression* simplified = new Integer(-1);
-			return simplified;}
-        
-		else{
-			int x= operand;
-			int *primefactors = primeFactorization(x);
-			int size = 0;
-			size = sizeof (primefactors)/sizeof (int);
-			Expression* finalsimp = nullptr;
-            
-            vector<Logarithm *> seperatedLogs;
+        vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
+        int size1 = primefactors.size();//gets the size of this vector
+        vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
-			for (int i = 0; i <= size-1; i++) {
-			if (size ==1) {
-                finalsimp = new Logarithm(base,operand);
+
+        for(int i = 0 ; i < size1; i++){
+            seperatedLogs.at(i) = new Logarithm(this->eBase, primefactors.at(i));//assigns values to each seperatedlog with the same base and operands of the prime factorization
             }
-            seperatedLogs.push_back(new Logarithm(base, primefactors[i]));
-            //Expression* seperatedlogs[size] = new Logarithm(base,primefactors[i]) ;
-			if (seperatedLogs.at(size)->simplify()  != seperatedLogs.at(i)){
-				Expression* simp = seperatedLogs.at(i)->simplify();
-				seperatedLogs.at(i) = (Logarithm *)simp;
-			}
-            
-			for (int i = 0; i<= size-2; i++){
-				finalsimp= seperatedLogs.at(size)->add(seperatedLogs.at(i+1));
-			}
-			}
-			return finalsimp;
+
+       for(int j; j <size1; j++){
+    	if (seperatedLogs.at(j)->type == "logarithm") {
+            if (base == operand){
+                Integer* inte= new Integer(1);
+                seperatedLogs.at(j) = inte;
             }
-        }
-    
-	else if (base && eOperand) {
-		// INSERT (call solver) here on eOperand 
-		Solver *s= new Solver(eOperand->toString());
-		string result = s->solve();
-		size = result.length();
-		for (int i =0; i<=size; i++){
-			if (result.at(i) ==  "*"){
-				
-			}	
-			else if(result.at(i) ==  "/"){
-				
+            else if(base == (1/operand)){
+                Integer* inten= new Integer(1);
+                seperatedLogs.at(j) = inten;
 			}
-		}
-		// create new array of eOperand simplified values
-		// if array is of size 1, check if that value equals eOperand
-		// if so return the original logarithm back b/c cannot be simplified
-		// for all other scenarios, run simplify method again for each log in array
-    }
-	else if (eBase && operand) {
-		// ISERT (call solver) here on eBase
-		// For the most part will only be able to specifically deal with
-		// eBase being Pi or e, but will still need to use solver first
-		// in case there is an entry for eBase being something that can first be 
-		// simplified. Using the simplified eBase, use conversion formula change of base
-		// to set both values as log base (?? i think it should be 2, but not sure whats the
-		// best way of determining that. Maybe it would be smart to set base equal to whatever the 		// original operand is in order to automatically change that value to 1.)
-		// Implement change of base formula.
-		// Call simplify on both the bottom and top logarithms.
-		// Return the result of simplify. 
-		
-    }
-	else if (eBase && eOperand){
-		if (eBase == eOperand){
-			Expression* simplified = new Integer(1);
-			return simplified; }
-		else if(eBase == (1/eOperand){
-			Expression* simplified = new Integer(-1);
-			return simplified;}
-}	 
-		// below, attempting to take nth root of eOperand in order to see if pi
-		// is the nth root of this eOperand. If so, n will be returned.
-		else if (eBase == pi && nrt(eOperand)== pi){
-			// not sure how, but take nth root of eOperand and find its value.
-			// use this value as n
-			Expression* simplified = new Integer(n);
-			return simplified; } 
-		else if (eBase == euler && nrt(eOperand) == euler) {
-			// again not sure exactly how, but take nth root of eOperand to see if
-			// euler is the nth root of the eOperand. If so n will be returned. 
-			Expression* simplified = new Integer(n);
-			return simplified; }
-		else{ 
-		// INSERT (call solver) here on eOperand and eBase	
-		// Call simplify method again on newly created logarithm after calling solver on the logarithm
-		
+    	}
+       }
+       if(size1 >= 2){
+        Expression* answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));
+       }
+       else{
+        Expression* answer = seperatedLogs.at(0);
+       }
+
+
+       for(int k = 1; k<size1; k++){
+            answer = answer->add(seperatedLogs.at(k));
+
+       }
+
 }
-                
 
-int* Logarithm::primeFactorization(int n) {
-    int k = 0; 
+vector<int> Logarithm::primeFactorization(int n) {
+    int k = 0;
+    vector<int> factors;
     while (n%2 == 0) {
-        factors[k] = 2;
+        factors.push_back(2);
         k++;
         n = n/2;
     }
     for (int i = 3; i <= sqrt(n); i = i + 2) {
         while (n%1 == 0) {
-            factors[k] = 2;
+            factors.push_back(2);
             k++;
             n = n/i;
         }
     }
     if (n > 2) {
-        factors[k] = n;
+        factors.push_back(n);
     }
     return factors;
 }
-                
 
 Expression* Logarithm::add(Expression* a){
     Expression* c = this;
@@ -185,31 +114,31 @@ Expression* Logarithm::add(Expression* a){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
     	}
-    
+
     }
-    
+
     else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
     	}
-    
+
     }
-    
+
     else if(c->base && a->base && c->eOperand && a->eOperand) {
     	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
     	}
-    
+
     }
-   
+
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
     	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
     	}
-    
+
     }
     return c;
 }
@@ -220,31 +149,31 @@ Expression* Logarithm::subtract(Expression* a){
     		Expression* answer = new Integer(0);
     		return answer;
     	}
-    
+
     }
-    
+
     else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer =  new Integer(0);
     		return answer;
     	}
-    
+
     }
-    
+
     else if(c->base && a->base && c->eOperand && a->eOperand) {
     	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
     		Expression* answer =  new Integer(0);
     		return answer;
     	}
-    
+
     }
-   
+
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
     	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
     		Expression* answer =  new Integer(0);
     		return answer;
     	}
-    
+
     }
     return c;
 }
@@ -275,5 +204,5 @@ string Logarithm::toString(){
 				x /=y ;
 				i++;}
 			Expression* simplified = new Integer(i);
-			return simplified; } 
+			return simplified; }
 */
