@@ -30,7 +30,7 @@ public:
 
     void setBase(Expression* x);
     void setOperand(Expression* x);
-    
+
 
     Expression* simplify();
     Expression* add(Expression* a);
@@ -44,7 +44,7 @@ private:
     int operand;
     Expression* eBase;
     Expression* eOperand;
-    int* primeFactorization(int n);
+    vector<int> primeFactorization(int n);
     int factors[50];
 
 };

@@ -9,6 +9,7 @@
 #include "Logarithm.h"
 #include <vector>
 #include<math.h>
+using namespace std;
 
 Logarithm::Logarithm(int base, int operand){
     this->type = "logarithm";
@@ -71,11 +72,12 @@ Expression* Logarithm::simplify(){
 			}
     	}
        }
+       Expression * answer;
        if(size1 >= 2){
-        Expression* answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));
+        answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));
        }
        else{
-        Expression* answer = seperatedLogs.at(0);
+        answer = seperatedLogs.at(0);
        }
 
 
@@ -117,7 +119,7 @@ Expression* Logarithm::add(Expression* a){
 
     }
 
-    else if(c->eBase && a->eBase && c->operand && a->operand) {
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
@@ -131,7 +133,7 @@ Expression* Logarithm::add(Expression* a){
     		return answer;
     	}
 
-    }
+    } */
 
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
     	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
@@ -140,7 +142,7 @@ Expression* Logarithm::add(Expression* a){
     	}
 
     }
-    return c;
+   else return c;
 }
 Expression* Logarithm::subtract(Expression* a){
     Expression* c = this;
@@ -152,7 +154,7 @@ Expression* Logarithm::subtract(Expression* a){
 
     }
 
-    else if(c->eBase && a->eBase && c->operand && a->operand) {
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer =  new Integer(0);
     		return answer;
@@ -165,7 +167,7 @@ Expression* Logarithm::subtract(Expression* a){
     		Expression* answer =  new Integer(0);
     		return answer;
     	}
-
+    */
     }
 
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
@@ -175,23 +177,60 @@ Expression* Logarithm::subtract(Expression* a){
     	}
 
     }
-    return c;
+    else return c;
 }
 Expression* Logarithm::multiply(Expression* a){
     Expression* c = this;
-    return c;
+    if((c->base && a->base) && (c->getBase() == a->getBase())) {
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	return this;
+    	}
+
+    if((c->eBase && a->eBase) && (c->getEBase() == a->getEBase())){
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    }
+   else return c;
 }
 Expression* Logarithm::divide(Expression* a){
     Expression* c = this;
-    return c;
+    if(c->base && a->base) {
+    	if (c->getBase() == a->getBase()) {
+    		Expression* answer = new Logarithm(a->getOperand(),c->getOperand());
+    	return answer;
+    	}
+    	else {
+    	return this;
+    	}
+
+    if(c->eBase && a->eBase){
+    	if (c->getEBase() == a->getEBase()){
+    		Expression* answer = new Logarithm(a->getEOperand(), c->getEOperand());
+    	return answer;
+    	}
+    	else{
+    	return this;
+    	}
+    }
+   else return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << this->base << ":" << this->operand;
+    output << "Log_" << this->eBase << ":" << this->eOperand;
     return output;
 }
 string Logarithm::toString(){
     stringstream ss;
-    ss << "Log_" << this->base << "(" << this->operand;
+    ss << "Log_" << this->eBase << "(" << this->eOperand;
+    return ss.str();
 };
 
 
