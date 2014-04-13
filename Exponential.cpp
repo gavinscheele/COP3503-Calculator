@@ -13,7 +13,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     this->type = "exponential";
     this->base = base;
     this->exponent = exponent;
-    Integer *exde = (Integer *)exponent->getDenominator();  //warning: Cast to 'Integer *' from smaller integer type 'int'
+    Integer *exde = new Integer(exponent->getDenominator());  //warning: Cast to 'Integer *' from smaller integer type 'int'
     if (exde->getValue() != 1) {
         base = nthRoot(exde, base);             //error: no matching contructor for initialization of 'nthRoot'
         exponent = exponent->getNumerator();        //error: assigning to 'Rational *' from incompatible type 'int'
