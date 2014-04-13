@@ -42,7 +42,7 @@ int* nthRoot::primeFactorization(int n) {
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
-//    int* factorsArray = primeFactorization(operand);
+    factors = this->primeFactorization();
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 
