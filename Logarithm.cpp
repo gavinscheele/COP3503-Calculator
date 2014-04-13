@@ -257,23 +257,25 @@ Expression* Logarithm::divide(Expression* a){
     if(c->base && a->base) {
     	if (c->getBase() == a->getBase()) {
     		Expression* answer = new Logarithm(a->getOperand(),c->getOperand());
+    	return answer;
     	}
     	else {
-    		
+    	return this;	
     	}
     	
     if(c->eBase && a->eBase){
     	if (c->getEBase() == a->getEBase()){
     		Expression* answer = new Logarithm(a->getEOperand(), c->getEOperand());
+    	return answer;
     	}
     	else{
-    		
+    	return this;	
     	}
     }
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << this->base << ":" << this->operand;
+    output << "Log_" << this->eBase << ":" << this->eOperand;
     return output;
 }
 string Logarithm::toString(){
