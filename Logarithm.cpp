@@ -32,7 +32,31 @@ Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->eOperand = eOperand;
 }
 
+int Logarithm::getBase(){
+	return base;
+}
+int Logarithm::getOperand(){
+	return operand;
+}
+Expression* Logarithm::getEBase(){
+	return eBase;
+}
+Expression* Logarithm::getEOperand(){
+	return eOperand;
+}
 
+void Logarithm::setBase(int x){
+	this->base = x;
+}
+void Logarithm::setOperand(int x){
+	this->operand = x;
+}
+void Logarithm::setEBase(Expression* x){
+	this->eBase = x;
+}
+void Logarithm::setEOperand(Expression* x){
+	this->eOperand = x;
+}
 
 Logarithm::~Logarithm(){
     delete this; 
@@ -79,6 +103,17 @@ Expression* Logarithm::simplify(){
     
 	else if (base && eOperand) {
 		// INSERT (call solver) here on eOperand 
+		Solver *s= new Solver(eOperand->toString());
+		string result = s->solve();
+		size = result.length();
+		for (int i =0; i<=size; i++){
+			if (result.at(i) ==  "*"){
+				
+			}	
+			else if(result.at(i) ==  "/"){
+				
+			}
+		}
 		// create new array of eOperand simplified values
 		// if array is of size 1, check if that value equals eOperand
 		// if so return the original logarithm back b/c cannot be simplified
@@ -147,10 +182,72 @@ int* Logarithm::primeFactorization(int n) {
 
 Expression* Logarithm::add(Expression* a){
     Expression* c = this;
+    if(c->base && a->base && c->operand && a->operand) {
+    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->base && a->base && c->eOperand && a->eOperand) {
+    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+   
+    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
+    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
     return c;
 }
 Expression* Logarithm::subtract(Expression* a){
     Expression* c = this;
+    if(c->base && a->base && c->operand && a->operand) {
+    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Integer(0);
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->base && a->base && c->eOperand && a->eOperand) {
+    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
+   
+    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
+    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
     return c;
 }
 Expression* Logarithm::multiply(Expression* a){

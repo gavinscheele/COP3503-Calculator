@@ -18,7 +18,7 @@ class Exponential : public Expression{
 public:
     Exponential(Expression* base, Rational* exponent);
     ~Exponential();
-    Expression* exponentiate();
+    void exponentiate();
     Expression* exponentiate(Rational* expo); //exponentiate using parameter as exponent
     Rational* getExponent();
     Expression* getBase();
@@ -40,5 +40,7 @@ public:
 private:
     Expression* base;
     Rational* exponent;
+    Integer* exnu;
+    Integer* exde;
 };
 #endif /* defined(__Calculator__Exponential__) */

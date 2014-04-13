@@ -13,14 +13,17 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     this->type = "exponential";
     this->base = base;
     this->exponent = exponent;
-    Integer *exde = new Integer(exponent->getDenominator());
+    exde* = new Integer(exponent->getDenominator());
     if (exde->getValue() != 1) {
-        base = nthRoot(exde, base);             //error: no matching contructor for initialization of 'nthRoot'
-        exponent = exponent->getNumerator();        //error: assigning to 'Rational *' from incompatible type 'int'
+    	//if the denominator of the exponent is not 1, make the base a root of the denominator, then setting the denominator equal to 1
+    	Integer* baseAsInteger = (Integer *) base;
+        base = nthRoot(exde->getValue(), baseAsInteger->getValue(), 1);
+        Integer* one = new Integer(1);
+        exponent->setDenominator(one);
     }
-    Integer *exnu = new Integer(exponent->getNumerator());    //warning: Cast to 'Integer *' from smaller integer type 'int'
+    exnu* = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    this = exponentiate();      //you can't assign 'this'. Just set your private variables in exponentiate
+    	exponentiate();
     }
 }
 Exponential::~Exponential(){
@@ -33,10 +36,11 @@ bool Exponential::canExponentiate() {
 
     }else if(base->type == "exponential"){
 	Exponential* ex = (Exponential *) base;
-	this->exponent *= ex->getExponent(); //did you mean "this->exponent->multiply(ex->getExponent);" ?
+	this->exponent->multiply(ex->getExponent());
 	Integer* numSum = new Integer (1);
-	ex->getExponent()->setNumerator(numSum);    //syntax change
-        return false;			// false is returned because the base itself would have already been exponentiated if it were possible
+	ex->getExponent()->setNumerator(numSum);
+        return false;
+        // false is returned because the base itself would have already been exponentiated if it were possible
 
     }else if(base->type == "integer"){
         return true;
@@ -47,20 +51,21 @@ bool Exponential::canExponentiate() {
 
     }else if(base->type == "nthRoot"){
 	nthRoot* nr = (nthRoot *) base;
-	Rational* r = new Rational(this->exponent, nr->getRoot());      //error: no matching constructor for initialization of 'Rational'
+	Rational* r = new Rational(this->exponent->getNumerator(), nr->getRoot()->multiply(this->exponent->getDenominator()));
+	//makes a new exponent, multiplying the denominator by the root, allowing the root to be simplified to one
 	this->exponent = r;
-	nr->setRoot(1);     //changed syntax
+	nr->setRoot(1);
+	return false;
 
     }else if(base->type == "pi"){
         return false;
 
     }else if(base->type == "rational"){
         Rational* r = (Rational *) base;
-        if (r->getNumerator()->type == "integer" && r->getDenominator()->type == "integer") {   //error: member reference type 'int' is not a pointer
-          Exponential* nu = new Exponential(r->getNumerator(), this->exponent);     //error: no matching contructor for initialization of Exponential
+        if (r->geteNumerator()->type == "integer" && r->geteDenominator()->type == "integer") {
+          Exponential* nu = new Exponential(r->geteNumerator(), this->exponent); 
           r->setNumerator(nu);
-          Exponential* de = new Exponential(r->getDenominator(), this->exponent);   //error: no matching contructor for initialization of Exponential
-          r->setDenominator(de);
+          Exponential* de = new Exponential(r->geteDenominator(), this->exponent);
         }
 
     }else{
@@ -69,20 +74,21 @@ bool Exponential::canExponentiate() {
     return false;
 }
 
-Expression* Exponential::exponentiate(){
+void Exponential::exponentiate(){
     Expression* toReturn = base;
     Expression* constantBase = base;
-    if (this->exponent->getNumerator()==0) {        //changed . to ->
+    if (this->exponent->getNumerator()==0) { 
         Integer* ret = new Integer(1);
         return ret;
     }
     bool toFlip = false;
-    if (exnu<0) {       //exnu is not a declared variable
-	    exnu*=-1;
+    if (exnu->getValue()<0) {  
+	    exnu->setValue(exnu->getValue()*-1);
             toFlip = true;
+            //handles negative exponents
     }
     Expression* e = this;
-    for (int i = 1; i < exnu); i++) {
+    for (int i = 1; i < exnu->getValue()); i++) {
         toReturn*=constantBase;
     }
     exnu = 1;
@@ -90,7 +96,7 @@ Expression* Exponential::exponentiate(){
 	Rational* r = new Rational(1, toReturn);
         return r;
     }
-    return toReturn;
+    this* = toReturn;
 
 }
 

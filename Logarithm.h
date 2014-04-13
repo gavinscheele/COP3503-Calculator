@@ -23,6 +23,16 @@ public:
     Logarithm(Expression* eBase, int operand);
     Logarithm(Expression* eBase, Expression* eOperand);
     ~Logarithm();
+    int Logarithm::getBase();
+    int getOperand();
+    Expression* getEBase();
+    Expression* getEOperand();
+
+    void setBase(int x);
+    void setOperand(int x);
+    void setEBase(Expression* x);
+    void setEOperand(Expression* x);
+
     Expression* simplify();
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
