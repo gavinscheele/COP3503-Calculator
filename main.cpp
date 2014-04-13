@@ -23,7 +23,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         
         
         if (choice.compare("a") == 0) {
-            string secondChoice = "n"
+            string secondChoice = "n";
             while (secondChoice.compare("y") != 0) {
                 string expression;
                 cin >> expression;
@@ -44,7 +44,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
             //we're screwed
             string thirdChoice = "z";
             cout << "Sub-Options \n" <<
-                    "a. Show the float form of the last expression" << "\n" <<
+                    "a. Show the float from of the last expression" << "\n" <<
                     "b. Set 'ans' equal to the previous expression's answer \n";
             cin >> thirdChoice;
             if (thirdChoice.compare("a") == 0) {
@@ -54,7 +54,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 //set ans equal to previous expression's answer
             }
             else {
-                "Sorry, couldn't recognize your input \n";
+                cout << "Sorry, couldn't recognize your input \n";
             }
         }
         
