@@ -13,7 +13,6 @@
 #include "Expression.h"
 #include "Integer.h"
 #include <sstream>
-#include   "Solver.h"
 using namespace std;
 class Rational : public Expression {
 public:
