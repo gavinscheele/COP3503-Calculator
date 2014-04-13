@@ -32,7 +32,15 @@ Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->eOperand = eOperand;
 }
 
+int Logarithm::getBase();
+int Logarithm::getOperand();
+Expression* Logarithm::getEBase();
+Expression* Logarithm::getEOperand();
 
+void Logarithm::setBase(int x);
+void Logarithm::setOperand(int x);
+void Logarithm::setEBase(Expression* x);
+void Logarithm::setEOperand(Expression* x);
 
 Logarithm::~Logarithm(){
     delete this; 
@@ -79,6 +87,17 @@ Expression* Logarithm::simplify(){
     
 	else if (base && eOperand) {
 		// INSERT (call solver) here on eOperand 
+		Solver *s= new Solver(eOperand->toString());
+		string result = s->solve();
+		size = result.length();
+		for (int i =0; i<=size; i++){
+			if (result.at(i) ==  "*"){
+				
+			}	
+			else if(result.at(i) ==  "/"){
+				
+			}
+		}
 		// create new array of eOperand simplified values
 		// if array is of size 1, check if that value equals eOperand
 		// if so return the original logarithm back b/c cannot be simplified
@@ -147,6 +166,12 @@ int* Logarithm::primeFactorization(int n) {
 
 Expression* Logarithm::add(Expression* a){
     Expression* c = this;
+    if(c->getBase()->type == a->getBase()->type && c->getOperand()->type == a->getOperand->type){
+    	if(c->getBase() == a->getBase() && c->getOperand() == a->getOperand)
+    		Expression* answer = 2->multiply(c);
+    		return answer;
+    	}
+    }
     return c;
 }
 Expression* Logarithm::subtract(Expression* a){
