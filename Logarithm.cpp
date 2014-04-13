@@ -182,16 +182,72 @@ int* Logarithm::primeFactorization(int n) {
 
 Expression* Logarithm::add(Expression* a){
     Expression* c = this;
-    if(c->getBase()->type == a->getBase()->type && c->getOperand()->type == a->getOperand->type){
-    	if(c->getBase() == a->getBase() && c->getOperand() == a->getOperand)
-    		Expression* answer = 2->multiply(c);
+    if(c->base && a->base && c->operand && a->operand) {
+    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
     		return answer;
     	}
+    
+    }
+    
+    else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->base && a->base && c->eOperand && a->eOperand) {
+    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+   
+    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
+    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
     }
     return c;
 }
 Expression* Logarithm::subtract(Expression* a){
     Expression* c = this;
+    if(c->base && a->base && c->operand && a->operand) {
+    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Integer(0);
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->base && a->base && c->eOperand && a->eOperand) {
+    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
+   
+    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
+    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+    }
     return c;
 }
 Expression* Logarithm::multiply(Expression* a){
