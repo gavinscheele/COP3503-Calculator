@@ -55,9 +55,9 @@ Expression* nthRoot::simplify(){
     factors = this->primeFactorization();
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
-
-    while (i <= factorsSize) {
-        int j = i;
+    
+    while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand 
+        int j = i;               //and into the coefficient
         int count = 0;
         while (j <= factorsSize && factors[j + 1] == factors[j]) {
             count++;
@@ -67,7 +67,7 @@ Expression* nthRoot::simplify(){
             coefficient *= (factors[i] ^ (count/root)); 
             operand = operand / (factors[i] ^ (count - (count % root))); 
         }
-        i = j + 1;
+        i = j + 1;    
     }
     if (operand == 1) {
         Integer* newInt = new Integer(coefficient);
