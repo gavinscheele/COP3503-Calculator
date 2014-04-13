@@ -9,16 +9,19 @@
 #include "Solver.h"
 using namespace std;
 int main(int argc, char * argv[])  {//a main method shouldn't have perameters - at least I don't think so. -Dan
-    string choice;
-    choice = "z";
+    string choice = "z";
+    
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
-           "a. Compute a New Expression" << "\n" <<
+           "a. Compute a new expression" << "\n" <<
            "b. Help" << "\n" <<
-           "c. Review Previous Expressions and Answers" << "\n" <<
+           "c. Review previous expressions and answers" << "\n" <<
            "d. Quit" << "\n";
+           
         cin >> choice;
         cout << "\n";
+        
+        
         if (choice.compare("a") == 0) {
             string secondChoice = "n"
             while (secondChoice.compare("y") != 0) {
@@ -30,13 +33,33 @@ int main(int argc, char * argv[])  {//a main method shouldn't have perameters - 
                 cout << "\n";
             }
         }
+        
+        
         if (choice.compare("b") == 0) {
             cout << "Directions for Use of This Program" << "\n";
         }
+        
+        
         if (choice.compare("c") == 0) {
             //we're screwed
+            string thirdChoice = "z";
+            cout << "Sub-Options \n" <<
+                    "a. Show the float form of the last expression" << "\n" <<
+                    "b. Set 'ans' equal to the previous expression's answer \n";
+            cin >> thirdChoice;
+            if (thirdChoice.compare("a") == 0) {
+                //show float form
+            }
+            if (thirdChoice.compare("b") == 0) {
+                //set ans equal to previous expression's answer
+            }
+            else {
+                "Sorry, couldn't recognize your input \n";
+            }
         }
-        else {
+        
+        
+        else if (choice.compare("d") != 0) {
             cout << "Sorry, couldn't recognize your input." << "\n";        
         }
     }
