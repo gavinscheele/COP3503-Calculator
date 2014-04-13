@@ -224,7 +224,7 @@ Expression* Logarithm::add(Expression* a){
     	}
     
     }
-    return c;
+   else return c;
 }
 Expression* Logarithm::subtract(Expression* a){
     Expression* c = this;
@@ -259,11 +259,11 @@ Expression* Logarithm::subtract(Expression* a){
     	}
     
     }
-    return c;
+    else return c;
 }
 Expression* Logarithm::multiply(Expression* a){
     Expression* c = this;
-    return c;
+    else return c;
 }
 Expression* Logarithm::divide(Expression* a){
     Expression* c = this;
@@ -285,7 +285,7 @@ Expression* Logarithm::divide(Expression* a){
     	return this;	
     	}
     }
-    return c;
+   else return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
     output << "Log_" << this->eBase << ":" << this->eOperand;
