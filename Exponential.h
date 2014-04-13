@@ -40,5 +40,7 @@ public:
 private:
     Expression* base;
     Rational* exponent;
+    Integer* exnu;
+    Integer* exde;
 };
 #endif /* defined(__Calculator__Exponential__) */
