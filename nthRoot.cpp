@@ -57,7 +57,7 @@ Expression* nthRoot::simplify(){
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
     
     while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand 
-        int j = i;               //and into the coefficient
+        int j = i;               //and puts them into the coefficient
         int count = 0;
         while (j <= factorsSize && factors[j + 1] == factors[j]) {
             count++;
