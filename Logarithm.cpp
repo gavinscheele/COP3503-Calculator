@@ -188,7 +188,7 @@ Expression* Logarithm::add(Expression* a){
     
     }
     
-    else if(c->eBase && a->eBase && c->operand && a->operand) {
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
@@ -200,9 +200,9 @@ Expression* Logarithm::add(Expression* a){
     	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
     		Expression* answer = new Expression(2->multiply(c));
     		return answer;
-    	}
+    	} 
     
-    }
+    } */
    
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
     	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
@@ -223,7 +223,7 @@ Expression* Logarithm::subtract(Expression* a){
     
     }
     
-    else if(c->eBase && a->eBase && c->operand && a->operand) {
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
     	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
     		Expression* answer =  new Integer(0);
     		return answer;
@@ -236,7 +236,7 @@ Expression* Logarithm::subtract(Expression* a){
     		Expression* answer =  new Integer(0);
     		return answer;
     	}
-    
+    */
     }
    
     else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
@@ -254,6 +254,22 @@ Expression* Logarithm::multiply(Expression* a){
 }
 Expression* Logarithm::divide(Expression* a){
     Expression* c = this;
+    if(c->base && a->base) {
+    	if (c->getBase() == a->getBase()) {
+    		Expression* answer = new Logarithm(a->getOperand(),c->getOperand());
+    	}
+    	else {
+    		
+    	}
+    	
+    if(c->eBase && a->eBase){
+    	if (c->getEBase() == a->getEBase()){
+    		Expression* answer = new Logarithm(a->getEOperand(), c->getEOperand());
+    	}
+    	else{
+    		
+    	}
+    }
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
@@ -262,7 +278,8 @@ ostream& Logarithm::print(std::ostream& output) const{
 }
 string Logarithm::toString(){
     stringstream ss;
-    ss << "Log_" << this->base << "(" << this->operand;
+    ss << "Log_" << this->eBase << "(" << this->eOperand;
+    return ss.str();
 };
 
 
