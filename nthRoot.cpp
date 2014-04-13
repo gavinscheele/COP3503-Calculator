@@ -80,12 +80,12 @@ Expression* nthRoot::add(Expression* a) {
     if (root == asRoot && operand == asOperand) {
         int newCoefficient = asCoefficient + coefficient;
         nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-        return newNthRoot;
+        nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+        return simplifiedVersion;
     }
     else {
         return this;
     }
-    
 }
 
 Expression* nthRoot::subtract(Expression* a) {
@@ -96,7 +96,8 @@ Expression* nthRoot::subtract(Expression* a) {
     if (root == asRoot && operand == asOperand) {
         int newCoefficient = coefficient - asCoefficient;
         nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-        return newNthRoot;
+        nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+        return simplifiedVersion;
     }
     else {
         return this;
