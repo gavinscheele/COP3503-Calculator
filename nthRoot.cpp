@@ -53,7 +53,7 @@ Expression* nthRoot::simplify(){
         }
         if (count >= root) {
             coefficient *= (factors[i] ^ (count/root)); 
-            operand = operand / (factors[i] ^ (count - (count % root))) 
+            operand = operand / (factors[i] ^ (count - (count % root))); 
         }
         i = j + 1;
     }
@@ -72,41 +72,67 @@ Expression* nthRoot::simplify(){
 
 Expression* nthRoot::add(Expression* a) {
     nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient();    
-    int newCoefficient = asCoefficient + coefficient;
-    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-    return newNthRoot;
+    int asCoefficient = b->getCoefficient(); 
+    int asOperand = b->getOperand();
+    int asRoot = b->getRoot();
+    if (root == asRoot && operand == asOperand) {
+        int newCoefficient = asCoefficient + coefficient;
+        nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+        return newNthRoot;
+    }
+    else {
+        return this;
+    }
     
 }
 
 Expression* nthRoot::subtract(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                          
-    int asCoefficient = b->getCoefficient();
-    int newCoefficient = coefficient - asCoefficient;
-    nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
-    return newNthRoot;
+    nthRoot *b = (nthRoot *)a;
+    int asCoefficient = b->getCoefficient(); 
+    int asOperand = b->getOperand();
+    int asRoot = b->getRoot();
+    if (root == asRoot && operand == asOperand) {
+        int newCoefficient = coefficient - asCoefficient;
+        nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
+        return newNthRoot;
+    }
+    else {
+        return this;
+    }
 }
 
 Expression* nthRoot::multiply(Expression* a) {
     nthRoot *b = (nthRoot *)a;                      
     int asCoefficient = b->getCoefficient();
-    int newCoefficient = asCoefficient * coefficient;
-    int newOperand = operand * asOperand;       //asOperand doesnt exist?
-    nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
-    nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
-    Expression* c = simplifiedVersion;
-    return c;
+    int asOperand = b->getOperand();
+    int asRoot = b->getRoot();
+    if (root == asRoot) {
+        int newCoefficient = asCoefficient * coefficient;
+        int newOperand = operand * asOperand;       //asOperand doesnt exist?
+        nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+        nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+        return simplified Version;
+    }
+    else {
+        return this;
+    }
 }
+
 Expression* nthRoot::divide(Expression* a) {
     nthRoot *b = (nthRoot *)a;                  
-
+    int asRoot = b->getRoot();
     int asOperand = b->getOperand();
     int asCoefficient = b->getCoefficient();
-    int newCoefficient = coefficient / asCoefficient;
-    int newOperand = operand / asOperand;
-    nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
-    nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
-    return simplifiedVersion;
+    if (root == asRoot) {
+        int newCoefficient = coefficient / asCoefficient;
+        int newOperand = operand / asOperand;
+        nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+        nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+        return simplifiedVersion;
+    }
+    else {
+        return this;
+    }
 }
 
 int nthRoot::getRoot() {
