@@ -263,7 +263,25 @@ Expression* Logarithm::subtract(Expression* a){
 }
 Expression* Logarithm::multiply(Expression* a){
     Expression* c = this;
-    else return c;
+    if((c->base && a->base) && (c->getBase() == a->getBase())) {
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));	
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	return this;	
+    	}
+    	
+    if((c->eBase && a->eBase) && (c->getEBase() == a->getEBase())){
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    }
+   else return c;
 }
 Expression* Logarithm::divide(Expression* a){
     Expression* c = this;
