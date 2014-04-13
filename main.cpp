@@ -24,7 +24,7 @@ int main(int argc, char * argv[])
 //    cout << *a->divide(b) << endl;
     
     Solver *s = new Solver("3 + 4");
-    s->solve();
+    cout << s->solve() << endl;;
     
     return 0;
 }

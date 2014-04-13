@@ -35,7 +35,7 @@ std::string Solver::solve(){
                 }
                 temp.push_back(localExpression.at(j));
             }
-            if(i != 0) expressions.push_back(temp);
+            if(i == 0) expressions.push_back(temp);
             count = i;
 
         }else if(i == localExpression.size()-1){
