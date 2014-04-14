@@ -23,7 +23,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     }
     this->exnu = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    	exponentiate();     
+    	exponentiate();
     }
 }
 Exponential::~Exponential(){
@@ -44,7 +44,7 @@ bool Exponential::canExponentiate() {
 
     }else if(base->type == "integer"){
         return true;
-        
+
 
     }else if(base->type == "logarithm"){
         return false;
@@ -63,7 +63,7 @@ bool Exponential::canExponentiate() {
     }else if(base->type == "rational"){
         Rational* r = (Rational *) base;
         if (r->geteNumerator()->type == "integer" && r->geteDenominator()->type == "integer") {
-          Exponential* nu = new Exponential(r->geteNumerator(), this->exponent); 
+          Exponential* nu = new Exponential(r->geteNumerator(), this->exponent);
           r->setNumerator(nu);
           Exponential* de = new Exponential(r->geteDenominator(), this->exponent);
           r->setDenominator(de);
@@ -76,17 +76,17 @@ bool Exponential::canExponentiate() {
 }
 
 void Exponential::exponentiate(){
-	
+
     Expression* constantBase = base;
-    if (this->exponent->getNumerator()==0) { 
-        Integer* oneInt = new Integer(1); 
+    if (this->exponent->getNumerator()==0) {
+        Integer* oneInt = new Integer(1);
         Rational* oneRat = new Rational(1, 1);
        this->exponent=oneRat;
        this->base=oneInt;
-       
+
     }
     bool toFlip = false;
-    if (exnu->getValue()<0) {  				
+    if (exnu->getValue()<0) {
 	    exnu->setValue(exnu->getValue()*-1);
             toFlip = true;
             //handles negative exponents
@@ -94,12 +94,14 @@ void Exponential::exponentiate(){
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
-        exponent->setNumerator(exponent->getNumerator()-1);     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
+        Integer* one = new Integer(1);
+        exponent->setNumerator(exponent->geteNumerator()->subtract(one));     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
     }
     if (toFlip) {
-    	Rational* mouse = new Rational(oneInt, base);
+        Integer* one = new Integer(1);
+        Rational* mouse = new Rational(one, base);
     	base = mouse;
-    }                              
+    }
 
 }
 
@@ -175,9 +177,9 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator()->multiply(this));        //Error: expected expression
-	return r;                                       
-	
+	r->setNumerator(r->geteNumerator()->multiply(this));        //Error: expected expression
+	return r;
+
     }else{
         cout << "type not recognized" << endl;
     }
@@ -202,8 +204,8 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setDenominator(r->getDenominator()->multiply(this*));      //Error: member reference type 'int' is not a pointer
-	return r;                                                  
+	r->setDenominator(r->geteDenominator()->multiply(this));      //Error: member reference type 'int' is not a pointer
+	return r;
 
     }else{
         cout << "type not recognized" << endl;
@@ -233,7 +235,7 @@ void Exponential::setExnu(Integer* n) {
 
 void Exponential::setExde(Integer* n) {
 	exde = n;
-} 
+}
 
 void Exponential::setExponent(Rational* e) {
     exponent = e;

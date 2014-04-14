@@ -13,14 +13,14 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->operand = operand;
     this->root = root;
     this->coefficient = coefficient;
-    
-    if ((root % 2) == 0 && operand < 0) { 
+
+    if ((root % 2) == 0 && operand < 0) {
         throw runtime_error("unreal answer");
     }
 }
 
 nthRoot::~nthRoot() {
-    
+
 }
 
 int* nthRoot::primeFactorization(int n) {
@@ -55,8 +55,8 @@ Expression* nthRoot::simplify(){
     factors = this->primeFactorization();
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
-    
-    while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand 
+
+    while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand
         int j = i;               //and puts them into the coefficient
         int count = 0;
         while (j <= factorsSize && factors[j + 1] == factors[j]) {
@@ -64,10 +64,10 @@ Expression* nthRoot::simplify(){
             j++;
         }
         if (count >= root) {
-            coefficient *= (factors[i] ^ (count/root)); 
-            operand = operand / (factors[i] ^ (count - (count % root))); 
+            coefficient *= (factors[i] ^ (count/root));
+            operand = operand / (factors[i] ^ (count - (count % root)));
         }
-        i = j + 1;    
+        i = j + 1;
     }
     if (operand == 1) {
         Integer* newInt = new Integer(coefficient);
@@ -78,13 +78,13 @@ Expression* nthRoot::simplify(){
         delete this;  //is this necessary?
         return newRoot;
     }
-    
+
 }
 
 
 Expression* nthRoot::add(Expression* a) {
     nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient(); 
+    int asCoefficient = b->getCoefficient();
     int asOperand = b->getOperand();
     int asRoot = b->getRoot();
     if (root == asRoot && operand == asOperand) {
@@ -100,7 +100,7 @@ Expression* nthRoot::add(Expression* a) {
 
 Expression* nthRoot::subtract(Expression* a) {
     nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient(); 
+    int asCoefficient = b->getCoefficient();
     int asOperand = b->getOperand();
     int asRoot = b->getRoot();
     if (root == asRoot && operand == asOperand) {
@@ -115,7 +115,7 @@ Expression* nthRoot::subtract(Expression* a) {
 }
 
 Expression* nthRoot::multiply(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                      
+    nthRoot *b = (nthRoot *)a;
     int asCoefficient = b->getCoefficient();
     int asOperand = b->getOperand();
     int asRoot = b->getRoot();
@@ -132,7 +132,7 @@ Expression* nthRoot::multiply(Expression* a) {
 }
 
 Expression* nthRoot::divide(Expression* a) {
-    nthRoot *b = (nthRoot *)a;                  
+    nthRoot *b = (nthRoot *)a;
     int asRoot = b->getRoot();
     int asOperand = b->getOperand();
     int asCoefficient = b->getCoefficient();
@@ -143,7 +143,7 @@ Expression* nthRoot::divide(Expression* a) {
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
         return simplifiedVersion;
     }
-    else if (((double)coefficient / (double)asCoefficient) % 1 == 0) {
+   else if (((double)coefficient / (double)asCoefficient) % 1 == 0) {
         int newCoefficient = coefficient / asCoefficient;
         nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
@@ -178,12 +178,12 @@ void nthRoot::setRoot(int n) {
     this->root = n;
 }
 ostream& nthRoot::print(std::ostream& output) const {
-    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;    
+    output << this->coefficient  << "*" << this->root << "rt:" << this->operand;
     return output;
 }
 
 string nthRoot::toString() {
-    stringstream s; 
+    stringstream s;
     s << coefficient << "*" << root << "rt:" << operand;
     return s.str();
 }
