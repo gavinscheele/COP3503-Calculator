@@ -94,10 +94,10 @@ void Exponential::exponentiate(){
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
-        exponent->setNumerator(exponent->getNumerator()-1);
+        exponent->setNumerator(exponent->getNumerator()-1);     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
     }
     if (toFlip) {
-    	Rational* mouse = new Rational(oneInt, base);
+    	Rational* mouse = new Rational(oneInt, base);       //oneInt is not declared
     	base = mouse;
     }                              
 
@@ -175,7 +175,7 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator()->multiply(this*));        //
+	r->setNumerator(r->getNumerator()->multiply(this*));        //Error: expected expression
 	return r;                                       
 	
     }else{
@@ -202,7 +202,7 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setDenominator(r->getDenominator->multiply(this*));      //
+	r->setDenominator(r->getDenominator()->multiply(this*));      //Error: member reference type 'int' is not a pointer
 	return r;                                                  
 
     }else{
