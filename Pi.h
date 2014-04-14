@@ -6,16 +6,13 @@
 //  Copyright (c) 2014 Gavin Scheele. All rights reserved.
 //
 
-#ifndef __Calculator__Euler__
-#define __Calculator__Euler__
+#ifndef __Calculator__Pi__
+#define __Calculator__Pi__
 
 #include <iostream>
 #include "Expression.h"
 #include "Exponential.h"
 #include "Logarithm.h"
-#include "Pi.h"
-#include "Euler.h"
-#include "nthRoot.h"
 #include "Integer.h"
 #include "Rational.h"
 #include <sstream>

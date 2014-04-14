@@ -13,9 +13,6 @@
 #include "Expression.h"
 #include "Exponential.h"
 #include "Logarithm.h"
-#include "Pi.h"
-#include "Euler.h"
-#include "nthRoot.h"
 #include "Integer.h"
 #include "Rational.h"
 #include <sstream>
@@ -29,7 +26,7 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-	string toString();
+    string toString();
 	Integer* getCoefficient();
 	void setCoefficient(Integer* x);
     ostream& print(std::ostream& output) const;

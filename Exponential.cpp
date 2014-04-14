@@ -253,6 +253,6 @@ string Exponential::toString() {
 
 
 ostream& Exponential::print(std::ostream& output) const{
-    output << this->base << this->exponent; //overload cout so that it makes sense
+    output << *base << "^" << "("<< *exponent << ")";
     return output;
 }
