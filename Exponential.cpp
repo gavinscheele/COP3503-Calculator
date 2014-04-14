@@ -176,7 +176,7 @@ Expression* Exponential::multiply(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
-	Rational* r = (Rational *) r;
+	Rational* r = (Rational *) a;
 	r->setNumerator(r->geteNumerator()->multiply(this));        //Error: expected expression
 	return r;
 
@@ -203,7 +203,7 @@ Expression* Exponential::divide(Expression* a){
     }else if(a->type == "pi"){
 
     }else if(a->type == "rational"){
-	Rational* r = (Rational *) r;
+	Rational* r = (Rational *) a;
 	r->setDenominator(r->geteDenominator()->multiply(this));      //Error: member reference type 'int' is not a pointer
 	return r;
 
