@@ -65,9 +65,9 @@ Expression* Logarithm::simplify(){
 
 
         for(int i = 0 ; i < size1; i++){
-            Integer *a = new Integer(primefactors.at(i));
-            seperatedLogs.at(i) = new Logarithm(this->eBase, a);//assigns values to each seperatedlog with the same base and operands of the prime factorization
-            delete a;
+           // Integer *a = new Integer(primefactors.at(i));
+            seperatedLogs.at(i) = new Logarithm(this->eBase, new Integer(primefactors.at(i)));//assigns values to each seperatedlog with the same base and operands of the prime factorization
+           // delete a;
             }
 
        for(int j; j <size1; j++)
@@ -159,11 +159,11 @@ Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by 
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << this->eBase << ":" << this->eOperand;
+    output << "Log_" << *this->eBase << ":" << *this->eOperand;
     return output;
 }
 string Logarithm::toString(){
     stringstream ss;
-    ss << "Log_" << this->eBase << "(" << this->eOperand;
+    ss << "Log_" << *this->eBase << ":" << *this->eOperand;
     return ss.str();
 };
