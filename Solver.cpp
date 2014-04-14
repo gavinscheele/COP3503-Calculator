@@ -181,6 +181,7 @@ string Solver::evaluateString(){
                 if (e1->type == "integer" && e2->type == "integer") {
                     Integer *a = (Integer *)e1;
                     Integer *b = (Integer *)e2;
+                    if(b->getValue() == 0) throw runtime_error("Error: Cannot Divide By Zero");
                     if (a->getValue() % b->getValue() != 0) {
                         e1 = new Rational(e1,e2);
                         stk.push(e1->toString());

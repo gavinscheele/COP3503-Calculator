@@ -30,7 +30,11 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 cin.ignore();
                 std::getline(cin, expression);
                 Solver *s = new Solver(expression);
-                cout << s->solve() << endl;;
+                try{
+                cout << s->solve() << endl;
+                }catch(runtime_error &e){
+                    cerr << e.what() << endl;
+                }
                 
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
