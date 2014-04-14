@@ -9,7 +9,7 @@
 #include "Logarithm.h"
 using namespace std;
 
-
+//constructor for int base with an int operand
 Logarithm::Logarithm(int base, int operand){
     if (operand == 0){
     throw runtime_error("Logarithms of 0 are undefined.");
@@ -24,12 +24,13 @@ Logarithm::Logarithm(int base, int operand){
     this->eBase = new Integer(base);
 }
 
+//constructor for expression base and or expression operand
 Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->type = "logarithm";
     this->eBase = eBase;
     this->eOperand = eOperand;
 }
-
+//get-set methods below
 int Logarithm::getBase(){
 	return base;
 }
@@ -54,7 +55,9 @@ Logarithm::~Logarithm(){
     delete this;
 }
 
-
+/*attempts to simplify Logarithms by seperating the operand into component parts of prime factors 
+and then creating new logarithms with the same original base for all, but each having
+a prime factor as the operand */
 Expression* Logarithm::simplify(){
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
@@ -95,6 +98,7 @@ Expression* Logarithm::simplify(){
        return answer;
 }
 
+//creates vector of prime factors of n to be used in the simplify method
 vector<int> Logarithm::primeFactorization(int n) {
     int k = 0;
     vector<int> factors;
