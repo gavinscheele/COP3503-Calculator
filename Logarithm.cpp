@@ -56,7 +56,7 @@ Logarithm::~Logarithm(){
 
 Expression* Logarithm::simplify(){
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
-        int size1 = primefactors.size();//gets the size of this vector
+        size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
 
@@ -88,6 +88,7 @@ Expression* Logarithm::simplify(){
             answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
+    //need to return an Expression type
 
 }
 
