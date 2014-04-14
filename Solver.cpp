@@ -66,7 +66,6 @@ std::string Solver::solve(){
         }
     }
     
-//    cout << output << endl;
     return "Result:" + evaluateString(); //+ evaluateString();
 }
 void Solver::shuntingYard(){
