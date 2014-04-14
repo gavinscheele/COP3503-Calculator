@@ -8,6 +8,7 @@
 //
 
 #include "Euler.h"
+
 Euler::Euler(){
     this->type = "euler";
     this->coefficient = new Integer(1);
@@ -23,6 +24,7 @@ void Euler:: setCoefficient(Integer* x)
 {
 	this->coefficient = x;
 }
+
 Expression* Euler::add(Expression* a){
    Euler* c = this;
 
@@ -32,6 +34,7 @@ Expression* Euler::add(Expression* a){
 		Integer* thisCoef = c->getCoefficient();
 		Integer* sum = (Integer *)thisCoef->add(aCoef);
 		c->setCoefficient(sum);
+
 	}
     return c;
 
@@ -46,6 +49,11 @@ Expression* Euler::subtract(Expression* a){
 		Integer* thisCoef = c->getCoefficient();
 		Integer* sum = (Integer *)thisCoef->subtract(aCoef);
 		c->setCoefficient(sum);
+		Integer* zero = new Integer(0);
+		if((c->coefficient->getValue()) == 0)
+        {
+            return zero;
+        }
 	}
     return c;
 
@@ -56,40 +64,42 @@ Expression* Euler::multiply(Expression* a){
 
 	 if(a->type == "euler"){
         Euler *b = (Euler *)a;//Casts a
+
 		Integer* aCoef = b->getCoefficient();//Gets coefficient of the thing that's being multiplied
 		Integer* thisCoef = c->getCoefficient();//Gets coefficient of this
 		Integer* product = (Integer *)thisCoef->multiply(aCoef);//Multiplies two coefficients together
-		Euler * euler1 = new Euler();//creates new Euler
-		Exponential* exponential = new Exponential((Expression *)euler1,(Rational *)2);//Creates new Exponential with base euler and exponent 2
-		Expression* d = exponential->multiply(product);//multiplies the new e^2 by the multiplied product
-		return d;
+		Euler* euler1 = new Euler();//creates new Euler
+		euler1->setCoefficient(product);
+		Rational* two = new Rational(2,1);
+		Exponential* exponential = new Exponential((Expression*)euler1,two);//Creates new Exponential with base euler and exponent 2
+		return exponential;
 		}
 	else if(a->type == "exponential"){
         Exponential *b = (Exponential *)a;//Casts a
-        if(b->getBase()->type == "euler"){ // Checks to see if the base is e
+        if(b->getBase()->type == "euler"){ // Checks to see if the base is euler
             Rational* exponent = b->getExponent();//gets exponent of b
             Euler* euler2 = new Euler();//creates new Euler
             Rational* one = new Rational(1,1);
-            Exponential* product = new Exponential((Expression*)euler2,(Rational *)(exponent->add(one)));
+            Rational* exponSum =(Rational *)exponent->add(one);
             Integer* Coef = c->getCoefficient();//Gets the coefficient of the type euler
-            Expression* d = Coef->multiply(product);//multiplies the coefficient of e with the new Exponential type
-            return d;
+            euler2->setCoefficient(Coef);
+            Exponential* product = new Exponential((Expression*)euler2,exponSum);
+            return product;
             }
         }
-    
-    return c;   //added this line to silence error of not returning anything
-
+        //need to return something if its not these two cases. Added return c.
+        return c;
 	}
 
 
 Expression* Euler::divide(Expression* a){
 	  Euler* c = this;
 
-	 if(a->type == "euler"){
+	 if(a->type == "euler"){//This doesn't work because of the integer divide method.
         Euler *b = (Euler *)a;//Casts a
 		Integer* aCoef = b->getCoefficient();//Gets coefficient of the thing that's dividing (x/a)...a
 		Integer* thisCoef = c->getCoefficient();//Gets coefficient of this(x/a)..x
-		Integer* product = (Integer *)thisCoef->divide(aCoef);//Divides this by a
+		Expression* product = thisCoef->divide(aCoef);//Divides this by a
 		return product;//e divided by e is 1, so we just return the product
 		}
 	else if(a->type == "exponential"){
@@ -98,25 +108,27 @@ Expression* Euler::divide(Expression* a){
             Rational* exponent = b->getExponent();//gets exponent of b
             Euler* euler2 = new Euler();//creates new Euler
             Rational* one = new Rational(1,1);
-            Exponential* product = new Exponential((Expression*)euler2,(Rational *)(one->subtract(exponent)));// creates new Exponential with base e and exponent 1 - previous exponent
-            Integer* Coef = c->getCoefficient();//Gets the coefficient of the type euler
-            Expression* d = Coef->multiply(product);//multiplies the coefficient of e with the new Exponential type
-            return d;
+            Rational* exponSum =(Rational*)one->subtract(exponent);
+            Integer* Coef = c->getCoefficient();//Gets the coefficient of the type e
+            euler2->setCoefficient(Coef);
+            Exponential* product = new Exponential((Expression*)euler2,exponSum);// creates new Exponential with base e and exponent 1 - previous exponent
+            return product;
             }
         }
-    
-    return c;   //added this line to silence error of not returning anything
+    //need to return something if neither of these cases are met. added return c.
+    return c;
 
 	}
 
 
-string Euler:: toString()
-{
-	stringstream s;
+string Euler:: toString(){
+    stringstream s;
 	s<<this->coefficient<<"e";
 	return s.str();
 }
+
 ostream& Euler::print(std::ostream& output) const{
-    output << this->coefficient << "e";  //overload cout of this class so that it makes sense
+    output << *coefficient << "e";
     return output;
 }
+

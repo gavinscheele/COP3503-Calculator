@@ -13,6 +13,7 @@
 #include "Expression.h"
 #include "Solver.h"
 #include <sstream>
+#include <stdexcept>
 using namespace std;
 class Rational : public Expression {
 public:
@@ -21,23 +22,23 @@ public:
 
     ~Rational();
 
-    
+
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
     string toString();
-    
+
     Expression* geteDenominator();
     Expression* geteNumerator();
     void setDenominator(Expression* denominator);
     void setNumerator(Expression* numerator);
     int getNumerator();
     int getDenominator();
-    
+
     bool hasIntegerOperands();
-    
+
 private:
     int findCommonFactor(int n);
     int numerator;

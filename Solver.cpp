@@ -7,6 +7,8 @@
 //
 
 #include "Solver.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 Solver::Solver(std::string a){
@@ -16,12 +18,12 @@ Solver::Solver(std::string a){
     output = "";
 }
 Solver::~Solver(){
-    
+
 }
 std::string Solver::solve(bool floatingPoint){
     string temp = "";
     int count = 0;
-    
+
     for(int i = 0; i < localExpression.size(); i ++){       //creates an array of expressions and operations
         if(localExpression.at(i) == ' '){
             temp = "";
@@ -40,13 +42,13 @@ std::string Solver::solve(bool floatingPoint){
             count = i+1;
         }
     }
-    
+
     shuntingYard();
-    
+
     expressions.clear();
     count = 0;
-    
-    
+
+
     for(int i = 0; i < output.size(); i ++){       //creates an array of expressions and operations
         if(output.at(i) == ' '){
             temp = "";
@@ -55,7 +57,7 @@ std::string Solver::solve(bool floatingPoint){
             }
             expressions.push_back(temp);
             count = i+1;
-            
+
         }else if(i == output.size()-1){
             temp = "";
             for (int j = count; j <= i; j++) {
@@ -73,12 +75,12 @@ std::string Solver::solve(bool floatingPoint){
 void Solver::shuntingYard(){
     for(int i = 0; i < expressions.size(); i++){
         string token = expressions.at(i);
-        
+
         if(!isAnOperator(token) && (token != "(" && token != ")")){
             if(i == 0) output += expressions.at(i);
             else output += " " + expressions.at(i);
         }
-        
+
         if(isAnOperator(token)){
             while(!tokenStack.empty() && isAnOperator(tokenStack.top()) ){
                 if((isLeftAssociative(token) && getOperatorPrecedence(token) <= getOperatorPrecedence(tokenStack.top())) ||
@@ -91,11 +93,11 @@ void Solver::shuntingYard(){
             }
             tokenStack.push(token);
         }
-        
+
         if(token == "("){
             tokenStack.push(token);
         }
-        
+
         if(token == ")"){
             while (!tokenStack.empty() && tokenStack.top() != "(") {
                 output += " " + tokenStack.top();
@@ -244,14 +246,14 @@ string Solver::evaluateString(){
     string out = *new string("");
     string result = *new string("");
     stack<string> stk = *new stack<string>();
-    
+
     if (expressions.size() == 1) {
         out = this->bindToExpressionType(expressions.at(0))->toString();
         return out;
     }
     for(int i = 0; i < expressions.size(); i++){
         string token = expressions.at(i);
-        
+
         if(!isAnOperator(token)){
             stk.push(token);
         }
@@ -260,13 +262,13 @@ string Solver::evaluateString(){
             e2 = bindToExpressionType(stk.top());
             e2->exp =  stk.top();
             stk.pop();
-            
+
             Expression *e1;
             e1 = bindToExpressionType(stk.top());
             e1->exp = stk.top();
             result = e1->exp;
             stk.pop();
-            
+
             //check function call and call appropriate method
             if(token == "+"){
                 if(e1->canAdd(e2)){
@@ -295,7 +297,7 @@ string Solver::evaluateString(){
                     stk.push(e1->exp + "*" + e2->exp);
                     out += e1->exp + " * " + e2->exp;
                 }
-                
+
             }else if(token == "/"){
                 if (e1->type == "integer" && e2->type == "integer") {
                     Integer *a = (Integer *)e1;
@@ -347,7 +349,7 @@ string Solver::evaluateString(){
             }else{
                 cout << "Error: Invalid Operator" << endl;
             }
-            
+
         }
 
     }
@@ -427,9 +429,9 @@ bool Solver::replace(std::string& str, const std::string& from, const std::strin
 
 
 
-                  
-                  
-                  
-                  
-                  
-                  
+
+
+
+
+
+

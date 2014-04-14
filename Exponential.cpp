@@ -90,13 +90,13 @@ void Exponential::exponentiate(){
             toFlip = true;
             //handles negative exponents
     }
-    Expression* constantBase = nullptr;
+    Expression* constantBase = 0;
     if (base->type == "integer") {              //fixed the problem for integers but nothing else
         Integer *a = (Integer *)base;
         constantBase = new Integer(a->getValue());
     }
-    
-    
+
+
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
@@ -259,6 +259,6 @@ string Exponential::toString() {
 
 
 ostream& Exponential::print(std::ostream& output) const{
-    output << this->base << this->exponent; //overload cout so that it makes sense
+    output << *base << "^" << "("<< *exponent << ")";
     return output;
 }

@@ -11,8 +11,11 @@
 
 #include <iostream>
 #include "Expression.h"
+#include "Exponential.h"
+#include "Logarithm.h"
+#include "Integer.h"
+#include "Rational.h"
 #include "Solver.h"
-
 #include <sstream>
 
 class Euler : public Expression{
@@ -24,7 +27,7 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-	string toString();
+    string toString();
 	Integer* getCoefficient();
 	void setCoefficient(Integer* x);
     ostream& print(std::ostream& output) const;
