@@ -136,14 +136,14 @@ Expression* nthRoot::divide(Expression* a) {
     int asRoot = b->getRoot();
     int asOperand = b->getOperand();
     int asCoefficient = b->getCoefficient();
-    if (root == asRoot && ((double)coefficient / (double)asCoefficient) % 1 == 0 && ((double)operand / (double)asOperand) % 1 == 0) {
+    if (root == asRoot && fmod( ((double)coefficient / (double)asCoefficient), 1) == 0 && fmod(((double)operand / (double)asOperand), 1) == 0) {
         int newCoefficient = coefficient / asCoefficient;
         int newOperand = operand / asOperand;
         nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
         return simplifiedVersion;
     }
-   else if (((double)coefficient / (double)asCoefficient) % 1 == 0) {
+   else if (fmod( ((double)coefficient / (double)asCoefficient),1) == 0) {
         int newCoefficient = coefficient / asCoefficient;
         nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
