@@ -23,7 +23,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     }
     this->exnu = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    	this* = exponentiate();                 //cant assign this
+    	exponentiate();     
     }
 }
 Exponential::~Exponential(){
@@ -97,7 +97,7 @@ void Exponential::exponentiate(){
         exponent->setNumerator(exponent->getNumerator()-1);     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
     }
     if (toFlip) {
-    	Rational* mouse = new Rational(oneInt, base);       //oneInt is not declared
+    	Rational* mouse = new Rational(oneInt, base);
     	base = mouse;
     }                              
 
@@ -175,7 +175,7 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator()->multiply(this*));        //Error: expected expression
+	r->setNumerator(r->getNumerator()->multiply(this));        //Error: expected expression
 	return r;                                       
 	
     }else{
@@ -244,7 +244,6 @@ void Exponential::setBase(Expression* e) {
 }
 
 string Exponential::toString() {
-  //  string str = base + "^" + exponent;
     stringstream str;
     str << base << "^" << exponent;
     return str.str();
