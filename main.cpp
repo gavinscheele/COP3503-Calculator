@@ -26,7 +26,12 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
             string secondChoice = "n";
             while (secondChoice.compare("y") != 0) {
                 string expression;
-                cin >> expression;
+                cin.ignore();
+                std::getline(cin, expression);
+                Solver *s = new Solver(expression);
+                cout << s->solve() << endl;;
+                
+               // cin >> expression;
                 //that's the input - I don't know how you want to handle it
                 cout <<"\n" << "Would you like to go back to the menu? (y/n)" << "\n";
                 cin >> secondChoice;
@@ -35,31 +40,28 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         }
         
         
-        if (choice.compare("b") == 0) {
+        else if (choice.compare("b") == 0) {
             cout << "Directions for Use of This Program" << "\n";
         }
         
         
-        if (choice.compare("c") == 0) {
+        else if (choice.compare("c") == 0) {
             //we're screwed
             string thirdChoice = "z";
             cout << "Sub-Options \n" <<
-                    "a. Show the float from of the last expression" << "\n" <<
+                    "a. Show the float form of the last expression" << "\n" <<
                     "b. Set 'ans' equal to the previous expression's answer \n";
             cin >> thirdChoice;
             if (thirdChoice.compare("a") == 0) {
                 //show float form
             }
-            if (thirdChoice.compare("b") == 0) {
+            else if (thirdChoice.compare("b") == 0) {
                 //set ans equal to previous expression's answer
             }
             else {
                 cout << "Sorry, couldn't recognize your input \n";
             }
-        }
-        
-        
-        else if (choice.compare("d") != 0) {
+        }else if(choice.compare("d") != 0){
             cout << "Sorry, couldn't recognize your input." << "\n";        
         }
     }
