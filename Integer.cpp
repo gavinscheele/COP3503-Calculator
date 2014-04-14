@@ -116,7 +116,9 @@ Expression* Integer::divide(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setDenominator(b->geteDenominator()->multiply(this));
+        Expression * c = b->geteNumerator();
+        b->setNumerator(b->geteDenominator()->multiply(this));
+        b->setDenominator(c);
         //multiplies the Integer with the denominator of the Rational
         return b;
     }else{
