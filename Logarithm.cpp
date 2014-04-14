@@ -59,6 +59,33 @@ Logarithm::~Logarithm(){
 and then creating new logarithms with the same original base for all, but each having
 a prime factor as the operand */
 Expression* Logarithm::simplify(){
+        /*if (eOperand->type = “pi” && eBase->type =“pi”){
+	if(eBase has multiplication?){
+		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}	
+	else if (eBase has division?) {
+		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}
+
+if (eOperand->type = “euler” && eBase-> =“euler”){
+
+	if(eBase has multiplication?){
+		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}	
+	else if (eBase has division?) {
+		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}
+        
+        */
+        
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
