@@ -85,6 +85,7 @@ Expression* Logarithm::simplify(){
             answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
+       return answer;
 
 }
 
@@ -97,8 +98,8 @@ vector<int> Logarithm::primeFactorization(int n) {
         n = n/2;
     }
     for (int i = 3; i <= sqrt(n); i = i + 2) {
-        while (n%1 == 0) {
-            factors.push_back(2);
+        while (n%i == 0) {
+            factors.push_back(i);
             k++;
             n = n/i;
         }
