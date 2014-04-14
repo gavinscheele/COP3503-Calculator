@@ -9,6 +9,7 @@
 #include "Logarithm.h"
 using namespace std;
 
+
 Logarithm::Logarithm(int base, int operand){
     if (operand == 0){
     throw runtime_error("Logarithms of 0 are undefined.");
