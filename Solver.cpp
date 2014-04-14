@@ -67,12 +67,9 @@ std::string Solver::solve(){
             count = i+1;
         }
     }
-<<<<<<< HEAD
 
 //    cout << output << endl;
-=======
-    
->>>>>>> cc951f9e01e31295873b54a18d2f49cb5d178e68
+
     return "Result:" + evaluateString(); //+ evaluateString();
 }
 void Solver::shuntingYard(){
@@ -136,7 +133,7 @@ string Solver::evaluateString(){
     string out = *new string("");
     string result = *new string("");
     stack<string> stk = *new stack<string>();
-    
+
     if (expressions.size() == 1) {
         out = this->bindToExpressionType(expressions.at(0))->toString();
         return out;

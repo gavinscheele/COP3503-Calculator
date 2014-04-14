@@ -10,17 +10,12 @@
 #define __Calculator__Pi__
 
 #include <iostream>
-#include "Expression.h"
-<<<<<<< HEAD
 #include "Exponential.h"
 #include "Logarithm.h"
 #include "Integer.h"
 #include "Rational.h"
 #include <sstream>
-=======
 #include "Solver.h"
->>>>>>> cc951f9e01e31295873b54a18d2f49cb5d178e68
-
 #include <sstream>
 class Integer;
 class Pi : public Expression{

@@ -90,13 +90,13 @@ void Exponential::exponentiate(){
             toFlip = true;
             //handles negative exponents
     }
-    Expression* constantBase = nullptr;
+    Expression* constantBase = 0;
     if (base->type == "integer") {              //fixed the problem for integers but nothing else
         Integer *a = (Integer *)base;
         constantBase = new Integer(a->getValue());
     }
-    
-    
+
+
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
