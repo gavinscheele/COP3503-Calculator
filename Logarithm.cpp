@@ -10,8 +10,11 @@
 using namespace std;
 
 Logarithm::Logarithm(int base, int operand){
-    if (operand <= 0) {
-        throw runtime_error("Logarithms of non positive numbers are undefined.");
+    if (operand == 0){
+    throw runtime_error("Logarithms of 0 are undefined.");
+    }
+    if (operand < 0) {
+    throw runtime_error("Logarithms of negative numbers are undefined.");
     }
     this->type = "logarithm";
     this->base = base;
@@ -53,7 +56,7 @@ Logarithm::~Logarithm(){
 
 Expression* Logarithm::simplify(){
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
-        int size1 = primefactors.size();//gets the size of this vector
+        size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
 
@@ -85,8 +88,8 @@ Expression* Logarithm::simplify(){
             answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
-       return answer;
 
+       return answer;
 }
 
 vector<int> Logarithm::primeFactorization(int n) {
