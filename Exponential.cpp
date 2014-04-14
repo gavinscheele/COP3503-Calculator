@@ -23,7 +23,7 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     }
     this->exnu = new Integer(exponent->getNumerator());
     if (canExponentiate()) {
-    	this* = exponentiate();
+    	this* = exponentiate();                 //cant assign this
     }
 }
 Exponential::~Exponential(){
@@ -75,29 +75,31 @@ bool Exponential::canExponentiate() {
     return false;
 }
 
-Expression* Exponential::exponentiate(){
-    Expression* toReturn = base;
+void Exponential::exponentiate(){
+	
     Expression* constantBase = base;
     if (this->exponent->getNumerator()==0) { 
-        Integer* ret = new Integer(1); 
-        return ret;
+        Integer* oneInt = new Integer(1); 
+        Rational* oneRat = new Rational(1, 1);
+       this->exponent=oneRat;
+       this->base=oneInt;
+       
     }
     bool toFlip = false;
-    if (exnu->getValue()<0) {  
+    if (exnu->getValue()<0) {  				
 	    exnu->setValue(exnu->getValue()*-1);
             toFlip = true;
             //handles negative exponents
     }
-    Expression* e = this;
-    for (int i = 1; i < exnu->getValue(); i++) {
-        toReturn->multiply(constantBase);
+    while (exponent->getNumerator()>1)
+    	{
+        base->multiply(constantBase);
+        exponent->setNumerator(exponent->getNumerator()-1);     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
     }
-    exnu = new Integer(1);
     if (toFlip) {
-	Rational* r = new Rational(exnu, toReturn);
-        return r;
-    }
-    return toReturn;                               
+    	Rational* mouse = new Rational(oneInt, base);       //oneInt is not declared
+    	base = mouse;
+    }                              
 
 }
 
@@ -173,7 +175,7 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setNumerator(r->getNumerator->multiply(this*));
+	r->setNumerator(r->getNumerator()->multiply(this*));        //Error: expected expression
 	return r;                                       
 	
     }else{
@@ -187,7 +189,7 @@ Expression* Exponential::divide(Expression* a){
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
 	if (this->base == ex->getBase()) {
-		this->exponent -= ex->getExponent(); //warning
+		this->exponent->subtract(ex->getExponent());
 	}
 
     }else if(a->type == "integer"){
@@ -200,7 +202,7 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) r;
-	r->setDenominator(r->getDenominator->multiply(this*));
+	r->setDenominator(r->getDenominator()->multiply(this*));      //Error: member reference type 'int' is not a pointer
 	return r;                                                  
 
     }else{
@@ -233,17 +235,19 @@ void Exponential::setExde(Integer* n) {
 	exde = n;
 } 
 
-void Exponential::setExponent(Rational e) {
+void Exponential::setExponent(Rational* e) {
     exponent = e;
 }
 
-void Exponential::setBase(*Expression e) {
+void Exponential::setBase(Expression* e) {
     base = e;
 }
 
 string Exponential::toString() {
-    string str = base + "^" + exponent;
-    return str;
+  //  string str = base + "^" + exponent;
+    stringstream str;
+    str << base << "^" << exponent;
+    return str.str();
 }
 
 

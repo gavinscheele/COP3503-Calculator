@@ -12,13 +12,46 @@
 using namespace std;
 
 Logarithm::Logarithm(int base, int operand){
+    if (operand == 0){
+    throw runtime_error("Logarithms of 0 are undefined.");
+    }
+    if (operand < 0) {
+    throw runtime_error("Logarithms of negative numbers are undefined.")
+    }
     this->type = "logarithm";
     this->base = base;
     this->operand = operand;
     this->eOperand = new Integer(operand);
+<<<<<<< HEAD
     this->eBase = new Integer(base);
 }
 
+=======
+    this->eBase = new Integer(base);
+    
+}
+
+Logarithm::Logarithm(int base, Expression* eOperand){
+    this->type = "logarithm";
+    this->base = base;
+    this->eOperand = eOperand;
+    this->eBase = new Integer(base);
+}
+
+Logarithm::Logarithm(Expression* eBase, int operand){
+    if (operand == 0){
+    throw runtime_error("Logarithms of 0 are undefined.");
+    }
+    if (operand < 0) {
+    throw runtime_error("Logarithms of negative numbers are undefined.")
+    }
+    this->type = "logarithm";
+    this->eBase = eBase;
+    this->operand = operand;
+    this->eOperand = new Integer (operand);
+}
+
+>>>>>>> 7c7d2bd52e3ce500a986f2e55653a42d98f8611a
 Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->type = "logarithm";
     this->eBase = eBase;
@@ -109,7 +142,43 @@ vector<int> Logarithm::primeFactorization(int n) {
 }
 
 Expression* Logarithm::add(Expression* a){
+<<<<<<< HEAD
     return this;
+=======
+    Expression* c = this;
+    if(c->base && a->base && c->operand && a->operand) {
+    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+    
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+    
+    else if(c->base && a->base && c->eOperand && a->eOperand) {
+    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	} 
+    
+    } */
+   
+    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
+    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
+    		Expression* answer = new Expression(2->multiply(c));
+    		return answer;
+    	}
+    
+    }
+   else return c;
+>>>>>>> 7c7d2bd52e3ce500a986f2e55653a42d98f8611a
 }
 Expression* Logarithm::subtract(Expression* a){
     Logarithm* c = this;
@@ -119,6 +188,18 @@ Expression* Logarithm::subtract(Expression* a){
     		Expression* answer = new Integer(0);
     		return answer;
     	}
+<<<<<<< HEAD
+=======
+    
+    }
+    
+   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
+    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
+    		Expression* answer =  new Integer(0);
+    		return answer;
+    	}
+    
+>>>>>>> 7c7d2bd52e3ce500a986f2e55653a42d98f8611a
     }
     return c;
 }
@@ -131,6 +212,10 @@ Expression* Logarithm::multiply(Expression* a){
     		Exponential* answer = new Exponential(this, new Rational(2,1));
     		return answer;
     	}
+<<<<<<< HEAD
+=======
+    */
+>>>>>>> 7c7d2bd52e3ce500a986f2e55653a42d98f8611a
     }
    return c;
 }
@@ -143,8 +228,56 @@ Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by 
         Logarithm* answer = new Logarithm(denominatorOperand, numeratorOperand);
         return answer;
     }
+<<<<<<< HEAD
 
     return c;
+=======
+    else return c;
+}
+Expression* Logarithm::multiply(Expression* a){
+    Expression* c = this;
+    if((c->base && a->base) && (c->getBase() == a->getBase())) {
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));	
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	return this;	
+    	}
+    	
+    if((c->eBase && a->eBase) && (c->getEBase() == a->getEBase())){
+    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
+    		Expression* answer = new Exponential(this, new Rational(2,1));
+    	}
+    }
+   else return c;
+}
+Expression* Logarithm::divide(Expression* a){
+    Expression* c = this;
+    if(c->base && a->base) {
+    	if (c->getBase() == a->getBase()) {
+    		Expression* answer = new Logarithm(a->getOperand(),c->getOperand());
+    	return answer;
+    	}
+    	else {
+    	return this;	
+    	}
+    	
+    if(c->eBase && a->eBase){
+    	if (c->getEBase() == a->getEBase()){
+    		Expression* answer = new Logarithm(a->getEOperand(), c->getEOperand());
+    	return answer;
+    	}
+    	else{
+    	return this;	
+    	}
+    }
+   else return c;
+>>>>>>> 7c7d2bd52e3ce500a986f2e55653a42d98f8611a
 }
 ostream& Logarithm::print(std::ostream& output) const{
     output << "Log_" << this->eBase << ":" << this->eOperand;

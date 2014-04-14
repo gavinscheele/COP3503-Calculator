@@ -37,8 +37,8 @@ bool Expression::canMultiply(Expression* b){
         }
         return true;
     }
-    else if(this->type == "int" && b->type == "rational") return true;
-    else if(this->type == "rational" && b->type == "int") return true;
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
 
     return false;
 
@@ -47,10 +47,10 @@ bool Expression::canDivide(Expression* b){
     if (this->type == b->type) {
         return true;
     }
-    else if(this->type == "int"){
+    else if(this->type == "integer"){
         if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
     }
-    else if(this->type == "rational" && b->type == "int") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
     
     return false;
 }

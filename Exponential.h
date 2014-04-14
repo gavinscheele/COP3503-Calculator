@@ -18,7 +18,7 @@ class Exponential : public Expression{
 public:
     Exponential(Expression* base, Rational* exponent);
     ~Exponential();
-    Expression* exponentiate();
+    void exponentiate();
     Expression* exponentiate(Rational* expo); //exponentiate using parameter as exponent
     Rational* getExponent();
     Expression* getBase();
@@ -26,7 +26,7 @@ public:
     Integer* getExde();
     void setExnu(Integer* n);
     void setExde(Integer* n);
-    void setExponent(Rational e);
+    void setExponent(Rational* e);
     void setBase(Expression* e);
     bool canExponentiate();
     string toString();

@@ -33,8 +33,11 @@ std::string Solver::solve(){
 
         }else if(i == localExpression.size()-1){
             temp = "";
-            temp.push_back(localExpression.at(i));
+            for (int j = count; j <= i; j++) {
+                temp.push_back(localExpression.at(j));
+            }
             expressions.push_back(temp);
+            count = i+1;
         }
     }
     
@@ -55,14 +58,16 @@ std::string Solver::solve(){
             
         }else if(i == output.size()-1){
             temp = "";
-            temp.push_back(output.at(i));
+            for (int j = count; j <= i; j++) {
+                temp.push_back(output.at(j));
+            }
             expressions.push_back(temp);
+            count = i+1;
         }
     }
     
-   // cout << output << endl;
-    cout << evaluateString() << endl;
-    return "Result:" + output; //+ evaluateString();
+//    cout << output << endl;
+    return "Result:" + evaluateString(); //+ evaluateString();
 }
 void Solver::shuntingYard(){
     for(int i = 0; i < expressions.size(); i++){
@@ -146,38 +151,50 @@ string Solver::evaluateString(){
             //check function call and call appropriate method
             if(token == "+"){
                 if(e1->canAdd(e2)){
-                    e1->add(e2);
-                    stk.push(e1->exp);
-                    out += e1->toString();
+                    Expression *result = e1->add(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "+" + e2->exp);
                     out += e1->exp + " + " + e2->exp;
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
-                    e1->subtract(e2);
-                    out += e1->toString();
+                   Expression *result =  e1->subtract(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "-" + e2->exp);
                     out += e1->exp + " - " + e2->exp;
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
-                    e1->multiply(e2);
-                    out += e1->toString();
+                    Expression *result = e1->multiply(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }else{
                     stk.push(e1->exp + "*" + e2->exp);
                     out += e1->exp + " * " + e2->exp;
                 }
                 
             }else if(token == "/"){
-                if(e1->canDivide(e2)){
-                    e1->divide(e2);
-                    out += e1->toString();
-                }else{
-                    e1 = new Rational(e1,e2);
-                    stk.push(e1->exp + "/" + e2->exp);
-                    out += e1->exp + " / " + e2->exp;
+                if (e1->type == "integer" && e2->type == "integer") {
+                    Integer *a = (Integer *)e1;
+                    Integer *b = (Integer *)e2;
+                    if (a->getValue() % b->getValue() != 0) {
+                        e1 = new Rational(e1,e2);
+                        stk.push(e1->toString());
+                        out += e1->toString();
+                    }else if(e1->canDivide(e2)){
+                        Expression *result = e1->divide(e2);
+                        stk.push(result->toString());
+                        out = result->toString();
+                    }
+                }
+                else if(e1->canDivide(e2)){
+                    Expression *result = e1->divide(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
                 }
             }else if(token == "^"){
              //   Expression *a = new Exponential(e1,e2);
@@ -198,13 +215,23 @@ Expression* Solver::bindToExpressionType(string e){
     Expression *a = new Integer(0);     //so the compiler doesnt complain. Will be set to appropriate type later
     
     for(int i = 0; i < e.length(); i++){
-        if(!isdigit(e[i])){
+        if (e[i] == '/') {
+            string before;
+            string after;
+            for(int j = 0; j < i; j++){
+                before.push_back(e[j]);
+            }
+            for(int k = i+1; k < e.length(); k++){
+                after.push_back(e[k]);
+            }
+            a = new Rational(atoi(before.c_str()), atoi(after.c_str()));
             break;
         }
-        if(i == e.length()-1){
+        else if(!isdigit(e[i])){
+            break;
+        }
+        else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
-            Integer *b = (Integer *)a;
-            cout << b->getValue() << endl;
         }
     }
     return a;

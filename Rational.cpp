@@ -50,6 +50,7 @@ Expression* Rational::geteDenominator(){
 }
 void Rational::setDenominator(Expression* denominator){
     this->eDenominator = denominator;
+    syncIntToExp();
 }
 
 Expression* Rational::geteNumerator(){
@@ -57,6 +58,7 @@ Expression* Rational::geteNumerator(){
 }
 void Rational::setNumerator(Expression* numerator){
     this->eNumerator = numerator;
+    syncIntToExp();
 }
 int Rational::getNumerator(){
     return this->numerator;
@@ -65,7 +67,7 @@ int Rational::getDenominator(){
     return this->denominator;
 }
 bool Rational::hasIntegerOperands(){
-    if(this->numerator){
+    if(this->eNumerator->type == "integer"){
         return true;
     }else return false;
 }
@@ -304,8 +306,8 @@ Expression* Rational::divide(Expression* a){
     if(a->type == "integer"){
         Integer *b = (Integer *)a;
         if(this->numerator || this->numerator == 0){
-            Rational *c = new Rational(b->getValue() * denominator, denominator);
-            this->divide(c);
+            Rational *c = new Rational(numerator ,b->getValue() * denominator);
+            return c;
         }
     }else if(a->type == "rational"){
         Rational *b = (Rational *)a;                                    //cast expression as Rational type
