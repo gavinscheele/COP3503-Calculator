@@ -30,7 +30,11 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 cin.ignore();
                 std::getline(cin, expression);
                 Solver *s = new Solver(expression);
-                cout << s->solve() << endl;;
+                try{
+                cout << s->solve() << endl;
+                }catch(runtime_error &e){
+                    cerr << e.what() << endl;
+                }
                 
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
@@ -42,16 +46,16 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         
         
         else if (choice.compare("b") == 0) {
-            cout << "Directions for Use of This Program" << "\n";
-            cout << "Enter 'a' from the menu to begin a calculation" << endl;
-            cout << "Calculation operands and operations should each be seperated by a space" << endl;
-            cout << "Ex: ( 4 + 3 ) - log_3:2 * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
-            cout << "After each calculation, enter 'y' to proceed with another calculation, or 'n' to go back to the main menu" << endl;
+            cout << "Directions for Use of This Program" << endl;
+            cout << "----------------------------------" << endl;
+            cout << "*Enter 'a' from the menu to begin a calculation" << endl;
+            cout << "*Calculation operands and operations should each be seperated by a space" << endl;
+            cout << "*Ex: ( 4 + 3 ) - log_3:2 * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
+            cout << "*After each calculation, enter 'y' to proceed with another calculation, or 'n' to go back to the main menu" << endl;
+            cout << "*Enter 'c' from the main menu to view previous answers normally or in float form" << endl;
+            cout << "*From this menu, you can also refer to the previous answer as 'ans'" << endl;
+            cout << "*Enter 'd' from the main menu is you want to exit the program" << endl;
             cout << endl;
-            cout << "Enter 'c' from the main menu to view previous answers normally or in float form" << endl;
-            cout << "From this menu, you can also refer to the previous answer as 'ans'" << endl;
-            cout << endl;
-            cout << "Enter 'd' from the main menu is you want to exit the program" << endl;
         }
         
         
@@ -75,7 +79,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
             cout << "Sorry, couldn't recognize your input." << "\n";        
         }
     }
-    cout << "Thank You" << "\n";
+    cout << "Thank You. Have A Nice Day." << "\n";
     return 0;
         
 }

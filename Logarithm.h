@@ -12,7 +12,6 @@
 #include <iostream>
 #include <sstream>
 #include "Expression.h"
-#include "Integer.h"
 #include <vector>
 #include <math.h>
 #include "Solver.h"

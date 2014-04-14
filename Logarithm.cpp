@@ -9,7 +9,7 @@
 #include "Logarithm.h"
 using namespace std;
 
-
+//constructor for int base with an int operand
 Logarithm::Logarithm(int base, int operand){
     if (operand == 0){
     throw runtime_error("Logarithms of 0 are undefined.");
@@ -24,12 +24,13 @@ Logarithm::Logarithm(int base, int operand){
     this->eBase = new Integer(base);
 }
 
+//constructor for expression base and or expression operand
 Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->type = "logarithm";
     this->eBase = eBase;
     this->eOperand = eOperand;
 }
-
+//get-set methods below
 int Logarithm::getBase(){
 	return base;
 }
@@ -54,17 +55,46 @@ Logarithm::~Logarithm(){
     delete this;
 }
 
-
+/*attempts to simplify Logarithms by seperating the operand into component parts of prime factors 
+and then creating new logarithms with the same original base for all, but each having
+a prime factor as the operand */
 Expression* Logarithm::simplify(){
+        /*if (eOperand->type = “pi” && eBase->type =“pi”){
+	if(eBase has multiplication?){
+		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}	
+	else if (eBase has division?) {
+		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}
+
+if (eOperand->type = “euler” && eBase-> =“euler”){
+
+	if(eBase has multiplication?){
+		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}	
+	else if (eBase has division?) {
+		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
+		Recall simplify method again, if it returns what was entered, this is answer.
+		Return answer. 
+}
+        
+        */
+        
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
 
         for(int i = 0 ; i < size1; i++){
-            Integer *a = new Integer(primefactors.at(i));
-            seperatedLogs.at(i) = new Logarithm(this->eBase, a);//assigns values to each seperatedlog with the same base and operands of the prime factorization
-            delete a;
+           // Integer *a = new Integer(primefactors.at(i));
+            seperatedLogs.at(i) = new Logarithm(this->eBase, new Integer(primefactors.at(i)));//assigns values to each seperatedlog with the same base and operands of the prime factorization
+           // delete a;
             }
 
        for(int j; j <size1; j++)
@@ -95,6 +125,7 @@ Expression* Logarithm::simplify(){
        return answer;
 }
 
+//creates vector of prime factors of n to be used in the simplify method
 vector<int> Logarithm::primeFactorization(int n) {
     int k = 0;
     vector<int> factors;
@@ -155,11 +186,11 @@ Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by 
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << this->eBase << ":" << this->eOperand;
+    output << "Log_" << *this->eBase << ":" << *this->eOperand;
     return output;
 }
 string Logarithm::toString(){
     stringstream ss;
-    ss << "Log_" << this->eBase << "(" << this->eOperand;
+    ss << "Log_" << *this->eBase << ":" << *this->eOperand;
     return ss.str();
 };

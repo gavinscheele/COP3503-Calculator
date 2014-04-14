@@ -12,11 +12,15 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <iostream>
 #include "Expression.h"
 #include "Logarithm.h"
 #include "Pi.h"
 #include "Euler.h"
 #include "Rational.h"
+#include "Exponential.h"
+#include "Integer.h"
+#include "nthRoot.h"
 
 using namespace std;
 class Solver{

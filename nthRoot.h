@@ -11,12 +11,6 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Euler.h"
-#include "Exponential.h"
-#include "Integer.h"
-#include "Logarithm.h"
-#include "Pi.h"
-#include "Rational.h"
 #include "Solver.h"
 #include <math.h>
 class nthRoot : public Expression{

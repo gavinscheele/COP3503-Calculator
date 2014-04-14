@@ -15,6 +15,10 @@ Rational::Rational(int numerator, int denominator){     //constructor for ration
     this->type = "rational";
     this->numerator = numerator;
     this->denominator = denominator;
+    if (numerator < 0 && denominator < 0) {
+        numerator *= -1;
+        denominator *= -1;
+    }
     this->eNumerator = new Integer(numerator);
     this->eDenominator = new Integer(denominator);
     simplify(numerator);
@@ -37,6 +41,14 @@ Rational::Rational(Expression* numerator, Expression* denominator){     //constr
         this->eNumerator = numerator;
         this->eDenominator = denominator;
         simplify(numerator);
+    }
+    if (this->eNumerator->type == "integer" && this->eDenominator->type == "integer") {
+        Integer *num = (Integer *)eNumerator;
+        Integer *den = (Integer *)eDenominator;
+        if (num->getValue() < 0 && den->getValue() < 0) {
+            num->setValue(num->getValue() * -1);
+            den->setValue(den->getValue() * -1);
+        }
     }
 }
 
@@ -345,7 +357,8 @@ void Rational::syncIntToExp(){
     this->denominator = b->getValue();
 }
 ostream& Rational::print(std::ostream& output) const{
-    cout << *eNumerator << "/" << *eDenominator;
+    Rational *a = (Rational *)this;
+    output << a->toString();
     return output;
 }
 string Rational::toString(){

@@ -77,7 +77,6 @@ bool Exponential::canExponentiate() {
 
 void Exponential::exponentiate(){
 
-    Expression* constantBase = base;
     if (this->exponent->getNumerator()==0) {
         Integer* oneInt = new Integer(1);
         Rational* oneRat = new Rational(1, 1);
@@ -91,11 +90,18 @@ void Exponential::exponentiate(){
             toFlip = true;
             //handles negative exponents
     }
+    Expression* constantBase = nullptr;
+    if (base->type == "integer") {              //fixed the problem for integers but nothing else
+        Integer *a = (Integer *)base;
+        constantBase = new Integer(a->getValue());
+    }
+    
+    
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
         Integer* one = new Integer(1);
-        exponent->setNumerator(exponent->geteNumerator()->subtract(one));     //Error: cannot initialize a parameter of type 'Expression *' with an rvalue of type 'int'
+        exponent->setNumerator(exponent->geteNumerator()->subtract(one));
     }
     if (toFlip) {
         Integer* one = new Integer(1);

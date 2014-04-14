@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Integer.h"
+#include "Solver.h"
 #include <sstream>
 #include <stdexcept>
 using namespace std;

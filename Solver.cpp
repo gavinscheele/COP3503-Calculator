@@ -67,8 +67,12 @@ std::string Solver::solve(){
             count = i+1;
         }
     }
+<<<<<<< HEAD
 
 //    cout << output << endl;
+=======
+    
+>>>>>>> cc951f9e01e31295873b54a18d2f49cb5d178e68
     return "Result:" + evaluateString(); //+ evaluateString();
 }
 void Solver::shuntingYard(){
@@ -132,6 +136,11 @@ string Solver::evaluateString(){
     string out = *new string("");
     string result = *new string("");
     stack<string> stk = *new stack<string>();
+    
+    if (expressions.size() == 1) {
+        out = this->bindToExpressionType(expressions.at(0))->toString();
+        return out;
+    }
     for(int i = 0; i < expressions.size(); i++){
         string token = expressions.at(i);
 
@@ -183,6 +192,7 @@ string Solver::evaluateString(){
                 if (e1->type == "integer" && e2->type == "integer") {
                     Integer *a = (Integer *)e1;
                     Integer *b = (Integer *)e2;
+                    if(b->getValue() == 0) throw runtime_error("Error: Cannot Divide By Zero");
                     if (a->getValue() % b->getValue() != 0) {
                         e1 = new Rational(e1,e2);
                         stk.push(e1->toString());
@@ -195,14 +205,36 @@ string Solver::evaluateString(){
                 }
                 else if(e1->canDivide(e2)){
                     Expression *result = e1->divide(e2);
-                    stk.push(result->toString());
-                    out = result->toString();
+                    if (result->type == "rational") {
+                        Rational * a = (Rational *)result;
+                        if (a->getNumerator() == 1 && a->getDenominator() == 1) {
+                            stk.push("1");
+                            out = "1";
+                        }else{
+                            stk.push(result->toString());
+                            out = result->toString();
+                        }
+                    }else{
+                        stk.push(result->toString());
+                        out = result->toString();
+                    }
                 }
             }else if(token == "^"){
-             //   Expression *a = new Exponential(e1,e2);
-               // output += a->exp;
-                stk.push(e1->exp + "^" + e2->exp);
-                out += e1->exp + "^" + e2->exp;
+                if (e2->type == "integer") {
+                    Rational *b = new Rational(e2, new Integer(1));
+                    e2 = b;
+                }
+                Exponential *a = new Exponential(e1,(Rational *)e2);
+                output += a->toString();
+                Rational *t = (Rational *)e2;
+                if (t->getNumerator() == 1 && t->getDenominator() == 1) {
+                    stk.push(e1->toString());
+                    out += e1->toString();
+                }else{
+                    stk.push(e1->toString() + "^" + e2->toString());
+                    out += e1->toString() + "^" + e2->toString();
+                }
+
 
             }else{
                 cout << "Error: Invalid Operator" << endl;
@@ -228,8 +260,39 @@ Expression* Solver::bindToExpressionType(string e){
             }
             a = new Rational(atoi(before.c_str()), atoi(after.c_str()));
             break;
+        }else if(e[i] == 'p' && e[i+1] == 'i'){
+            a = new Pi();
+            break;
+        }else if(e[i] == 'e'){
+           // a = new Euler();
+            break;
+        }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){
+            string base;
+            string operand;
+            int  j = i + 4;
+            while (e[j] != ':') {
+                base.push_back(e[j]);
+                j++;
+            }
+            for (int k = j+1; k < e.length(); k++) {
+                operand.push_back(e[k]);
+            }
+            Expression *b = this->bindToExpressionType(base);
+            Expression *o = this->bindToExpressionType(operand);
+            if (b->type == "integer" && o->type == "integer") {
+                Integer *ba = (Integer *)b;
+                Integer *op = (Integer *)o;
+                Logarithm *b = new Logarithm(ba->getValue(), op->getValue());
+                Logarithm *c = (Logarithm *)b->simplify();
+                if (c->getBase() == b->getBase() && c->getOperand() == b->getOperand()) {
+                }
+            }else{
+                a = new Logarithm(b,a);
+            }
+            break;
         }
-        else if(!isdigit(e[i])){
+        else if(!isdigit(e[i]) && e[i] != '-'){
+            cout << e[i] << endl;
             break;
         }
         else if(i == e.length()-1){

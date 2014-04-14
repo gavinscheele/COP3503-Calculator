@@ -14,7 +14,7 @@ Expression::~Expression(){
 }
 bool Expression::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
     
-    if (this->type == b->type) {
+    if (this->type == b->type && this->type != "logarithm") {
         if (this->type == "nthRoot") {
         }
         return true;
