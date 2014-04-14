@@ -286,7 +286,8 @@ Expression* Solver::bindToExpressionType(string e){
             }
             break;
         }
-        else if(!isdigit(e[i])){
+        else if(!isdigit(e[i]) && e[i] != '-'){
+            cout << e[i] << endl;
             break;
         }
         else if(i == e.length()-1){
