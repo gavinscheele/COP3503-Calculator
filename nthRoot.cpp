@@ -53,7 +53,7 @@ Expression* nthRoot::simplify(){
         throw runtime_error("unreal answer");
     }
    // factors = this->primeFactorization(operand);
-    copy(this->primeFactorization(operand)[0], this->primeFactorization(operand)[50], factors);
+    copy(this->primeFactorization(operand), this->primeFactorization(operand)+50, factors);
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 

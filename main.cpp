@@ -25,6 +25,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         if (choice.compare("a") == 0) {
             string secondChoice = "n";
             while (secondChoice.compare("y") != 0) {
+                cout << "Enter an Expression:" << endl;
                 string expression;
                 cin.ignore();
                 std::getline(cin, expression);
