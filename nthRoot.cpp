@@ -52,7 +52,8 @@ Expression* nthRoot::simplify(){
     if ((root % 2) == 0 && operand < 0) {   //this needs to be made right
         throw runtime_error("unreal answer");
     }
-    factors = this->primeFactorization(operand);
+   // factors = this->primeFactorization(operand);
+    copy(this->primeFactorization(operand)[0], this->primeFactorization(operand)[50], factors);
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 

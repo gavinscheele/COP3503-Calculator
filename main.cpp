@@ -33,7 +33,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
-                cout <<"\n" << "Would you like to go back to the menu? (y/n)" << "\n";
+                cout <<"\n" << "Would you like to go back to the main menu? (y/n)" << "\n";
                 cin >> secondChoice;
                 cout << "\n";
             }
@@ -42,6 +42,15 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         
         else if (choice.compare("b") == 0) {
             cout << "Directions for Use of This Program" << "\n";
+            cout << "Enter 'a' from the menu to begin a calculation" << endl;
+            cout << "Calculation operands and operations should each be seperated by a space" << endl;
+            cout << "Ex: ( 4 + 3 ) - log_3:2 * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
+            cout << "After each calculation, enter 'y' to proceed with another calculation, or 'n' to go back to the main menu" << endl;
+            cout << endl;
+            cout << "Enter 'c' from the main menu to view previous answers normally or in float form" << endl;
+            cout << "From this menu, you can also refer to the previous answer as 'ans'" << endl;
+            cout << endl;
+            cout << "Enter 'd' from the main menu is you want to exit the program" << endl;
         }
         
         
