@@ -60,29 +60,28 @@ Expression* Logarithm::simplify(){
             seperatedLogs.at(i) = new Logarithm(this->eBase, primefactors.at(i));//assigns values to each seperatedlog with the same base and operands of the prime factorization
             }
 
-       for(int j; j <size1; j++){
-    	if (seperatedLogs.at(j)->type == "logarithm") {
-            if (base == operand){
-                Integer* inte= new Integer(1);
-                seperatedLogs.at(j) = inte;
-            }
-            else if(base == (1/operand)){
-                Integer* inten= new Integer(1);
-                seperatedLogs.at(j) = inten;
-			}
+       for(int j; j <size1; j++)
+    	if (seperatedLogs.at(j)->type == "logarithm") {//checks to see if the value at seperated log is a log type
+            if(eBase->type == eOperand->type){ //makes sure the ebase and eoperand are of the same type
+                if (eBase == eOperand){// checks to see if the ebase and the eOperand are the same
+                    Integer* inte= new Integer(1);//returns one if they are the same
+                    seperatedLogs.at(j) = inte;//assigns 1 to the value of seperated log at j
+                }
+                }
     	}
+
+
+       Expression * answer;//creates a new variable called answer
+       if(size1 >= 2){// if the size is two or higher
+        answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));// add the first two together
        }
-       Expression * answer;
-       if(size1 >= 2){
-        answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));
-       }
-       else{
-        answer = seperatedLogs.at(0);
+       else{//if the size is just 1
+        answer = seperatedLogs.at(0);//the answer is the first one
        }
 
 
        for(int k = 1; k<size1; k++){
-            answer = answer->add(seperatedLogs.at(k));
+            answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
 
@@ -110,118 +109,42 @@ vector<int> Logarithm::primeFactorization(int n) {
 }
 
 Expression* Logarithm::add(Expression* a){
-    Expression* c = this;
-    if(c->base && a->base && c->operand && a->operand) {
-    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
-    		Expression* answer = new Expression(2->multiply(c));
-    		return answer;
-    	}
-
-    }
-
-   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
-    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
-    		Expression* answer = new Expression(2->multiply(c));
-    		return answer;
-    	}
-
-    }
-
-    else if(c->base && a->base && c->eOperand && a->eOperand) {
-    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
-    		Expression* answer = new Expression(2->multiply(c));
-    		return answer;
-    	}
-
-    } */
-
-    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
-    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
-    		Expression* answer = new Expression(2->multiply(c));
-    		return answer;
-    	}
-
-    }
-   else return c;
+    return this;
 }
 Expression* Logarithm::subtract(Expression* a){
-    Expression* c = this;
-    if(c->base && a->base && c->operand && a->operand) {
-    	if (c->getBase() == a->getBase() && c->getOperand() == a->getOperand()){
+    Logarithm* c = this;
+    Logarithm* b = (Logarithm *) a;
+    if(c->eBase->type == b->eBase->type && c->eOperand->type == b->eOperand->type) {
+    	if (c->getEBase() == b->getEBase() && c->getEOperand() == b->getEOperand()){
     		Expression* answer = new Integer(0);
     		return answer;
     	}
-
     }
-
-   /* else if(c->eBase && a->eBase && c->operand && a->operand) {
-    	if (c->getEBase() == a->getEBase() && c->getOperand() == a->getOperand()){
-    		Expression* answer =  new Integer(0);
-    		return answer;
-    	}
-
-    }
-
-    else if(c->base && a->base && c->eOperand && a->eOperand) {
-    	if (c->getBase() == a->getBase() && c->getEOperand() == a->getEOperand()){
-    		Expression* answer =  new Integer(0);
-    		return answer;
-    	}
-    */
-    }
-
-    else if(c->eBase && a->eBase && c->eOperand && a->eOperand) {
-    	if (c->getEBase() == a->getEBase() && c->getEOperand() == a->getEOperand()){
-    		Expression* answer =  new Integer(0);
-    		return answer;
-    	}
-
-    }
-    else return c;
+    return c;
 }
+
 Expression* Logarithm::multiply(Expression* a){
-    Expression* c = this;
-    if((c->base && a->base) && (c->getBase() == a->getBase())) {
-    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
-    		Expression* answer = new Exponential(this, new Rational(2,1));
-    	}
-    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
-    		Expression* answer = new Exponential(this, new Rational(2,1));
-    	}
-    	return this;
-    	}
-
-    if((c->eBase && a->eBase) && (c->getEBase() == a->getEBase())){
-    	if ((c->operand == a->operand) && (c->getOperand() == a->getOperand())) {
-    		Expression* answer = new Exponential(this, new Rational(2,1));
-    	}
-    	else if ((c->eOperand == a->eOperand) && (c->getEOperand() == a->getEOperand())){
-    		Expression* answer = new Exponential(this, new Rational(2,1));
+    Logarithm* c = this;
+    Logarithm* b = (Logarithm *) a;
+    if(c->eBase->type == b->eBase->type && c->eOperand->type == b->eOperand->type) {
+    	if (c->getEBase() == b->getEBase() && c->getEOperand() == b->getEOperand()){
+    		Exponential* answer = new Exponential(this, new Rational(2,1));
+    		return answer;
     	}
     }
-   else return c;
+   return c;
 }
-Expression* Logarithm::divide(Expression* a){
-    Expression* c = this;
-    if(c->base && a->base) {
-    	if (c->getBase() == a->getBase()) {
-    		Expression* answer = new Logarithm(a->getOperand(),c->getOperand());
-    	return answer;
-    	}
-    	else {
-    	return this;
-    	}
-
-    if(c->eBase && a->eBase){
-    	if (c->getEBase() == a->getEBase()){
-    		Expression* answer = new Logarithm(a->getEOperand(), c->getEOperand());
-    	return answer;
-    	}
-    	else{
-    	return this;
-    	}
+Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by a so if this = log11 and a = log3 it would be log11/log3
+    Logarithm* c = this;
+    Logarithm* b = (Logarithm *) a;
+    if(c->eBase->type == b->eBase->type && c->getEBase() == b->getEBase()) {
+        Expression* numeratorOperand = c->getEOperand();
+        Expression* denominatorOperand = b->getEOperand();
+        Logarithm* answer = new Logarithm(denominatorOperand, numeratorOperand);
+        return answer;
     }
-   else return c;
+
+    return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
     output << "Log_" << this->eBase << ":" << this->eOperand;
