@@ -278,7 +278,6 @@ Expression* Solver::bindToExpressionType(string e){
                 Logarithm *b = new Logarithm(ba->getValue(), op->getValue());
                 Logarithm *c = (Logarithm *)b->simplify();
                 if (c->getBase() == b->getBase() && c->getOperand() == b->getOperand()) {
-                    
                 }
             }else{
                 a = new Logarithm(b,a);

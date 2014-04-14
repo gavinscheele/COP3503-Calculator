@@ -11,15 +11,10 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Exponential.h"
-#include "Logarithm.h"
-#include "Pi.h"
-#include "Euler.h"
-#include "nthRoot.h"
-#include "Integer.h"
-#include "Rational.h"
-#include <sstream>
+#include "Solver.h"
 
+#include <sstream>
+class Integer;
 class Pi : public Expression{
 public:
     Pi();

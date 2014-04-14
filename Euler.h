@@ -11,13 +11,8 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Exponential.h"
-#include "Logarithm.h"
-#include "Pi.h"
-#include "Euler.h"
-#include "nthRoot.h"
-#include "Integer.h"
-#include "Rational.h"
+#include "Solver.h"
+
 #include <sstream>
 
 class Euler : public Expression{

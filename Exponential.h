@@ -11,10 +11,10 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Integer.h"
-#include "nthRoot.h"
-#include "Pi.h"
+#include "Solver.h"
 
+class Integer;
+class Rational;
 class Exponential : public Expression{
 public:
     Exponential(Expression* base, Rational* exponent);

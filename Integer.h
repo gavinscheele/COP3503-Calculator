@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "Expression.h"
-#include "Rational.h"
+#include "Solver.h"
 class Integer : public Expression{
 public:
     Integer(int value);
