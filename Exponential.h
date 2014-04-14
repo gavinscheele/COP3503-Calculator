@@ -13,6 +13,7 @@
 #include "Expression.h"
 #include "Integer.h"
 #include "nthRoot.h"
+#include "Pi.h"
 
 class Exponential : public Expression{
 public:
