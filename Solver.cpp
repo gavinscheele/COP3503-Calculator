@@ -18,7 +18,7 @@ Solver::Solver(std::string a){
 Solver::~Solver(){
     
 }
-std::string Solver::solve(){
+std::string Solver::solve(bool floatingPoint){
     string temp = "";
     int count = 0;
     
@@ -65,8 +65,10 @@ std::string Solver::solve(){
             count = i+1;
         }
     }
-    
-    return "Result:" + evaluateString(); //+ evaluateString();
+    if (floatingPoint) {
+        return evaluateFloatString();
+    }else return evaluateString();
+
 }
 void Solver::shuntingYard(){
     for(int i = 0; i < expressions.size(); i++){
@@ -124,6 +126,119 @@ int Solver::getOperatorPrecedence(string tkn){
     if(tkn == "^") return 4;
     else if(tkn == "*" || tkn == "/") return 3;
     else return 2;
+}
+string Solver::evaluateFloatString(){
+    string out = *new string("");
+    string result = *new string("");
+    stack<string> stk = *new stack<string>();
+    
+    if (expressions.size() == 1) {
+        out = this->bindToExpressionType(expressions.at(0))->toString();
+        return out;
+    }
+    for(int i = 0; i < expressions.size(); i++){
+        string token = expressions.at(i);
+        
+        if(!isAnOperator(token)){
+            stk.push(token);
+        }
+        else{
+            Expression* e2;
+            e2 = bindToExpressionType(stk.top());
+            e2->exp =  stk.top();
+            stk.pop();
+            
+            Expression *e1;
+            e1 = bindToExpressionType(stk.top());
+            e1->exp = stk.top();
+            result = e1->exp;
+            stk.pop();
+            
+            //check function call and call appropriate method
+            if(token == "+"){
+                if(e1->canAdd(e2)){
+                    Expression *result = e1->add(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
+                }else{
+                    stk.push(e1->exp + "+" + e2->exp);
+                    out += e1->exp + " + " + e2->exp;
+                }
+            }else if(token == "-"){
+                if(e1->canSubtract(e2)){
+                    Expression *result =  e1->subtract(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
+                }else{
+                    stk.push(e1->exp + "-" + e2->exp);
+                    out += e1->exp + " - " + e2->exp;
+                }
+            }else if(token == "*"){
+                if(e1->canMultiply(e2)){
+                    Expression *result = e1->multiply(e2);
+                    stk.push(result->toString());
+                    out = result->toString();
+                }else{
+                    stk.push(e1->exp + "*" + e2->exp);
+                    out += e1->exp + " * " + e2->exp;
+                }
+                
+            }else if(token == "/"){
+                if (e1->type == "integer" && e2->type == "integer") {
+                    Integer *a = (Integer *)e1;
+                    Integer *b = (Integer *)e2;
+                    if(b->getValue() == 0) throw runtime_error("Error: Cannot Divide By Zero");
+                    if (a->getValue() % b->getValue() != 0) {
+                        e1 = new Rational(e1,e2);
+                        stk.push(e1->toString());
+                        out += e1->toString();
+                    }else if(e1->canDivide(e2)){
+                        Expression *result = e1->divide(e2);
+                        stk.push(result->toString());
+                        out = result->toString();
+                    }
+                }
+                else if(e1->canDivide(e2)){
+                    Expression *result = e1->divide(e2);
+                    if (result->type == "rational") {
+                        Rational * a = (Rational *)result;
+                        if (a->getNumerator() == 1 && a->getDenominator() == 1) {
+                            stk.push("1");
+                            out = "1";
+                        }else{
+                            stk.push(result->toString());
+                            out = result->toString();
+                        }
+                    }else{
+                        stk.push(result->toString());
+                        out = result->toString();
+                    }
+                }
+            }else if(token == "^"){
+                if (e2->type == "integer") {
+                    Rational *b = new Rational(e2, new Integer(1));
+                    e2 = b;
+                }
+                Exponential *a = new Exponential(e1,(Rational *)e2);
+                output += a->toString();
+                Rational *t = (Rational *)e2;
+                if (t->getNumerator() == 1 && t->getDenominator() == 1) {
+                    stk.push(e1->toString());
+                    out += e1->toString();
+                }else{
+                    stk.push(e1->toString() + "^" + e2->toString());
+                    out += e1->toString() + "^" + e2->toString();
+                }
+                
+                
+            }else{
+                cout << "Error: Invalid Operator" << endl;
+            }
+            
+        }
+        
+    }
+    return out;
 }
 string Solver::evaluateString(){
     string out = *new string("");
@@ -257,7 +372,7 @@ Expression* Solver::bindToExpressionType(string e){
             a = new Pi();
             break;
         }else if(e[i] == 'e'){
-           // a = new Euler();
+            a = new Euler();
             break;
         }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){
             string base;
@@ -293,6 +408,13 @@ Expression* Solver::bindToExpressionType(string e){
         }
     }
     return a;
+}
+bool Solver::replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
 }
 
 
