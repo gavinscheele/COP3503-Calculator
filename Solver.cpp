@@ -228,7 +228,10 @@ string Solver::evaluateString(){
                         a->simplify();
                         e2 = a;
                     }
-                    stk.push(e1->toString() + " + " + e2->toString());
+                    if (e1->type == "stillHasOperation") {
+                        
+                    }
+                    stk.push(e1->exp + "+" + e2->exp);
                     out = e1->toString() + " + " + e2->toString();
                 }
             }else if(token == "-"){
@@ -237,7 +240,7 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->toString() + " - " + e2->toString());
+                    stk.push(e1->exp + "-" + e2->exp);
                     out = e1->toString() + " - " + e2->toString();
                 }
             }else if(token == "*"){
@@ -246,7 +249,7 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->toString() + " * " + e2->toString());
+                    stk.push(e1->exp + "*" + e2->exp);
                     out = e1->toString() + " * " + e2->toString();
                 }
                 
@@ -283,7 +286,7 @@ string Solver::evaluateString(){
                     }
                 }
                 else{
-                    stk.push(e1->toString() + " / " + e2->toString());
+                    stk.push(e1->exp + "/" + e2->exp);
                     out = e1->toString() + " / " + e2->toString();
 
                 }
@@ -408,7 +411,7 @@ Expression* Solver::bindToExpressionType(string e){
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
         }else{
-            
+            a->type = "stillHasOperation";
         }
     }
     return a;
