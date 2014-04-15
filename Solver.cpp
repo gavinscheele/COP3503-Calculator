@@ -228,9 +228,6 @@ string Solver::evaluateString(){
                         a->simplify();
                         e2 = a;
                     }
-                    if (e1->type == "stillHasOperation") {
-                        
-                    }
                     stk.push(e1->exp + "+" + e2->exp);
                     out = e1->toString() + " + " + e2->toString();
                 }
@@ -376,7 +373,8 @@ Expression* Solver::bindToExpressionType(string e){
                 }
                 a = c;
             }else{
-                a = new Logarithm(b,a);
+                Logarithm *c = new Logarithm(b,o);
+                a = c->simplify();
             }
             break;
         }else if(e[i] == 'r' && e[i+1] == 't' & e[i+2] == ':'){
