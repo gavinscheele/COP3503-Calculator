@@ -355,11 +355,20 @@ Expression* Solver::bindToExpressionType(string e){
                 root.push_back(e[j]);
                 j++;
             }
-            j = e[i+3];
+            j = i+3;
             
             while (j < e.length()) {
                 operand.push_back(e[j]);
                 j++;
+            }
+            Expression *rt = this->bindToExpressionType(root);
+            Expression *op = this->bindToExpressionType(operand);
+            //create a new rational with these types
+            
+            if (rt->type == "integer" && op->type == "integer") {
+                Integer *c = (Integer *)rt;
+                Integer *d = (Integer *)op;
+                a = new nthRoot(c->getValue(),d->getValue(),1);
             }
         }
         else if(!isdigit(e[i]) && e[i] != '-'){

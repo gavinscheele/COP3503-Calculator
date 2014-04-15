@@ -31,6 +31,7 @@ public:
     ~Solver();
     string solve(bool floatingPoint);
     bool replace(std::string& str, const std::string& from, const std::string& to);
+    Expression* bindToExpressionType(string e);
 
 private:
     string localExpression;
@@ -43,7 +44,6 @@ private:
     int getOperatorPrecedence(string tkn);
     string evaluateString();
     string evaluateFloatString();
-    Expression* bindToExpressionType(string e);
     float bindToExpressionFloat(string e);
     float answer;
 
