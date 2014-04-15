@@ -13,7 +13,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                                     //are called from the main method.
     bool useAns = false;
     string previousExpression = "";
-    
+
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
            "a. Compute a new expression" << "\n" <<
@@ -45,10 +45,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 }catch(runtime_error &e){
                     cerr << e.what() << endl;
                 }
-<<<<<<< HEAD
 
-=======
->>>>>>> de4ac7bf1d85523a02a34b3074cebec465bc0f33
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
                 cout <<"\n" << "Would you like to go back to the main menu? (y/n)" << "\n";
