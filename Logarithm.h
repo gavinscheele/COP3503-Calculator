@@ -40,13 +40,14 @@ public:
     Expression* divide(Expression* a);
     ostream& print(std::ostream& output) const;
     string toString();
+    Expression* simplifyOperand();
 private:
     int base;
     int operand;
     Expression* eBase;
     Expression* eOperand;
     vector<int> primeFactorization(int n);
-    void simplifyOperand();
+
     int factors[50];
 
 };

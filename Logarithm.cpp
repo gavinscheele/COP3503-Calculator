@@ -31,6 +31,7 @@ Logarithm::Logarithm(Expression* eBase, Expression* eOperand){
     this->type = "logarithm";
     this->eBase = eBase;
     this->eOperand = eOperand;
+
 }
 //get-set methods below
 int Logarithm::getBase(){
@@ -57,16 +58,21 @@ Logarithm::~Logarithm(){
     delete this;
 }
 
-void Logarithm::simplifyOperand(){
-    string operand1 = eOperand->exp;
+Expression* Logarithm::simplifyOperand(){
+    Expression* e = this->eOperand;
+    e->exp = e->toString();
+    string operand1 = e->exp;
+    cout<<operand1;
         char asterick = '*';
         char slash = '/';
         vector<int> position;
+        vector<char> symbols;
         int length = operand1.length();
         for(int i = 0; i < length; i++)
         {
             if(operand1.at(i)== (asterick) || operand1.at(i)== slash){
                 position.push_back(i);
+                position.push_back(operand1.at(i));
                 cout<<i<<endl;
             }
         }
@@ -83,71 +89,50 @@ void Logarithm::simplifyOperand(){
 
         }
 
-}
+        Expression* endlog = new Integer(0);
+         endlog->type = "multiple";
+          stringstream endlogexp;
+          for(int k = 0; k<logs.size(); k++){
+            endlogexp<<*logs.at(k);
+            if(k+1 < logs.size()&& symbols.at(k == asterick)){
+                endlogexp<< " " << "+" << " ";
+            }
+            if(k+1 < logs.size()&& symbols.at(k == slash)){
+                endlogexp<< " " << "-" << " ";
+            }
+            }
+        endlog->exp = endlogexp.str();
+        return endlog;
 
-/*attempts to simplify Logarithms by seperating the operand into component parts of prime factors
-and then creating new logarithms with the same original base for all, but each having
-a prime factor as the operand */
+
+
+}
 Expression* Logarithm::simplify(){
-        /*if (eOperand->type = “pi” && eBase->type =“pi”){
-	if(eBase has multiplication?){
-		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
-		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer.
-}
-	else if (eBase has division?) {
-		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
-		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer.
-}
-
-if (eOperand->type = “euler” && eBase-> =“euler”){
-
-	if(eBase has multiplication?){
-		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
-		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer.
-}
-	else if (eBase has division?) {euler1->setCoefficient(product);
-		Rational* two = new Rational(2,1);
-		Exponential* exponential = new Exponential((Expression*)euler1,two);//Creates new Exponential with base pi and exponent 2
-		return exponential;
-		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
-		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer.
-}
-
-        */
-
-
-
-
-
-
-
-
-
-
 
 
         if(eOperand->type == "euler")
         {
+
             if(eBase->type == "euler"){
                 Integer* answer = new Integer(1);
+                return answer;
             }
             else{
                 Logarithm* answer = new Logarithm(eBase, eOperand);
+                return answer;
             }
 
         }
 
         if(eOperand->type == "pi")
         {
-             if(eBase->type == ""){
+             if(eBase->type == "pi"){
                 Integer* answer = new Integer(1);
+                return answer;
             }
             else{
                 Logarithm* answer = new Logarithm(eBase, eOperand);
+                return answer;
             }
 
         }
@@ -214,7 +199,7 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
             }
             }
         e->exp = s.str();
-        cout<<e->exp;
+        //cout<<e->exp;
         return e;
        }
        }
