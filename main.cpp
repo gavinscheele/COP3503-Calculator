@@ -9,7 +9,7 @@
 #include "Solver.h"
 using namespace std;
 int main(int argc, char * argv[])  {//A main method shouldn't have perameters - at least I don't think so. -Dan
-    string choice = "z";            //Any things which would be parameters should be parameters in methods which
+    /*string choice = "z";            //Any things which would be parameters should be parameters in methods which
                                     //are called from the main method.
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
@@ -17,11 +17,11 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
            "b. Help" << "\n" <<
            "c. Review previous expressions and answers" << "\n" <<
            "d. Quit" << "\n";
-           
+
         cin >> choice;
         cout << "\n";
-        
-        
+
+
         if (choice.compare("a") == 0) {
             string secondChoice = "n";
             while (secondChoice.compare("y") != 0) {
@@ -35,7 +35,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 }catch(runtime_error &e){
                     cerr << e.what() << endl;
                 }
-                
+
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
                 cout <<"\n" << "Would you like to go back to the main menu? (y/n)" << "\n";
@@ -43,8 +43,8 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 cout << "\n";
             }
         }
-        
-        
+
+
         else if (choice.compare("b") == 0) {
             cout << "Directions for Use of This Program" << endl;
             cout << "----------------------------------" << endl;
@@ -57,8 +57,8 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
             cout << "*Enter 'd' from the main menu is you want to exit the program" << endl;
             cout << endl;
         }
-        
-        
+
+
         else if (choice.compare("c") == 0) {
             //we're screwed
             string thirdChoice = "z";
@@ -76,30 +76,35 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 cout << "Sorry, couldn't recognize your input \n";
             }
         }else if(choice.compare("d") != 0){
-            cout << "Sorry, couldn't recognize your input." << "\n";        
+            cout << "Sorry, couldn't recognize your input." << "\n";
         }
     }
     cout << "Thank You. Have A Nice Day." << "\n";
     return 0;
-        
-}
-/*
-//    Rational *a = new Rational(2,1);
-//    Rational *b = new Rational(1,-8);
-//    Rational *c = new Rational(2,1);
-//    Integer *d = new Integer(4);
-//    Integer *e = new Integer(-1);
-//    Integer *f = new Integer(0);
-//    
-//    cout << *a->add(c) << endl;
-//    cout << *a->subtract(d) << endl;
-//    cout << *a->multiply(e) << endl;
-//    cout << *a->divide(b) << endl;
-    
-    Solver *s = new Solver("");
-    cout << s->solve() << endl;;
-    
-    
-    return 0;
+
 }
 */
+   Rational *a = new Rational(2,1);
+    Rational *b = new Rational(1,-8);
+    Rational *c = new Rational(2,1);
+    Integer *d = new Integer(4);
+    Integer *e = new Integer(-1);
+    Integer *f = new Integer(0);
+
+    Euler *hi = new Euler();
+    Euler *by = new Euler();
+    Logarithm *la = new Logarithm(3,9);
+    cout<<*la->simplify()<<endl;
+
+    //cout << *hi->subtract(by) << endl;
+    //cout << *a->subtract(d) << endl;
+    //cout << *a->multiply(e) << endl;
+    //cout << *a->divide(b) << endl;
+
+    //Solver *s = new Solver("");
+    //cout << s->solve() << endl;;
+
+
+    return 0;
+}
+
