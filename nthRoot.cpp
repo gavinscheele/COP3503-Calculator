@@ -32,8 +32,10 @@ nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
         }
     }
     
-    if ((root % 2) == 0 && eoperand->type == "Rational" && (eoperand->numerator < 0 || eoperand->denominator < 0)
-         && !(eoperand->numerator < 0 && eoperand->denominator < 0)) {
+    if ((root % 2) == 0 && eoperand->type == "Rational")
+        Rational *b = (Rational*)eoperand;
+        if ((b->numerator < 0 || b->denominator < 0)
+             && !(b->numerator < 0 && b->denominator < 0)) {
              throw runtime_error("unreal answer");
     }
          
