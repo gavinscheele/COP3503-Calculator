@@ -228,9 +228,6 @@ string Solver::evaluateString(){
                         a->simplify();
                         e2 = a;
                     }
-                    if (e1->type == "stillHasOperation") {
-                        
-                    }
                     stk.push(e1->exp + "+" + e2->exp);
                     out = e1->toString() + " + " + e2->toString();
                 }
