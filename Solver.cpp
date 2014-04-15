@@ -20,7 +20,7 @@ Solver::Solver(std::string a){
 Solver::~Solver(){
 
 }
-std::string Solver::solve(){
+std::string Solver::solve(bool floatingPoint){
     string temp = "";
     int count = 0;
 
@@ -67,10 +67,10 @@ std::string Solver::solve(){
             count = i+1;
         }
     }
+    if (floatingPoint) {
+        return evaluateFloatString();
+    }else return evaluateString();
 
-//    cout << output << endl;
-
-    return "Result:" + evaluateString(); //+ evaluateString();
 }
 void Solver::shuntingYard(){
     for(int i = 0; i < expressions.size(); i++){
@@ -128,6 +128,66 @@ int Solver::getOperatorPrecedence(string tkn){
     if(tkn == "^") return 4;
     else if(tkn == "*" || tkn == "/") return 3;
     else return 2;
+}
+string Solver::evaluateFloatString(){
+    string out = *new string("");
+    string result = *new string("");
+    stack<string> stk = *new stack<string>();
+    
+    if (expressions.size() == 1) {
+        stringstream s;
+        s << this->bindToExpressionFloat(expressions.at(0));
+        out = s.str();
+        return out;
+    }
+    for(int i = 0; i < expressions.size(); i++){
+        string token = expressions.at(i);
+        
+        if(!isAnOperator(token)){
+            stk.push(token);
+        }
+        else{
+
+            float e2 = bindToExpressionFloat(stk.top());
+            stk.pop();
+            
+            float e1 = bindToExpressionFloat(stk.top());
+            stk.pop();
+            
+            //check function call and call appropriate method
+            if(token == "+"){
+                e1 += e2;
+                stringstream s;
+                s << e1;
+                out = s.str();
+            }else if(token == "-"){
+                e1 -= e2;
+                stringstream s;
+                s << e1;
+                out = s.str();
+            }else if(token == "*"){
+                e1 *= e2;
+                stringstream s;
+                s << e1;
+                out = s.str();
+                
+            }else if(token == "/"){
+                e1 /= e2;
+                stringstream s;
+                s << e1;
+                out = s.str();
+            }else if(token == "^"){
+                for (int i = 1; i < e2; i++) {
+                    e1 *= e1;
+                }
+            }else{
+                cout << "Error: Invalid Operator" << endl;
+            }
+            
+        }
+        
+    }
+    return out;
 }
 string Solver::evaluateString(){
     string out = *new string("");
@@ -261,7 +321,7 @@ Expression* Solver::bindToExpressionType(string e){
             a = new Pi();
             break;
         }else if(e[i] == 'e'){
-           // a = new Euler();
+            a = new Euler();
             break;
         }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){
             string base;
@@ -287,6 +347,20 @@ Expression* Solver::bindToExpressionType(string e){
                 a = new Logarithm(b,a);
             }
             break;
+        }else if(e[i] == 'r' && e[i+1] == 't' & e[i+2] == ':'){
+            string root;
+            string operand;
+            int j = 0;
+            while (e[j] != 'r') {
+                root.push_back(e[j]);
+                j++;
+            }
+            j = e[i+3];
+            
+            while (j < e.length()) {
+                operand.push_back(e[j]);
+                j++;
+            }
         }
         else if(!isdigit(e[i]) && e[i] != '-'){
             cout << e[i] << endl;
@@ -297,6 +371,70 @@ Expression* Solver::bindToExpressionType(string e){
         }
     }
     return a;
+}
+float Solver::bindToExpressionFloat(string e){
+         //so the compiler doesnt complain. Will be set to appropriate type later
+    float a = 0;
+    for(int i = 0; i < e.length(); i++){
+        if (e[i] == '/') {
+            string before;
+            string after;
+            for(int j = 0; j < i; j++){
+                before.push_back(e[j]);
+            }
+            for(int k = i+1; k < e.length(); k++){
+                after.push_back(e[k]);
+            }
+            cout << atof(before.c_str()) << endl;
+            cout << atof(after.c_str()) << endl;
+            a = atof(before.c_str()) / atof(after.c_str());
+            break;
+        }else if(e[i] == 'p' && e[i+1] == 'i'){
+            a = M_PI;
+            break;
+        }else if(e[i] == 'e'){
+            a = M_E;
+            break;
+        }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){
+            string base;
+            string operand;
+            int  j = i + 4;
+            while (e[j] != ':') {
+                base.push_back(e[j]);
+                j++;
+            }
+            for (int k = j+1; k < e.length(); k++) {
+                operand.push_back(e[k]);
+            }
+            float b = this->bindToExpressionFloat(base);
+            float o = this->bindToExpressionFloat(operand);
+            if (b == 10) {
+                a = log10f(o);
+            }else if(b == 2){
+                a = log2f(o);
+            }else if(b == M_E){
+                a = logf(o);
+            }else{
+                a = log10f(o)/log10f(b);
+            }
+            break;
+        }
+        else if(!isdigit(e[i]) && e[i] != '-'){
+            break;
+        }
+        else if(i == e.length()-1){
+            a = atoi(e.c_str());
+        }
+    }
+    return a;
+}
+
+bool Solver::replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
 }
 
 

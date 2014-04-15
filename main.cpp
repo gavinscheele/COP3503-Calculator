@@ -11,6 +11,9 @@ using namespace std;
 int main(int argc, char * argv[])  {//A main method shouldn't have perameters - at least I don't think so. -Dan
     /*string choice = "z";            //Any things which would be parameters should be parameters in methods which
                                     //are called from the main method.
+    bool useAns = false;
+    string previousExpression = "";
+    
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
            "a. Compute a new expression" << "\n" <<
@@ -29,13 +32,23 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 string expression;
                 cin.ignore();
                 std::getline(cin, expression);
-                Solver *s = new Solver(expression);
+                Solver *s = new Solver();
+                if (useAns) {
+                    string ans = *new string("ans");
+                    const string to = *new string(previousExpression);
+                    s->replace(expression, ans, to);
+                }
                 try{
-                cout << s->solve() << endl;
+                s = new Solver(expression);
+                previousExpression = s->solve(useAns);
+                cout << "Result: " << previousExpression << endl;
                 }catch(runtime_error &e){
                     cerr << e.what() << endl;
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> de4ac7bf1d85523a02a34b3074cebec465bc0f33
                // cin >> expression;
                 //that's the input - I don't know how you want to handle it
                 cout <<"\n" << "Would you like to go back to the main menu? (y/n)" << "\n";
@@ -67,10 +80,11 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                     "b. Set 'ans' equal to the previous expression's answer \n";
             cin >> thirdChoice;
             if (thirdChoice.compare("a") == 0) {
-                //show float form
+                Solver *s = new Solver(previousExpression);
+                cout << s->solve(true) << endl;
             }
             else if (thirdChoice.compare("b") == 0) {
-                //set ans equal to previous expression's answer
+                useAns = true;
             }
             else {
                 cout << "Sorry, couldn't recognize your input \n";
