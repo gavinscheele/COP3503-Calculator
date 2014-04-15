@@ -45,7 +45,7 @@ nthRoot::~nthRoot() {
 
 }
 
-int* nthRoot::primeFactorization(int n, int div = 2, int k = 0) {
+int* nthRoot::primeFactorization(int n, int div, int k) {
     if (n % div == 0) {
         factors[k] = div;
         primeFactorization((n / div), div, k++);
@@ -87,7 +87,7 @@ Expression* nthRoot::simplify(){
     }
    // factors = this->primeFactorization(operand);
     
-    copy(this->primeFactorization(operand), this->primeFactorization(operand)+50, factors);
+    copy(this->primeFactorization(operand, 2, 0), this->primeFactorization(operand, 2, 0)+50, factors);
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 
