@@ -123,7 +123,7 @@ Expression* Euler::divide(Expression* a){
 
 string Euler:: toString(){
     stringstream s;
-	s<<this->coefficient<<"e";
+	s<<*this->coefficient<<"e";
 	return s.str();
 }
 

@@ -253,7 +253,11 @@ void Exponential::setBase(Expression* e) {
 
 string Exponential::toString() {
     stringstream str;
-    str << base << "^" << exponent;
+    if(exponent->getDenominator() == 1){
+        str << *base << "^" << *exponent->geteNumerator();
+    }else{
+        str << *base << "^" << *exponent;
+    }
     return str.str();
 }
 

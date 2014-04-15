@@ -40,7 +40,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                 }
                 try{
                     s = new Solver(expression);
-                    previousExpression = s->solve(useAns);
+                    previousExpression = s->solve(false);
                     cout << "Result: " << previousExpression << endl;
                 }catch(runtime_error &e){
                     cerr << e.what() << endl;
