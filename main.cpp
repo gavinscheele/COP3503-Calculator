@@ -9,7 +9,7 @@
 #include "Solver.h"
 using namespace std;
 int main(int argc, char * argv[])  {//A main method shouldn't have perameters - at least I don't think so. -Dan
-   /* string choice = "z";            //Any things which would be parameters should be parameters in methods which
+    string choice = "z";            //Any things which would be parameters should be parameters in methods which
     //are called from the main method.
     bool useAns = false;
     string previousExpression = "";
@@ -92,7 +92,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
     cout << "Thank You. Have A Nice Day." << "\n";
     return 0;
 
-}*/
+}
 
  //    Rational *a = new Rational(2,1);
  //    Rational *b = new Rational(1,-8);
@@ -106,19 +106,19 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
  //    cout << *a->multiply(e) << endl;
  //    cout << *a->divide(b) << endl;
 
-
-
-Euler* em = new Euler();
-Expression* el = new Integer(0);
-el->exp = "e * 3";
- Logarithm* log = new Logarithm(em,em);
-
-cout<<*log->simplify();
-
- //Solver *s = new Solver("");
- //cout << s->solve() << endl;;
-
-
- return 0;
- }
+//
+//
+//Euler* em = new Euler();
+//Expression* el = new Integer(0);
+//el->exp = "e * 3";
+// Logarithm* log = new Logarithm(em,em);
+//
+//cout<<*log->simplify();
+//
+// //Solver *s = new Solver("");
+// //cout << s->solve() << endl;;
+//
+//
+// return 0;
+// }
 

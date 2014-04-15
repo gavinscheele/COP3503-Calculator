@@ -174,6 +174,7 @@ Expression* nthRoot::multiply(Expression* a) {
     else {
         return this;
     }
+    return this;
 }
 
 Expression* nthRoot::divide(Expression* a) {

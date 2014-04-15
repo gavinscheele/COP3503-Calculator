@@ -373,7 +373,8 @@ Expression* Solver::bindToExpressionType(string e){
                 }
                 a = c;
             }else{
-                a = new Logarithm(b,a);
+                Logarithm *c = new Logarithm(b,o);
+                a = c->simplify();
             }
             break;
         }else if(e[i] == 'r' && e[i+1] == 't' & e[i+2] == ':'){
