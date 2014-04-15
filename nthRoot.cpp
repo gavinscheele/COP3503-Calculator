@@ -19,18 +19,18 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     }
 }
 
-nthRoot::nthRoot(int root, Expression* operand, int coefficient) {
+nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
     this->type = "nthRoot";
-    this->operand = operand;
+    this->eoperand = eoperand;
     this->root = root;
     this->coefficient = coefficient;
     
-    if ((root % 2) == 0 && operand->type == "Integer" && operand->value < 0) {
+    if ((root % 2) == 0 && eoperand->type == "Integer" && eoperand->value < 0) {
         throw runtime_error("unreal answer");
     }
     
-    if ((root % 2) == 0 && operand->type == "Rational" && (operand->numerator < 0 || operand->denominator < 0)
-         && !(operand->numerator < 0 && operand->denominator < 0)) {
+    if ((root % 2) == 0 && eoperand->type == "Rational" && (eoperand->numerator < 0 || eoperand->denominator < 0)
+         && !(eoperand->numerator < 0 && eoperand->denominator < 0)) {
              throw runtime_error("unreal answer");
     }
          
