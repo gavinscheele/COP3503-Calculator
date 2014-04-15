@@ -44,16 +44,19 @@ nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
 nthRoot::~nthRoot() {
 
 }
-bool nthRoot::isPrime(int n) {
-    for (int i = 2; i <= sqrt(n); i++) {
-        double j = (double)i;
-        double m = (double)n;
-        if (fmod((m / j), 1) == 0) return false;
+
+int* nthRoot::primeFactorization(int n, int div = 2, int k = 0) {
+    if (n % div == 0) {
+        factors[k] = div;
+        primeFactorization((n / div), div, k++);
     }
-    return true;
+    else if (div <= n) {
+        primeFactorization(n, div++, k);
+    }
+    return factors;
 }
 
-int* nthRoot::primeFactorization(int n) {
+/*int* nthRoot::primeFactorization(int n) {
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
@@ -74,7 +77,7 @@ int* nthRoot::primeFactorization(int n) {
     }
     return factors;
     // added bonus: factors should be sorted already
-}
+} */
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
