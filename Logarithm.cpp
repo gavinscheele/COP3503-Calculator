@@ -22,6 +22,7 @@ Logarithm::Logarithm(int base, int operand){
     this->operand = operand;
     this->eOperand = new Integer(operand);
     this->eBase = new Integer(base);
+
 }
 
 //constructor for expression base and or expression operand
@@ -55,7 +56,7 @@ Logarithm::~Logarithm(){
     delete this;
 }
 
-/*attempts to simplify Logarithms by seperating the operand into component parts of prime factors 
+/*attempts to simplify Logarithms by seperating the operand into component parts of prime factors
 and then creating new logarithms with the same original base for all, but each having
 a prime factor as the operand */
 Expression* Logarithm::simplify(){
@@ -63,12 +64,12 @@ Expression* Logarithm::simplify(){
 	if(eBase has multiplication?){
 		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
 		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer. 
-}	
+		Return answer.
+}
 	else if (eBase has division?) {
 		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
 		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer. 
+		Return answer.
 }
 
 if (eOperand->type = “euler” && eBase-> =“euler”){
@@ -76,35 +77,43 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
 	if(eBase has multiplication?){
 		create new log so one has eOperand pi, the other has what eOperand pi was multiplied 		by and have these two logs be added to one another
 		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer. 
-}	
-	else if (eBase has division?) {
+		Return answer.
+}
+	else if (eBase has division?) {euler1->setCoefficient(product);
+		Rational* two = new Rational(2,1);
+		Exponential* exponential = new Exponential((Expression*)euler1,two);//Creates new Exponential with base pi and exponent 2
+		return exponential;
 		create new logs so one has eOperand pi and the other has what eOperand pi was 		divided by and have the first log be subtracted by the second, both with base pi.
 		Recall simplify method again, if it returns what was entered, this is answer.
-		Return answer. 
+		Return answer.
 }
-        
+
         */
-        
+
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
 
         for(int i = 0 ; i < size1; i++){
-           // Integer *a = new Integer(primefactors.at(i));
             seperatedLogs.at(i) = new Logarithm(this->eBase, new Integer(primefactors.at(i)));//assigns values to each seperatedlog with the same base and operands of the prime factorization
-           // delete a;
             }
 
-       for(int j; j <size1; j++)
+       for(int j= 0; j <size1; j++){
     	if (seperatedLogs.at(j)->type == "logarithm") {//checks to see if the value at seperated log is a log type
-            if(eBase->type == eOperand->type){ //makes sure the ebase and eoperand are of the same type
-                if (eBase == eOperand){// checks to see if the ebase and the eOperand are the same
+            Logarithm* a = (Logarithm *)seperatedLogs.at(j);
+            Logarithm* log = new Logarithm(a->getEBase(),a->getEOperand());
+            if(log->eBase->type == log->eOperand->type && log->eBase->type == "integer"){ //makes sure the ebase and eoperand are of the same type
+                Integer* b = (Integer *)(log->eBase);
+                Integer* c = (Integer *)(log->eOperand);
+                if (b->getValue() == c->getValue()){// checks to see if the ebase and the eOperand are the same
                     Integer* inte= new Integer(1);//returns one if they are the same
                     seperatedLogs.at(j) = inte;//assigns 1 to the value of seperated log at j
+
+
                 }
                 }
+    	}
     	}
 
 
@@ -117,12 +126,35 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
        }
 
 
-       for(int k = 1; k<size1; k++){
+       for(int k = 2; k<size1; k++){
             answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
+       Integer* size2 = new Integer(size1);
+       Integer* answerint = (Integer *)answer;
+       if(answerint->getValue()==size2->getValue())
+       {
+           return answer;
+       }
+       else
+       {
+          Expression* e = new Integer(answerint->getValue());
+          e->type = "multiple";
+          stringstream s;
+          for(int l = 0; l<size1; l++){
+            s<<*seperatedLogs.at(l);
+            if(l+1 < size1){
+                s<< " " << "+" << " ";
+            }
+            }
+        e->exp = s.str();
+        cout<<e->exp;
+        return e;
+       }
 
-       return answer;
+
+       throw runtime_error("invalid entry");
+       return this;
 }
 
 //creates vector of prime factors of n to be used in the simplify method
@@ -131,7 +163,6 @@ vector<int> Logarithm::primeFactorization(int n) {
     vector<int> factors;
     while (n%2 == 0) {
         factors.push_back(2);
-        k++;
         n = n/2;
     }
     for (int i = 3; i <= sqrt(n); i = i + 2) {
@@ -186,11 +217,13 @@ Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by 
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << *this->eBase << ":" << *this->eOperand;
+    output << "Log_" << *eBase << ":" << *eOperand<< endl;
+
     return output;
 }
 string Logarithm::toString(){
     stringstream ss;
     ss << "Log_" << *this->eBase << ":" << *this->eOperand;
+
     return ss.str();
 };
