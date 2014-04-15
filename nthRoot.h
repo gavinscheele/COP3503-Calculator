@@ -16,6 +16,7 @@
 class nthRoot : public Expression{
 public:
     nthRoot(int root, int operand, int coefficient);
+    nthRoot(int root, Expression* eoperand, int coefficient);
     ~nthRoot();
     //Expression simplify();
     int* primeFactorization(int n);
@@ -37,6 +38,7 @@ private:
     int operand;
     int root;
     int factors[50];
+    Expression* eoperand;
 };
 #endif /* defined(__Calculator__nthRoot__) */
 

@@ -223,8 +223,8 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + "+" + e2->exp);
-                    out += e1->exp + " + " + e2->exp;
+                    stk.push(e1->exp + " + " + e2->exp);
+                    out = e1->exp + "+" + e2->exp;
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
@@ -232,8 +232,8 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + "-" + e2->exp);
-                    out += e1->exp + " - " + e2->exp;
+                    stk.push(e1->exp + " - " + e2->exp);
+                    out = e1->exp + "-" + e2->exp;
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
@@ -241,9 +241,10 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + "*" + e2->exp);
-                    out += e1->exp + " * " + e2->exp;
+                    stk.push(e1->exp + " * " + e2->exp);
+                    out = e1->exp + "*" + e2->exp;
                 }
+                
 
             }else if(token == "/"){
                 if (e1->type == "integer" && e2->type == "integer") {
@@ -253,7 +254,7 @@ string Solver::evaluateString(){
                     if (a->getValue() % b->getValue() != 0) {
                         e1 = new Rational(e1,e2);
                         stk.push(e1->toString());
-                        out += e1->toString();
+                        out = e1->toString();
                     }else if(e1->canDivide(e2)){
                         Expression *result = e1->divide(e2);
                         stk.push(result->toString());
@@ -276,6 +277,11 @@ string Solver::evaluateString(){
                         out = result->toString();
                     }
                 }
+                else{
+                    stk.push(e1->toString() + " / " + e2->toString());
+                    out = e1->exp + "/" + e2->exp;
+
+                }
             }else if(token == "^"){
                 if (e2->type == "integer") {
                     Rational *b = new Rational(e2, new Integer(1));
@@ -286,10 +292,10 @@ string Solver::evaluateString(){
                 Rational *t = (Rational *)e2;
                 if (t->getNumerator() == 1 && t->getDenominator() == 1) {
                     stk.push(e1->toString());
-                    out += e1->toString();
+                    out = e1->toString();
                 }else{
                     stk.push(e1->toString() + "^" + e2->toString());
-                    out += e1->toString() + "^" + e2->toString();
+                    out = e1->toString() + "^" + e2->toString();
                 }
 
 
@@ -317,10 +323,25 @@ Expression* Solver::bindToExpressionType(string e){
             }
             a = new Rational(atoi(before.c_str()), atoi(after.c_str()));
             break;
-        }else if(e[i] == 'p' && e[i+1] == 'i'){
+        }else if(e[i] == '^'){
+            string before;
+            string after;
+            for(int j = 0; j < i; j++){
+                before.push_back(e[j]);
+            }
+            for(int k = i+1; k < e.length(); k++){
+                after.push_back(e[k]);
+            }
+            Expression *base = this->bindToExpressionType(before);
+            Expression *exponent = this->bindToExpressionType(after);
+            Rational *exp = new Rational(exponent,new Integer(1));
+            a = new Exponential(base,exp);
+            break;
+        }
+        else if(e[i] == 'p' && e[i+1] == 'i' && e[i+2] != '^'){
             a = new Pi();
             break;
-        }else if(e[i] == 'e'){
+        }else if(e[i] == 'e' && e[i+1] != '^'){
             a = new Euler();
             break;
         }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){
@@ -341,8 +362,11 @@ Expression* Solver::bindToExpressionType(string e){
                 Integer *op = (Integer *)o;
                 Logarithm *b = new Logarithm(ba->getValue(), op->getValue());
                 Logarithm *c = (Logarithm *)b->simplify();
-                if (c->getBase() == b->getBase() && c->getOperand() == b->getOperand()) {
+                if(c->type == "multiple"){
+                    a = bindToExpressionType(c->exp);
+                    break;
                 }
+                a = c;
             }else{
                 a = new Logarithm(b,a);
             }
@@ -370,13 +394,16 @@ Expression* Solver::bindToExpressionType(string e){
                 Integer *d = (Integer *)op;
                 a = new nthRoot(c->getValue(),d->getValue(),1);
             }
+            break;
         }
-        else if(!isdigit(e[i]) && e[i] != '-'){
+        else if(!isdigit(e[i]) && e[i] != '-' && e[i] != 'e' && e[i] != 'p' && e[i] != 'i'){
             cout << e[i] << endl;
             break;
         }
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
+        }else{
+            
         }
     }
     return a;

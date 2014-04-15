@@ -19,6 +19,28 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     }
 }
 
+nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
+    this->type = "nthRoot";
+    this->eoperand = eoperand;
+    this->root = root;
+    this->coefficient = coefficient;
+    
+    if ((root % 2) == 0 && eoperand->type == "integer") {
+        Integer *a = (Integer *)eoperand;
+        if (a->getValue() < 0) {
+            throw runtime_error("unreal answer");
+        }
+    }
+    
+    if ((root % 2) == 0 && eoperand->type == "Rational"){
+        Rational *b = (Rational*)eoperand;
+        if ((b->getNumerator() < 0 || b->getDenominator() < 0)
+             && !(b->getNumerator() < 0 && b->getDenominator() < 0)) {
+             throw runtime_error("unreal answer");
+        }
+    }
+}
+
 nthRoot::~nthRoot() {
 
 }
@@ -49,10 +71,11 @@ int* nthRoot::primeFactorization(int n) {
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
     //if operand < 0 throw an error
-    if ((root % 2) == 0 && operand < 0) {   //this needs to be made right
+    if ((root % 2) == 0 && operand < 0) {  
         throw runtime_error("unreal answer");
     }
    // factors = this->primeFactorization(operand);
+    
     copy(this->primeFactorization(operand), this->primeFactorization(operand)+50, factors);
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
