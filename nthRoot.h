@@ -19,7 +19,7 @@ public:
     nthRoot(int root, Expression* eoperand, int coefficient);
     ~nthRoot();
     //Expression simplify();
-    int* primeFactorization(int n);
+    int* primeFactorization(int n, int div, int k);
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
