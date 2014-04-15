@@ -48,7 +48,7 @@ bool nthRoot::isPrime(int n) {
     for (int i = 2; i <= sqrt(n); i++) {
         double j = (double)i;
         double m = (double)n;
-        if ((m / n) % 1 == 0) return false;
+        if (fmod((m / j), 1) == 0) return false;
     }
     return true;
 }

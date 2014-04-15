@@ -33,6 +33,8 @@ public:
     ostream& print(std::ostream& output) const;
     Expression* simplify();
     string toString();
+    bool isPrime(int n);
+
 private:
     int coefficient;
     int operand;
