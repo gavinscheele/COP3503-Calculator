@@ -130,7 +130,7 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
             answer = answer->add(seperatedLogs.at(k));//keeps adding elements of seperated log to answer
 
        }
-       Integer* size2 = new Integer(size1);
+       Integer* size2 = new Integer((int)size1);
        Integer* answerint = (Integer *)answer;
        if(answerint->getValue()==size2->getValue())
        {
