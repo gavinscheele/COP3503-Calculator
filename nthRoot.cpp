@@ -56,7 +56,7 @@ int* nthRoot::primeFactorization(int n, int div, int k) {
     return factors;
 }
 
-/*int* nthRoot::primeFactorization(int n) {
+/*int* nthRoot::primeFactorization(int n) {    //non-recursive version
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
@@ -150,16 +150,26 @@ Expression* nthRoot::subtract(Expression* a) {
 }
 
 Expression* nthRoot::multiply(Expression* a) {
-    nthRoot *b = (nthRoot *)a;
-    int asCoefficient = b->getCoefficient();
-    int asOperand = b->getOperand();
-    int asRoot = b->getRoot();
-    if (root == asRoot) {
-        int newCoefficient = asCoefficient * coefficient;
-        int newOperand = operand * asOperand;       //asOperand doesnt exist?
-        nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+    if (a->type == "integer") {
+        Integer *b = (Integer*)a;
+        int asValue = b->getValue();
+        int newCoefficient = asValue * coefficient;
+        nthRoot* newNthRoot = new nthRoot(root, operand, newCoefficient);
         nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
         return simplifiedVersion;
+    }
+    if (a->type == "nthRoot") {
+        nthRoot *b = (nthRoot *)a;
+        int asCoefficient = b->getCoefficient();
+        int asOperand = b->getOperand();
+        int asRoot = b->getRoot();
+        if (root == asRoot) {
+            int newCoefficient = asCoefficient * coefficient;
+            int newOperand = operand * asOperand;       //asOperand doesnt exist?
+            nthRoot* newNthRoot = new nthRoot(root, newOperand, newCoefficient);
+            nthRoot* simplifiedVersion = (nthRoot *)newNthRoot->simplify();
+            return simplifiedVersion;
+        }
     }
     else {
         return this;
