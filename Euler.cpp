@@ -123,11 +123,8 @@ Expression* Euler::divide(Expression* a){
 
 string Euler:: toString(){
     stringstream s;
-<<<<<<< HEAD
 	s<<this->coefficient <<" " <<"*"<<" "<<"e";
-=======
 	s<<*this->coefficient<<"e";
->>>>>>> 7275b7ee008f03ab07d1c0c5925b8713ac19de7c
 	return s.str();
 }
 
