@@ -25,8 +25,11 @@ nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
     this->root = root;
     this->coefficient = coefficient;
     
-    if ((root % 2) == 0 && eoperand->type == "Integer" && eoperand->value < 0) {
-        throw runtime_error("unreal answer");
+    if ((root % 2) == 0 && eoperand->type == "integer") {
+        Integer *a = (Integer *)eoperand;
+        if (a->getValue() < 0) {
+            throw runtime_error("unreal answer");
+        }
     }
     
     if ((root % 2) == 0 && eoperand->type == "Rational" && (eoperand->numerator < 0 || eoperand->denominator < 0)
