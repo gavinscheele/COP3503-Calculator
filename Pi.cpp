@@ -123,11 +123,13 @@ Expression* Pi::divide(Expression* a){
 
 string Pi:: toString(){
     stringstream s;
-	s<<this->coefficient<<"pi";
+	s<<this->coefficient <<" " <<"*"<<" "<<"pi";
 	return s.str();
 }
 
 ostream& Pi::print(std::ostream& output) const{
-    output << *coefficient << "pi";
+    output << *coefficient<<" "<< "*"<< " "<< "pi";
     return output;
 }
+
+

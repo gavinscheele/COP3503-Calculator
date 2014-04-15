@@ -123,12 +123,12 @@ Expression* Euler::divide(Expression* a){
 
 string Euler:: toString(){
     stringstream s;
-	s<<this->coefficient<<"e";
+	s<<this->coefficient <<" " <<"*"<<" "<<"e";
 	return s.str();
 }
 
 ostream& Euler::print(std::ostream& output) const{
-    output << *coefficient << "e";
+    output << *coefficient<<" "<< "*"<< " "<< "e";
     return output;
 }
 

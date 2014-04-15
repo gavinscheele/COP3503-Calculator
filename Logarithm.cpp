@@ -8,6 +8,7 @@
 
 #include "Logarithm.h"
 using namespace std;
+#include <string>
 
 //constructor for int base with an int operand
 Logarithm::Logarithm(int base, int operand){
@@ -56,6 +57,34 @@ Logarithm::~Logarithm(){
     delete this;
 }
 
+void Logarithm::simplifyOperand(){
+    string operand1 = eOperand->exp;
+        char asterick = '*';
+        char slash = '/';
+        vector<int> position;
+        int length = operand1.length();
+        for(int i = 0; i < length; i++)
+        {
+            if(operand1.at(i)== (asterick) || operand1.at(i)== slash){
+                position.push_back(i);
+                cout<<i<<endl;
+            }
+        }
+        string number = "";
+        vector<Expression* > logs;
+        for(int j =0; j<=position.size();j++){
+                int positionofop = position.at(j);
+                string number = operand1.substr(j,positionofop-2);
+                Solver* s = new Solver();
+                Expression* e = s->bindToExpressionType(number);
+                Logarithm* simpleLog = (Logarithm*)e;
+                simpleLog->simplify();
+                logs.push_back(e);
+
+        }
+
+}
+
 /*attempts to simplify Logarithms by seperating the operand into component parts of prime factors
 and then creating new logarithms with the same original base for all, but each having
 a prime factor as the operand */
@@ -90,6 +119,40 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
 
         */
 
+
+
+
+
+
+
+
+
+
+
+
+        if(eOperand->type == "euler")
+        {
+            if(eBase->type == "euler"){
+                Integer* answer = new Integer(1);
+            }
+            else{
+                Logarithm* answer = new Logarithm(eBase, eOperand);
+            }
+
+        }
+
+        if(eOperand->type == "pi")
+        {
+             if(eBase->type == ""){
+                Integer* answer = new Integer(1);
+            }
+            else{
+                Logarithm* answer = new Logarithm(eBase, eOperand);
+            }
+
+        }
+
+       if(eOperand->type == "integer"){
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
@@ -136,6 +199,9 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
        {
            return answer;
        }
+       else if(size1 == 1){
+        return this;
+       }
        else
        {
           Expression* e = new Integer(answerint->getValue());
@@ -151,7 +217,7 @@ if (eOperand->type = “euler” && eBase-> =“euler”){
         cout<<e->exp;
         return e;
        }
-
+       }
 
        throw runtime_error("invalid entry");
        return this;

@@ -46,6 +46,7 @@ private:
     Expression* eBase;
     Expression* eOperand;
     vector<int> primeFactorization(int n);
+    void simplifyOperand();
     int factors[50];
 
 };
