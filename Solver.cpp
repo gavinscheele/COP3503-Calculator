@@ -224,7 +224,7 @@ string Solver::evaluateString(){
                     out = result->toString();
                 }else{
                     stk.push(e1->exp + " + " + e2->exp);
-                    out = e1->exp + " + " + e2->exp;
+                    out = e1->exp + "+" + e2->exp;
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
@@ -233,7 +233,7 @@ string Solver::evaluateString(){
                     out = result->toString();
                 }else{
                     stk.push(e1->exp + " - " + e2->exp);
-                    out = e1->exp + " - " + e2->exp;
+                    out = e1->exp + "-" + e2->exp;
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
@@ -242,7 +242,7 @@ string Solver::evaluateString(){
                     out = result->toString();
                 }else{
                     stk.push(e1->exp + " * " + e2->exp);
-                    out = e1->exp + " * " + e2->exp;
+                    out = e1->exp + "*" + e2->exp;
                 }
                 
 
@@ -279,7 +279,7 @@ string Solver::evaluateString(){
                 }
                 else{
                     stk.push(e1->toString() + " / " + e2->toString());
-                    out = e1->exp + " / " + e2->exp;
+                    out = e1->exp + "/" + e2->exp;
 
                 }
             }else if(token == "^"){
@@ -362,6 +362,10 @@ Expression* Solver::bindToExpressionType(string e){
                 Integer *op = (Integer *)o;
                 Logarithm *b = new Logarithm(ba->getValue(), op->getValue());
                 Logarithm *c = (Logarithm *)b->simplify();
+                if(c->type == "multiple"){
+                    a = bindToExpressionType(c->exp);
+                    break;
+                }
                 a = c;
             }else{
                 a = new Logarithm(b,a);
@@ -398,6 +402,8 @@ Expression* Solver::bindToExpressionType(string e){
         }
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
+        }else{
+            
         }
     }
     return a;
