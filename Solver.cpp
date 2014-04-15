@@ -223,8 +223,13 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + " + " + e2->exp);
-                    out = e1->exp + "+" + e2->exp;
+                    if (e2->type == "logarithm") {
+                        Logarithm *a = (Logarithm *)e2;
+                        a->simplify();
+                        e2 = a;
+                    }
+                    stk.push(e1->toString() + " + " + e2->toString());
+                    out = e1->toString() + " + " + e2->toString();
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
@@ -232,8 +237,8 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + " - " + e2->exp);
-                    out = e1->exp + "-" + e2->exp;
+                    stk.push(e1->toString() + " - " + e2->toString());
+                    out = e1->toString() + " - " + e2->toString();
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
@@ -241,8 +246,8 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + " * " + e2->exp);
-                    out = e1->exp + "*" + e2->exp;
+                    stk.push(e1->toString() + " * " + e2->toString());
+                    out = e1->toString() + " * " + e2->toString();
                 }
                 
 
@@ -279,7 +284,7 @@ string Solver::evaluateString(){
                 }
                 else{
                     stk.push(e1->toString() + " / " + e2->toString());
-                    out = e1->exp + "/" + e2->exp;
+                    out = e1->toString() + " / " + e2->toString();
 
                 }
             }else if(token == "^"){
