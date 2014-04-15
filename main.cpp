@@ -13,7 +13,6 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                                     //are called from the main method.
     bool useAns = false;
     string previousExpression = "";
-    bool showFloat = false;
     
     while (choice.compare("d") != 0) {
         cout << "Menu" << "\n" <<
@@ -77,7 +76,8 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
                     "b. Set 'ans' equal to the previous expression's answer \n";
             cin >> thirdChoice;
             if (thirdChoice.compare("a") == 0) {
-                showFloat = true;
+                Solver *s = new Solver(previousExpression);
+                cout << s->solve(true) << endl;
             }
             else if (thirdChoice.compare("b") == 0) {
                 useAns = true;

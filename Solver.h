@@ -44,7 +44,9 @@ private:
     string evaluateString();
     string evaluateFloatString();
     Expression* bindToExpressionType(string e);
-    
+    float bindToExpressionFloat(string e);
+    float answer;
+
 
 };
 #endif /* defined(__Calculator__Solver__) */
