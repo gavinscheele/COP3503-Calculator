@@ -14,7 +14,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
     bool useAns = false;
     string previousExpression = "";
 
-    while (choice.compare("d") != 0) {
+    while (choice.compare("d") != 0 && choice.compare("D") != 0) {
         cout << "Menu" << "\n" <<
         "a. Compute a new expression" << "\n" <<
         "b. Help" << "\n" <<
@@ -25,9 +25,9 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         cout << "\n";
 
 
-        if (choice.compare("a") == 0) {
+        if (choice.compare("a") == 0 || choice.compare("A") == 0) {
             string secondChoice = "n";
-            while (secondChoice.compare("y") != 0) {
+            while (secondChoice.compare("y") != 0 && secondChoice.compare("Y") != 0) {
                 cout << "Enter an Expression:" << endl;
                 string expression;
                 cin.ignore();
@@ -54,7 +54,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         }
 
 
-        else if (choice.compare("b") == 0) {
+        else if (choice.compare("b") == 0 || choice.compare("B") == 0) {
             cout << "Directions for Use of This Program" << endl;
             cout << "----------------------------------" << endl;
             cout << "*Enter 'a' from the menu to begin a calculation" << endl;
@@ -68,24 +68,24 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
         }
 
 
-        else if (choice.compare("c") == 0) {
+        else if (choice.compare("c") == 0 || choice.compare("C") == 0) {
             //we're screwed
             string thirdChoice = "z";
             cout << "Sub-Options \n" <<
             "a. Show the float form of the last expression" << "\n" <<
             "b. Set 'ans' equal to the previous expression's answer \n";
             cin >> thirdChoice;
-            if (thirdChoice.compare("a") == 0) {
+            if (thirdChoice.compare("a") == 0 || thirdChoice.compare("A") == 0) {
                 Solver *s = new Solver(previousExpression);
                 cout << s->solve(true) << endl;
             }
-            else if (thirdChoice.compare("b") == 0) {
+            else if (thirdChoice.compare("b") == 0 || thirdChoice.compare("B") == 0) {
                 useAns = true;
             }
             else {
                 cout << "Sorry, couldn't recognize your input \n";
             }
-        }else if(choice.compare("d") != 0){
+        }else if(choice.compare("d") != 0 && choice.compare("D") != 0){
             cout << "Sorry, couldn't recognize your input." << "\n";
         }
     }
@@ -106,7 +106,6 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
  //    cout << *a->multiply(e) << endl;
  //    cout << *a->divide(b) << endl;
 
-<<<<<<< HEAD
 
 /*
 Euler* em = new Euler();
@@ -138,6 +137,5 @@ cout<<*log->simplify();
 //
 // return 0;
 // }
->>>>>>> 3496b81b1ee2040fad23f9d9a26d2e9926c994b7
 
 */
