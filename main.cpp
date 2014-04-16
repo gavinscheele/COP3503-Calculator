@@ -106,6 +106,23 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
  //    cout << *a->multiply(e) << endl;
  //    cout << *a->divide(b) << endl;
 
+<<<<<<< HEAD
+
+/*
+Euler* em = new Euler();
+Expression* el = new Integer(0);
+el->exp = "e * 3";
+ Logarithm* log = new Logarithm(em,em);
+
+cout<<*log->simplify();
+
+ //Solver *s = new Solver("");
+ //cout << s->solve() << endl;;
+
+
+ return 0;
+ }
+=======
 //
 //
 //Euler* em = new Euler();
@@ -121,4 +138,6 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
 //
 // return 0;
 // }
+>>>>>>> 3496b81b1ee2040fad23f9d9a26d2e9926c994b7
 
+*/
