@@ -41,12 +41,13 @@ public:
     ostream& print(std::ostream& output) const;
     string toString();
     Expression* simplifyOperand();
+    vector<int> primeFactorization(int n);
 private:
     int base;
     int operand;
     Expression* eBase;
     Expression* eOperand;
-    vector<int> primeFactorization(int n);
+
 
     int factors[50];
 
