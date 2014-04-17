@@ -147,38 +147,53 @@ string Solver::evaluateFloatString(){
             stk.push(token);
         }
         else{
-
+            
             float e2 = bindToExpressionFloat(stk.top());
             stk.pop();
             
-            float e1 = bindToExpressionFloat(stk.top());
-            stk.pop();
+            float e1 = 0;
+            if (i == 0) {
+                e1 = bindToExpressionFloat(stk.top());
+                stk.pop();
+            }else{
+                e1 = stof(stk.top());
+                stk.pop();
+            }
+
             
             //check function call and call appropriate method
             if(token == "+"){
                 e1 += e2;
                 stringstream s;
                 s << e1;
+                stk.push(s.str());
                 out = s.str();
             }else if(token == "-"){
                 e1 -= e2;
                 stringstream s;
                 s << e1;
+                stk.push(s.str());
                 out = s.str();
             }else if(token == "*"){
                 e1 *= e2;
                 stringstream s;
                 s << e1;
+                stk.push(s.str());
                 out = s.str();
                 
             }else if(token == "/"){
                 e1 /= e2;
                 stringstream s;
                 s << e1;
+                stk.push(s.str());
                 out = s.str();
             }else if(token == "^"){
                 for (int i = 1; i < e2; i++) {
                     e1 *= e1;
+                    stringstream s;
+                    s << e1;
+                    stk.push(s.str());
+                    out = s.str();
                 }
             }else{
                 cout << "Error: Invalid Operator" << endl;
@@ -409,7 +424,8 @@ Expression* Solver::bindToExpressionType(string e){
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
         }else{
-            a->type = "stillHasOperation";
+            throw runtime_error("Error: Expression Not Bound to Type");
+           // a->type = "stillHasOperation";
         }
     }
     return a;
