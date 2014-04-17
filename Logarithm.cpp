@@ -9,7 +9,6 @@
 #include "Logarithm.h"
 using namespace std;
 #include <string>
-
 //constructor for int base with an int operand
 Logarithm::Logarithm(int base, int operand){
     if (operand == 0){
@@ -59,10 +58,8 @@ Logarithm::~Logarithm(){
 }
 
 Expression* Logarithm::simplifyOperand(){
-    Expression* e = this->eOperand;
-    e->exp = e->toString();
+   MultipleExpressions* e = new MultipleExpressions(this->eOperand->toString());
     string operand1 = e->exp;
-    cout<<operand1;
         char asterick = '*';
         char slash = '/';
         vector<int> position;
@@ -72,39 +69,70 @@ Expression* Logarithm::simplifyOperand(){
         {
             if(operand1.at(i)== (asterick) || operand1.at(i)== slash){
                 position.push_back(i);
-                position.push_back(operand1.at(i));
-                cout<<i<<endl;
+                symbols.push_back(operand1.at(i));
             }
         }
+
         string number = "";
+
         vector<Expression* > logs;
-        for(int j =0; j<=position.size();j++){
-                int positionofop = position.at(j);
-                string number = operand1.substr(j,positionofop-2);
+        for(int j =0; j<position.size();j++){//creates a string of the new logs or integers
                 Solver* s = new Solver();
-                Expression* e = s->bindToExpressionType(number);
-                Logarithm* simpleLog = (Logarithm*)e;
-                simpleLog->simplify();
-                logs.push_back(e);
+                int positionofop1 = position.at(j);
+                if(j== 0){
+                string number1 = operand1.substr(0,positionofop1-1);
+                 Expression* expression1 = s->bindToExpressionType(number1);
+                 Logarithm* simpleLog1 = new Logarithm(this->eBase, expression1);
+                 Expression* simpleLog11 = simpleLog1->simplify();
+                 logs.push_back(simpleLog11);
+
+                }
+                string number2;
+                if(position.size()==1||position.size() == j+1)
+                    {
+
+                    number2 = operand1.substr(positionofop1+2,operand1.length());
+                }
+
+                else if(positionofop1 +2 < operand1.length()-1)
+                {
+
+
+                    int positionofop2 = position.at(j+1);
+                    int substringmethod = (positionofop2-1) - (positionofop1+2);
+                    number2 = operand1.substr(positionofop1+2,substringmethod);
+
+                }
+
+
+
+                Expression* expression2 = s->bindToExpressionType(number2);
+                Logarithm* simpleLog2 = new Logarithm(this->eBase, expression2);
+                Expression* simpleLog22 = simpleLog2->simplify();
+                logs.push_back(simpleLog22);
+
 
         }
 
-        Expression* endlog = new Integer(0);
-         endlog->type = "multiple";
+
           stringstream endlogexp;
           for(int k = 0; k<logs.size(); k++){
             endlogexp<<*logs.at(k);
-            if(k+1 < logs.size()&& symbols.at(k == asterick)){
+            if(k+1 < logs.size()&& symbols.at(k) == asterick){
                 endlogexp<< " " << "+" << " ";
+
             }
-            if(k+1 < logs.size()&& symbols.at(k == slash)){
+            if(k+1 < logs.size()&& symbols.at(k) == slash){
                 endlogexp<< " " << "-" << " ";
             }
             }
-        endlog->exp = endlogexp.str();
+            string s = endlogexp.str();
+            Expression* endlog = new MultipleExpressions(s);
+
         return endlog;
 
 
+return this;
 
 }
 Expression* Logarithm::simplify(){
@@ -137,15 +165,21 @@ Expression* Logarithm::simplify(){
 
         }
 
+
        if(eOperand->type == "integer"){
-        vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
-        size_t size1 = primefactors.size();//gets the size of this vector
-        vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
+
+        Integer* op = (Integer*)eOperand;
+        int operand1 = op->getValue();
+
+        vector<int> primefactors = primeFactorization(operand1);
+       size_t size1 = primefactors.size();
+       vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
 
 
         for(int i = 0 ; i < size1; i++){
             seperatedLogs.at(i) = new Logarithm(this->eBase, new Integer(primefactors.at(i)));//assigns values to each seperatedlog with the same base and operands of the prime factorization
             }
+
 
        for(int j= 0; j <size1; j++){
     	if (seperatedLogs.at(j)->type == "logarithm") {//checks to see if the value at seperated log is a log type
@@ -167,6 +201,7 @@ Expression* Logarithm::simplify(){
 
        Expression * answer;//creates a new variable called answer
        if(size1 >= 2){// if the size is two or higher
+
         answer = seperatedLogs.at(0)->add(seperatedLogs.at(1));// add the first two together
        }
        else{//if the size is just 1
@@ -180,6 +215,7 @@ Expression* Logarithm::simplify(){
        }
        Integer* size2 = new Integer((int)size1);
        Integer* answerint = (Integer *)answer;
+
        if(answerint->getValue()==size2->getValue())
        {
            return answer;
@@ -189,23 +225,23 @@ Expression* Logarithm::simplify(){
        }
        else
        {
-          Expression* e = new Integer(answerint->getValue());
-          e->type = "multiple";
-          stringstream s;
+          stringstream ss;
           for(int l = 0; l<size1; l++){
-            s<<*seperatedLogs.at(l);
+            ss<<*seperatedLogs.at(l);
             if(l+1 < size1){
-                s<< " " << "+" << " ";
+                ss<< " " << "+" << " ";
             }
             }
-        e->exp = s.str();
-        //cout<<e->exp;
+            string s = ss.str();
+        MultipleExpressions* e = new MultipleExpressions(s);
+
         return e;
        }
-       }
 
-       throw runtime_error("invalid entry");
+
+       throw runtime_error("log doesn't accept this type of expression");
        return this;
+}
 }
 
 //creates vector of prime factors of n to be used in the simplify method
@@ -215,6 +251,8 @@ vector<int> Logarithm::primeFactorization(int n) {
     while (n%2 == 0) {
         factors.push_back(2);
         n = n/2;
+
+
     }
     for (int i = 3; i <= sqrt(n); i = i + 2) {
         while (n%i == 0) {
@@ -226,6 +264,7 @@ vector<int> Logarithm::primeFactorization(int n) {
     if (n > 2) {
         factors.push_back(n);
     }
+
     return factors;
 }
 
