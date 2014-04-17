@@ -138,6 +138,7 @@ Expression* Logarithm::simplify(){
         }
 
        if(eOperand->type == "integer"){
+
         vector<int> primefactors = primeFactorization(operand);//Create a vector of all the prime factors of the operand
         size_t size1 = primefactors.size();//gets the size of this vector
         vector<Expression *> seperatedLogs(size1);//creates another vector of type expression to save all of the separated Logs has the same size of the number of prime factors
@@ -147,7 +148,9 @@ Expression* Logarithm::simplify(){
             seperatedLogs.at(i) = new Logarithm(this->eBase, new Integer(primefactors.at(i)));//assigns values to each seperatedlog with the same base and operands of the prime factorization
             }
 
+
        for(int j= 0; j <size1; j++){
+
     	if (seperatedLogs.at(j)->type == "logarithm") {//checks to see if the value at seperated log is a log type
             Logarithm* a = (Logarithm *)seperatedLogs.at(j);
             Logarithm* log = new Logarithm(a->getEBase(),a->getEOperand());
@@ -199,7 +202,7 @@ Expression* Logarithm::simplify(){
             }
             }
         e->exp = s.str();
-        //cout<<e->exp;
+        cout<<e->exp;
         return e;
        }
        }
