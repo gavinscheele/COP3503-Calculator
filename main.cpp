@@ -8,9 +8,10 @@
 
 #include "Solver.h"
 using namespace std;
-int main(int argc, char * argv[])  {//A main method shouldn't have perameters - at least I don't think so. -Dan
-    string choice = "z";            //Any things which would be parameters should be parameters in methods which
-    //are called from the main method.
+int main(int argc, char * argv[])  {
+    
+    cout << "Welcome to the calculator. Please insert spaces between every operator and operand. Examples are provided in the 'help' section of the Menu.\n" << endl;
+    string choice = "z";
     bool useAns = false;
     string previousExpression = "";
     string floatExpression = "";
@@ -60,7 +61,7 @@ int main(int argc, char * argv[])  {//A main method shouldn't have perameters - 
             cout << "----------------------------------" << endl;
             cout << "*Enter 'a' from the menu to begin a calculation" << endl;
             cout << "*Calculation operands and operations should each be seperated by a space" << endl;
-            cout << "*Ex: ( 4 + 3 ) - log_3:2 * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
+            cout << "*Ex: ( 4 + 3 ) - log_3:(2) - log_pi:(pi * pi ) * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
             cout << "*After each calculation, enter 'y' to proceed with another calculation, or 'n' to go back to the main menu" << endl;
             cout << "*Enter 'c' from the main menu to view previous answers normally or in float form" << endl;
             cout << "*From this menu, you can also refer to the previous answer as 'ans'" << endl;

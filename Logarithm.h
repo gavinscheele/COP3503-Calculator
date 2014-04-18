@@ -15,6 +15,7 @@
 #include <vector>
 #include <math.h>
 #include "Solver.h"
+#include "MultipleExpressions.h"
 #include <stdexcept>
 
 class Logarithm : public Expression{

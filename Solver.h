@@ -46,6 +46,8 @@ private:
     string evaluateFloatString();
     float bindToExpressionFloat(string e);
     float answer;
+    vector<string> parseBySpaces(string expression);
+
 
 
 };

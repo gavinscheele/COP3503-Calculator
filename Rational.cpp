@@ -363,7 +363,16 @@ ostream& Rational::print(std::ostream& output) const{
 }
 string Rational::toString(){
     stringstream s;
-    s << *eNumerator << "/" << *eDenominator;
+    if (dynamic_cast<Integer *>(eDenominator) != 0) {
+        Integer *den = (Integer *)eDenominator;
+        if (den->getValue() == 1) {
+            s << *eNumerator;
+        }else{
+            s << *eNumerator << "/" << *eDenominator;
+        }
+    }else{
+        s << *eNumerator << "/" << *eDenominator;
+    }
     return s.str();
 }
 

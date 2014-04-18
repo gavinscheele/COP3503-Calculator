@@ -22,9 +22,11 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
-
+    vector<string> getVectorExpressions();
 private:
     string expressions;
+    vector<string> vectorExpressions;
+    vector<string> parseBySpaces(string expression);
 };
 
 

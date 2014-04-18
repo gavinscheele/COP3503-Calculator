@@ -18,58 +18,20 @@ Solver::Solver(std::string a){
     output = "";
 }
 Solver::~Solver(){
-
+    
 }
 std::string Solver::solve(bool floatingPoint){
-    string temp = "";
-    int count = 0;
 
-    for(int i = 0; i < localExpression.size(); i ++){       //creates an array of expressions and operations
-        if(localExpression.at(i) == ' '){
-            temp = "";
-            for (int j = count; j < i; j++) {
-                temp.push_back(localExpression.at(j));
-            }
-            expressions.push_back(temp);
-            count = i+1;
+    this->expressions = this->parseBySpaces(localExpression);   //pass string to method and get a vector back with the expressions parsed by spaces
+    
+    shuntingYard(); //use shunting yard algorithm to put into correct order of operations without parenthesis
 
-        }else if(i == localExpression.size()-1){
-            temp = "";
-            for (int j = count; j <= i; j++) {
-                temp.push_back(localExpression.at(j));
-            }
-            expressions.push_back(temp);
-            count = i+1;
-        }
-    }
-
-    shuntingYard();
-
-    expressions.clear();
-    count = 0;
-
-
-    for(int i = 0; i < output.size(); i ++){       //creates an array of expressions and operations
-        if(output.at(i) == ' '){
-            temp = "";
-            for (int j = count; j < i; j++) {
-                temp.push_back(output.at(j));
-            }
-            expressions.push_back(temp);
-            count = i+1;
-
-        }else if(i == output.size()-1){
-            temp = "";
-            for (int j = count; j <= i; j++) {
-                temp.push_back(output.at(j));
-            }
-            expressions.push_back(temp);
-            count = i+1;
-        }
-    }
-    if (floatingPoint) {
+    this->expressions = this->parseBySpaces(output);    //parse new expression string by spaces
+    
+    if (floatingPoint) {                //if we are calculating the float value, call the float evaluation method
         return evaluateFloatString();
-    }else return evaluateString();
+    }else
+        return evaluateString();
 
 }
 void Solver::shuntingYard(){
@@ -118,7 +80,6 @@ bool Solver::isAnOperator(string tkn){
     if(tkn == "+" || tkn == "-" || tkn == "/" || tkn == "*" || tkn == "^") return true;
     else return false;
 }
-
 bool Solver::isLeftAssociative(string tkn){
     if(tkn == "+" || tkn == "-" || tkn == "/" || tkn == "*") return true;
     else return false;
@@ -204,6 +165,7 @@ string Solver::evaluateFloatString(){
     }
     return out;
 }
+
 string Solver::evaluateString(){
     string out = *new string("");
     string result = *new string("");
@@ -243,8 +205,67 @@ string Solver::evaluateString(){
                         a->simplify();
                         e2 = a;
                     }
-                    stk.push(e1->exp + "+" + e2->exp);
-                    out = e1->toString() + " + " + e2->toString();
+                    if (dynamic_cast<MultipleExpressions *>(e1) != 0) {
+                        MultipleExpressions *me = (MultipleExpressions *)e1;
+                        vector<string> x = me->getVectorExpressions();
+                        Expression *a;
+                        Expression *b;
+                        Expression *result;
+                        if (x.at(1) == "+") {
+                            a = this->bindToExpressionType(x.at(0));
+                            b = this->bindToExpressionType(x.at(2));
+                            if(a->canAdd(e2)){
+                                result = a->add(e2);
+                                if (result->toString() == "0") {
+                                    stk.push(b->toString());
+                                    out = b->toString();
+                                }else{
+                                    stk.push(result->toString() + " + " + b->toString());
+                                    out = result->toString() + " + " + b->toString();
+                                }
+                            }else if(b->canAdd(e2)){
+                                result = b->add(e2);
+                                if (result->toString() == "0") {
+                                    stk.push(a->toString());
+                                    out = a->toString();
+                                }else{
+                                    stk.push(result->toString() + " + " + a->toString());
+                                    out = result->toString() + " + " + a->toString();
+                                }
+                            }else{
+                                stk.push(e1->exp + " + " + e2->exp);
+                                out = e1->toString() + " + " + e2->toString();
+                            }
+                        }else if(x.at(1) == "-"){
+                            a = this->bindToExpressionType(x.at(0));
+                            b = this->bindToExpressionType(x.at(2));
+                            if(a->canAdd(e2)){
+                                result = a->add(e2);
+                                if (result->toString() == "0") {
+                                    stk.push("-" + b->toString());
+                                    out = "-" + b->toString();
+                                }else{
+                                    stk.push(result->toString() + " - " + b->toString());
+                                    out = result->toString() + " - " + b->toString();
+                                }
+                            }else if(b->canAdd(e2)){
+                                result = b->add(e2);
+                                if (result->toString() == "0") {
+                                    stk.push(a->toString());
+                                    out = a->toString();
+                                }else{
+                                    stk.push(result->toString() + " + " + a->toString());
+                                    out = result->toString() + " + " + a->toString();
+                                }
+                            }else{
+                                stk.push(e1->exp + " + " + e2->exp);
+                                out = e1->toString() + " + " + e2->toString();
+                            }
+                        }
+                    }else{
+                        stk.push(e1->exp + " + " + e2->exp);
+                        out = e1->toString() + " + " + e2->toString();
+                    }
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
@@ -252,8 +273,68 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + "-" + e2->exp);
-                    out = e1->toString() + " - " + e2->toString();
+                    
+                    if (dynamic_cast<MultipleExpressions *>(e1) != 0) {
+                        MultipleExpressions *me = (MultipleExpressions *)e1;
+                        vector<string> x = me->getVectorExpressions();
+                        Expression *a;
+                        Expression *b;
+                        Expression *result;
+                        if (x.at(1) == "+") {
+                            a = this->bindToExpressionType(x.at(0));
+                            b = this->bindToExpressionType(x.at(2));
+                            if(a->canSubtract(e2)){
+                                result = a->subtract(e2);
+                                if (result->toString() == "0") {
+                                    stk.push(b->toString());
+                                    out = b->toString();
+                                }else{
+                                    stk.push(result->toString() + " + " + b->toString());
+                                    out = result->toString() + " + " + b->toString();
+                                }
+                            }else if(b->canSubtract(e2)){
+                                result = b->subtract(e2);
+                                if (result->toString() == "0") {
+                                    stk.push(a->toString());
+                                    out = a->toString();
+                                }else{
+                                    stk.push(result->toString() + " + " + a->toString());
+                                    out = result->toString() + " + " + a->toString();
+                                }
+                            }else{
+                                stk.push(e1->exp + " - " + e2->exp);
+                                out = e1->toString() + " - " + e2->toString();
+                            }
+                        }else if(x.at(1) == "-"){
+                            a = this->bindToExpressionType(x.at(0));
+                            b = this->bindToExpressionType(x.at(2));
+                            if(a->canSubtract(e2)){
+                                result = a->subtract(e2);
+                                if (result->toString() == "0") {
+                                    stk.push("-" + b->toString());
+                                    out = "-" + b->toString();
+                                }else{
+                                    stk.push(result->toString() + " - " + b->toString());
+                                    out = result->toString() + " - " + b->toString();
+                                }
+                            }else if(b->canSubtract(e2)){
+                                result = b->subtract(e2);
+                                if (result->toString() == "0") {
+                                    stk.push("-" + b->toString());
+                                    out = "-" + b->toString();
+                                }else{
+                                    stk.push(result->toString() + " - " + b->toString());
+                                    out = result->toString() + " - " + b->toString();
+                                }
+                            }else{
+                                stk.push(e1->exp + " - " + e2->exp);
+                                out = e1->toString() + " - " + e2->toString();
+                            }
+                        }
+                    }else{
+                        stk.push(e1->exp + " - " + e2->exp);
+                        out = e1->toString() + " - " + e2->toString();
+                    }
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
@@ -261,7 +342,7 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    stk.push(e1->exp + "*" + e2->exp);
+                    stk.push(e1->exp + " * " + e2->exp);
                     out = e1->toString() + " * " + e2->toString();
                 }
                 
@@ -298,7 +379,7 @@ string Solver::evaluateString(){
                     }
                 }
                 else{
-                    stk.push(e1->exp + "/" + e2->exp);
+                    stk.push(e1->exp + " / " + e2->exp);
                     out = e1->toString() + " / " + e2->toString();
 
                 }
@@ -314,8 +395,8 @@ string Solver::evaluateString(){
                     stk.push(e1->toString());
                     out = e1->toString();
                 }else{
-                    stk.push(e1->toString() + "^" + e2->toString());
-                    out = e1->toString() + "^" + e2->toString();
+                    stk.push(e1->toString() + " ^ " + e2->toString());
+                    out = e1->toString() + " ^ " + e2->toString();
                 }
 
 
@@ -330,7 +411,14 @@ string Solver::evaluateString(){
 }
 Expression* Solver::bindToExpressionType(string e){
     Expression *a = new Integer(0);     //so the compiler doesnt complain. Will be set to appropriate type later
-
+    for(int i = 0; i < e.length(); i++){
+        if(e[i] == '*' || e[i] == '/' || e[i] == '+' || e[i] == '-'){
+            if (e[i-1] == ' ' && e[i+1] == ' ') {
+                a = new MultipleExpressions(e);
+                return a;
+            }
+        }
+    }
     for(int i = 0; i < e.length(); i++){
         if (e[i] == '/') {
             string before;
@@ -358,7 +446,7 @@ Expression* Solver::bindToExpressionType(string e){
             a = new Exponential(base,exp);
             break;
         }
-        else if(e[i] == 'p' && e[i+1] == 'i' && e[i+2] != '^'){
+        else if(e[i] == 'p' && e[i+1] == 'i' && e[i+2] != '^' && e[i+3] != '^'){
             a = new Pi();
             break;
         }else if(e[i] == 'e' && e[i+1] != '^'){
@@ -372,8 +460,16 @@ Expression* Solver::bindToExpressionType(string e){
                 base.push_back(e[j]);
                 j++;
             }
-            for (int k = j+1; k < e.length(); k++) {
-                operand.push_back(e[k]);
+            for (int k = j+2; k < e.length()-1; k++) {
+                if ((e[k] != '(' || e[k] != ')')) {
+                    operand.push_back(e[k]);
+                }
+            }
+            if (operand.at(operand.length()-1) == ' ') {
+                operand.pop_back();
+            }
+            if (operand.at(0) == ' ') {
+                operand.erase(0,1);
             }
             Expression *b = this->bindToExpressionType(base);
             Expression *o = this->bindToExpressionType(operand);
@@ -417,15 +513,15 @@ Expression* Solver::bindToExpressionType(string e){
             }
             break;
         }
-        else if(!isdigit(e[i]) && e[i] != '-' && e[i] != 'e' && e[i] != 'p' && e[i] != 'i'){
-            cout << e[i] << endl;
+        else if(!isdigit(e[i]) && e[i] != '-' && e[i] != 'e' && e[i] != 'p' && e[i] != 'i' && e[i] != ' '){
             break;
         }
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
         }else{
-            throw runtime_error("Error: Expression Not Bound to Type");
-           // a->type = "stillHasOperation";
+            stringstream s;
+            s << "Could not bind " << e << "to a type";
+            throw runtime_error(s.str());
         }
     }
     return a;
@@ -462,7 +558,9 @@ float Solver::bindToExpressionFloat(string e){
                 j++;
             }
             for (int k = j+1; k < e.length(); k++) {
-                operand.push_back(e[k]);
+                if (e[k] != '(' || e[k] != ')') {
+                    operand.push_back(e[k]);
+                }
             }
             float b = this->bindToExpressionFloat(base);
             float o = this->bindToExpressionFloat(operand);
@@ -495,7 +593,40 @@ bool Solver::replace(std::string& str, const std::string& from, const std::strin
     return true;
 }
 
-
+vector<string> Solver::parseBySpaces(string expression){
+    int count = 0;
+    string temp = "";
+    vector<string> expressions;
+    for(int i = 0; i < expression.size(); i ++){       //creates an array of expressions and operations
+        if (expression.at(i) == 'l' && expression.at(i+1) == 'o' && expression.at(i+2) == 'g') {
+            for (int j = i; j < expression.size(); j++) {
+                temp.push_back(expression.at(j));
+                if (expression.at(j) == ')') {
+                    i = j+1;
+                    expressions.push_back(temp);
+                    break;
+                }
+            }
+        }
+        else if(expression.at(i) == ' '){
+            temp = "";
+            for (int j = count; j < i; j++) {
+                temp.push_back(expression.at(j));
+            }
+            expressions.push_back(temp);
+            count = i+1;
+            
+        }else if(i == expression.size()-1){
+            temp = "";
+            for (int j = count; j <= i; j++) {
+                temp.push_back(expression.at(j));
+            }
+            expressions.push_back(temp);
+            count = i+1;
+        }
+    }
+    return expressions;
+}
 
 
 

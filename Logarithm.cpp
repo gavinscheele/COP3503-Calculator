@@ -64,7 +64,7 @@ Expression* Logarithm::simplifyOperand(){
         char slash = '/';
         vector<int> position;
         vector<char> symbols;
-        int length = operand1.length();
+        size_t length = operand1.length();
         for(int i = 0; i < length; i++)
         {
             if(operand1.at(i)== (asterick) || operand1.at(i)== slash){
@@ -240,8 +240,9 @@ Expression* Logarithm::simplify(){
 
 
        throw runtime_error("log doesn't accept this type of expression");
-       return this;
-}
+       }
+    return this;
+
 }
 
 //creates vector of prime factors of n to be used in the simplify method
