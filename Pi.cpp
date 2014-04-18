@@ -124,7 +124,7 @@ Expression* Pi::divide(Expression* a){
 string Pi:: toString(){
     stringstream s;
     if(this->coefficient->getValue() == 1){
-        s << "pi" << endl;
+        s << "pi";
     }else
         s<<*this->coefficient <<" " <<"*"<<" "<<"pi";
     
@@ -133,7 +133,7 @@ string Pi:: toString(){
 
 ostream& Pi::print(std::ostream& output) const{
     if(this->coefficient->getValue() == 1){
-        output << "pi" << endl;
+        output << "pi";
     }else
         output<<*this->coefficient <<" " <<"*"<<" "<<"pi";
     

@@ -205,68 +205,7 @@ string Solver::evaluateString(){
                         a->simplify();
                         e2 = a;
                     }
-                    if (dynamic_cast<MultipleExpressions *>(e1) != 0) {
-                        MultipleExpressions *me = (MultipleExpressions *)e1;
-                        vector<string> x = me->getVectorExpressions();
-                        Expression *a;
-                        Expression *b;
-                        Expression *result;
-                        if (x.at(1) == "+") {
-                            a = this->bindToExpressionType(x.at(0));
-                            b = this->bindToExpressionType(x.at(2));
-                            if(a->canAdd(e2)){
-                                result = a->add(e2);
-                                if (result->toString() == "0") {
-                                    stk.push(b->toString());
-                                    out = b->toString();
-                                }else{
-                                    stk.push(result->toString() + " + " + b->toString());
-                                    out = result->toString() + " + " + b->toString();
-                                }
-                            }else if(b->canAdd(e2)){
-                                result = b->add(e2);
-                                if (result->toString() == "0") {
-                                    stk.push(a->toString());
-                                    out = a->toString();
-                                }else{
-                                    stk.push(result->toString() + " + " + a->toString());
-                                    out = result->toString() + " + " + a->toString();
-                                }
-                            }else{
-                                stk.push(e1->exp + " + " + e2->exp);
-                                out = e1->toString() + " + " + e2->toString();
-                            }
-                        }else if(x.at(1) == "-"){
-                            a = this->bindToExpressionType(x.at(0));
-                            b = this->bindToExpressionType(x.at(2));
-                            if(a->canAdd(e2)){
-                                result = a->add(e2);
-                                if (result->toString() == "0") {
-                                    stk.push("-" + b->toString());
-                                    out = "-" + b->toString();
-                                }else{
-                                    stk.push(result->toString() + " - " + b->toString());
-                                    out = result->toString() + " - " + b->toString();
-                                }
-                            }else if(b->canAdd(e2)){
-                                result = b->add(e2);
-                                if (result->toString() == "0") {
-                                    stk.push(a->toString());
-                                    out = a->toString();
-                                }else{
-                                    stk.push(result->toString() + " + " + a->toString());
-                                    out = result->toString() + " + " + a->toString();
-                                }
-                            }else{
-                                stk.push(e1->exp + " + " + e2->exp);
-                                out = e1->toString() + " + " + e2->toString();
-                            }
-                        }
-                    }else{
-                        stk.push(e1->exp + " + " + e2->exp);
-                        out = e1->toString() + " + " + e2->toString();
-                    }
-                }
+                                   }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
                    Expression *result =  e1->subtract(e2);
@@ -274,74 +213,14 @@ string Solver::evaluateString(){
                     out = result->toString();
                 }else{
                     
-                    if (dynamic_cast<MultipleExpressions *>(e1) != 0) {
-                        MultipleExpressions *me = (MultipleExpressions *)e1;
-                        vector<string> x = me->getVectorExpressions();
-                        Expression *a;
-                        Expression *b;
-                        Expression *result;
-                        if (x.at(1) == "+") {
-                            a = this->bindToExpressionType(x.at(0));
-                            b = this->bindToExpressionType(x.at(2));
-                            if(a->canSubtract(e2)){
-                                result = a->subtract(e2);
-                                if (result->toString() == "0") {
-                                    stk.push(b->toString());
-                                    out = b->toString();
-                                }else{
-                                    stk.push(result->toString() + " + " + b->toString());
-                                    out = result->toString() + " + " + b->toString();
-                                }
-                            }else if(b->canSubtract(e2)){
-                                result = b->subtract(e2);
-                                if (result->toString() == "0") {
-                                    stk.push(a->toString());
-                                    out = a->toString();
-                                }else{
-                                    stk.push(result->toString() + " + " + a->toString());
-                                    out = result->toString() + " + " + a->toString();
-                                }
-                            }else{
-                                stk.push(e1->exp + " - " + e2->exp);
-                                out = e1->toString() + " - " + e2->toString();
-                            }
-                        }else if(x.at(1) == "-"){
-                            a = this->bindToExpressionType(x.at(0));
-                            b = this->bindToExpressionType(x.at(2));
-                            if(a->canSubtract(e2)){
-                                result = a->subtract(e2);
-                                if (result->toString() == "0") {
-                                    stk.push("-" + b->toString());
-                                    out = "-" + b->toString();
-                                }else{
-                                    stk.push(result->toString() + " - " + b->toString());
-                                    out = result->toString() + " - " + b->toString();
-                                }
-                            }else if(b->canSubtract(e2)){
-                                result = b->subtract(e2);
-                                if (result->toString() == "0") {
-                                    stk.push("-" + b->toString());
-                                    out = "-" + b->toString();
-                                }else{
-                                    stk.push(result->toString() + " - " + b->toString());
-                                    out = result->toString() + " - " + b->toString();
-                                }
-                            }else{
-                                stk.push(e1->exp + " - " + e2->exp);
-                                out = e1->toString() + " - " + e2->toString();
-                            }
-                        }
-                    }else{
-                        stk.push(e1->exp + " - " + e2->exp);
-                        out = e1->toString() + " - " + e2->toString();
-                    }
-                }
+                                   }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
                     Expression *result = e1->multiply(e2);
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
+                    
                     stk.push(e1->exp + " * " + e2->exp);
                     out = e1->toString() + " * " + e2->toString();
                 }
@@ -410,7 +289,7 @@ string Solver::evaluateString(){
     return out;
 }
 Expression* Solver::bindToExpressionType(string e){
-    Expression *a = new Integer(0);     //so the compiler doesnt complain. Will be set to appropriate type later
+    Expression *a = new MultipleExpressions("0");     //so the compiler doesnt complain. Will be set to appropriate type later
     for(int i = 0; i < e.length(); i++){
         if(e[i] == '*' || e[i] == '/' || e[i] == '+' || e[i] == '-'){
             if (e[i-1] == ' ' && e[i+1] == ' ') {
@@ -518,11 +397,12 @@ Expression* Solver::bindToExpressionType(string e){
         }
         else if(i == e.length()-1){
             a = new Integer(atoi(e.c_str()));
-        }else{
-            stringstream s;
-            s << "Could not bind " << e << "to a type";
-            throw runtime_error(s.str());
         }
+    }
+    if(dynamic_cast<MultipleExpressions *>(a) != 0 && a->exp == "0"){
+        stringstream s;
+        s << "Could not bind " << e << "to a type";
+        throw runtime_error(s.str());
     }
     return a;
 }

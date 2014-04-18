@@ -33,8 +33,6 @@ bool Expression::canSubtract(Expression* b){
 }
 bool Expression::canMultiply(Expression* b){
     if (this->type == b->type) {
-        if (this->type == "nthRoot") {
-        }
         return true;
     }
     else if(this->type == "integer" && b->type == "rational") return true;
