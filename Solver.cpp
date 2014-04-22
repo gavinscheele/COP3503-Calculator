@@ -281,7 +281,38 @@ string Solver::evaluateString(){
                     out = e1->toString() + " - " + e2->toString();
                 }
             }else if(token == "*"){
-                if(e1->canMultiply(e2)){
+                if (e2->type == "integer") {
+                    Integer *t = (Integer *)e2;
+                    if (t->getValue() == 1) {
+                        stk.push(e1->toString());
+                        out = e1->toString();
+                    }else{
+                        if (e1->canMultiply(e2)) {
+                            Expression *result = e1->multiply(e2);
+                            stk.push(result->toString());
+                            out = result->toString();
+                        }else{
+                            stk.push(e1->exp + " * " + e2->exp);
+                            out = e1->toString() + " * " + e2->toString();
+                        }
+                    }
+                }else if(e1->type == "integer"){
+                    Integer *t = (Integer *)e1;
+                    if (t->getValue() == 1) {
+                        stk.push(e2->toString());
+                        out = e2->toString();
+                    }else{
+                        if (e2->canMultiply(e1)) {
+                            Expression *result = e2->multiply(e1);
+                            stk.push(result->toString());
+                            out = result->toString();
+                        }else{
+                            stk.push(e2->exp + " * " + e1->exp);
+                            out = e2->toString() + " * " + e1->toString();
+                        }
+                    }
+                }
+                else if(e1->canMultiply(e2)){
                     
                     if (e1->type == "multiple") {
                         //MultipleExpressions *d = (MultipleExpressions *)e1;
@@ -339,8 +370,8 @@ string Solver::evaluateString(){
                             stk.push(result->toString());
                             out = result->toString();
                         //}else{
-                            stk.push(e1->exp + " / " + e2->exp);
-                            out = e1->toString() + " / " + e2->toString();
+                           // stk.push(e1->exp + " / " + e2->exp);
+                           // out = e1->toString() + " / " + e2->toString();
                         //}
                     }else if(e2->type == "multiple"){
                         //MultipleExpressions *d = (MultipleExpressions *)e2;
