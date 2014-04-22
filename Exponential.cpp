@@ -277,7 +277,13 @@ bool Exponential::canAdd(Expression* b){     //use "this" as comparison. Solver 
         return true;
     }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
         return true;
-    }
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple") return true;
     return false;
 }
 bool Exponential::canSubtract(Expression* b){
@@ -285,17 +291,28 @@ bool Exponential::canSubtract(Expression* b){
         return true;
     }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
         return true;
-    }
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple") return true;
     return false;
 }
 bool Exponential::canMultiply(Expression* b){
     if (this->type == b->type) {
         return true;
     }
-    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
     else if(this->type == "integer" && b->type == "rational") return true;
     else if(this->type == "rational" && b->type == "integer") return true;
-    
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple") return true;
     return false;
     
 }
@@ -304,9 +321,15 @@ bool Exponential::canDivide(Expression* b){
         return true;
     }
     else if(this->type == "integer"){
-        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+        if( b->type == "rational") return true;
     }
     else if(this->type == "rational" && b->type == "integer") return true;
-    
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple") return true;
     return false;
 }

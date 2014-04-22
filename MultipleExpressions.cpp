@@ -172,7 +172,6 @@ bool MultipleExpressions::canMultiply(Expression* b){
     if (this->type == b->type) {
         return true;
     }
-    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
     else if(this->type == "integer" && b->type == "rational") return true;
     else if(this->type == "rational" && b->type == "integer") return true;
     else if(this->type == "multiple" && b->type == "multiple"){
@@ -189,7 +188,7 @@ bool MultipleExpressions::canDivide(Expression* b){
         return true;
     }
     else if(this->type == "integer"){
-        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+        if( b->type == "rational") return true;
     }
     else if(this->type == "rational" && b->type == "integer") return true;
     else if(this->type == "multiple" && b->type == "multiple"){
