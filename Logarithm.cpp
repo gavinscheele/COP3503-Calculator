@@ -187,8 +187,21 @@ Expression* Logarithm::simplify(){
             Expression* base1 = this->getEBase();
             if(operandBase->type == base1->type)
             {
+                if(base1->type == "integer")
+                   {
 
-                if (base1->toString() == operandBase->toString())
+                        op->exponentiate();
+                        Expression* op1 = op->getBase();
+                        Integer* ans = (Integer*)op1;
+                        int ans1 = ans->getValue();
+                        Integer* ans2 = new Integer(ans1);
+                        Logarithm* newLog = new Logarithm(base1,ans2);
+                        Expression* answer = newLog->simplifyOperand();
+                        return answer;
+                   }
+
+
+                else if (base1->toString() == operandBase->toString())
                 {
 
                     return operandExp;
