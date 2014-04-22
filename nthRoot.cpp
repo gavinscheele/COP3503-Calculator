@@ -49,7 +49,12 @@ nthRoot::~nthRoot() {
 int* nthRoot::primeFactorization(int n, int div, int k) {
     if (n % div == 0) {
         factors[k] = div;
-        primeFactorization((n / div), div, k++);
+        if (div == n) {
+            return factors;
+        }
+        else {
+            primeFactorization((n / div), div, k++);
+        }
     }
     else if (div <= n) {
         primeFactorization(n, div++, k);
