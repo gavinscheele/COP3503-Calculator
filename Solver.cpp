@@ -226,7 +226,8 @@ string Solver::evaluateString(){
                     stk.push(result->toString());
                     out = result->toString();
                 }else{
-                    
+                    stk.push(e1->exp + " - " + e2->exp);
+                    out = e1->toString() + " - " + e2->toString();
                 }
             }else if(token == "*"){
                 if(e1->canMultiply(e2)){
@@ -340,7 +341,20 @@ Expression* Solver::bindToExpressionType(string e){
             break;
         }
         else if(e[i] == 'p' && e[i+1] == 'i' && e[i+2] != '^' && e[i+3] != '^'){
-            a = new Pi();
+            if (e[i-1] == '-') {
+                a = new MultipleExpressions("-1 * pi");
+            }else if(e[i-1]){
+                string coeff = "";
+                for (int j = 0; j < e.length(); j++) {
+                    if (e[j] == 'p') {
+                        a = new MultipleExpressions(coeff + " * pi");
+                    }else{
+                        coeff += e[j];
+                    }
+                }
+            }else{
+                a = new Pi();
+            }
             break;
         }else if(e[i] == 'e' && e[i+1] != '^'){
             a = new Euler();
