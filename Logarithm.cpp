@@ -165,6 +165,28 @@ Expression* Logarithm::simplify(){
 
         }
 
+        if(eOperand->type == "exponential"){
+            Exponential* op = (Exponential*)eOperand;
+            Expression* operandBase = op->getBase();
+            Rational* operandExp = op->getExponent();
+            Expression* base1 = this->getEBase();
+            if(operandBase->type == base1->type)
+            {
+
+                if (base1 == operandBase)
+                {
+                    return operandExp;
+                }
+
+            }
+            else
+            {
+                Logarithm* answer = new Logarithm(eBase, eOperand);
+                return answer;
+            }
+
+        }
+
 
        if(eOperand->type == "integer"){
 
