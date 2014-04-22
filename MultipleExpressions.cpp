@@ -28,12 +28,17 @@ Expression* MultipleExpressions::add(Expression* a)
     Solver *s = new Solver();
     size_t aSize = this->vectorExpressions.size();
     bool changed = false;
+    Expression *result;
     for (int i = 0; i < aSize; i++) {
         if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if (i == aSize-1 && operand1->canAdd(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
                 changed = true;
-                Expression *result = operand1->add(a);
+                if (vectorExpressions.at(i-1) == "-") {
+                    result = operand1->subtract(a);
+                }else{
+                    result = operand1->add(a);
+                }
                 vectorExpressions.at(i) = result->toString();
             }
             else if (operand1->canAdd(a) && vectorExpressions.at(i+1) != "*" && vectorExpressions.at(i+1) != "/") {
@@ -60,10 +65,10 @@ Expression* MultipleExpressions::subtract(Expression* a)
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if (i == aSize-1 && operand1->canSubtract(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
                 changed = true;
-                Expression *result = operand1->add(a);
+                Expression *result = operand1->subtract(a);
                 vectorExpressions.at(i) = result->toString();
             }
-            if (operand1->canSubtract(a) && vectorExpressions.at(i+1) != "*" && vectorExpressions.at(i+1) != "/") {
+            else if (operand1->canSubtract(a) && vectorExpressions.at(i+1) != "*" && vectorExpressions.at(i+1) != "/") {
                 changed = true;
                 Expression *result = operand1->subtract(a);
                 vectorExpressions.at(i) = result->toString();

@@ -262,7 +262,8 @@ string Solver::evaluateString(){
                         //MultipleExpressions *d = (MultipleExpressions *)e2;
                         //if (d->meType == "as") {
                             Integer *t = new Integer(-1);
-                            Expression *result = e2->add(e1->multiply(t));
+                            Expression *result1 = e2->multiply(t);
+                            Expression *result = e2->add(result1);
                             delete t;
                             stk.push(result->toString());
                             out = result->toString();
