@@ -155,7 +155,7 @@ bool Pi::canAdd(Expression* b){     //use "this" as comparison. Solver will call
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Pi::canSubtract(Expression* b){
@@ -169,7 +169,7 @@ bool Pi::canSubtract(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Pi::canMultiply(Expression* b){
@@ -184,7 +184,7 @@ bool Pi::canMultiply(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
     
 }
@@ -202,7 +202,7 @@ bool Pi::canDivide(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 

@@ -42,7 +42,7 @@ Expression* Integer::add(Expression* a){
         return b;
 
     }else{
-        cout << "type not recognized" << endl;
+        throw runtime_error("Error: Type not recognized");
     }
     return this;
 }
@@ -160,7 +160,7 @@ bool Integer::canAdd(Expression* b){     //use "this" as comparison. Solver will
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Integer::canSubtract(Expression* b){
@@ -174,7 +174,7 @@ bool Integer::canSubtract(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Integer::canMultiply(Expression* b){
@@ -189,7 +189,7 @@ bool Integer::canMultiply(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
     
 }
@@ -207,6 +207,6 @@ bool Integer::canDivide(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }

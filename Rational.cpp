@@ -399,7 +399,7 @@ bool Rational::canAdd(Expression* b){     //use "this" as comparison. Solver wil
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Rational::canSubtract(Expression* b){
@@ -413,7 +413,7 @@ bool Rational::canSubtract(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Rational::canMultiply(Expression* b){
@@ -428,7 +428,7 @@ bool Rational::canMultiply(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
     
 }
@@ -446,6 +446,6 @@ bool Rational::canDivide(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }

@@ -283,7 +283,7 @@ bool Exponential::canAdd(Expression* b){     //use "this" as comparison. Solver 
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Exponential::canSubtract(Expression* b){
@@ -297,7 +297,7 @@ bool Exponential::canSubtract(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
 bool Exponential::canMultiply(Expression* b){
@@ -312,7 +312,7 @@ bool Exponential::canMultiply(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
     
 }
@@ -330,6 +330,6 @@ bool Exponential::canDivide(Expression* b){
         if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
             return true;
         }
-    }else if(this->type == "multiple") return true;
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
