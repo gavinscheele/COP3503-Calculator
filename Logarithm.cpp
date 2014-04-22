@@ -76,6 +76,20 @@ Expression* Logarithm::simplifyOperand(){
         string number = "";
 
         vector<Expression* > logs;
+
+        if(position.size() == 0)
+        {
+            string number1 = operand1.substr(0);
+            Solver* s = new Solver();
+            Expression* expression1 = s->bindToExpressionType(number1);
+            Logarithm* simpleLog1 = new Logarithm(this->eBase, expression1);
+            Expression* simpleLog11 = simpleLog1->simplify();
+            logs.push_back(simpleLog11);
+
+
+        }
+        else if(position.size() > 0)
+            {
         for(int j =0; j<position.size();j++){//creates a string of the new logs or integers
                 Solver* s = new Solver();
                 int positionofop1 = position.at(j);
@@ -112,6 +126,7 @@ Expression* Logarithm::simplifyOperand(){
                 logs.push_back(simpleLog22);
 
 
+        }
         }
 
 
@@ -173,8 +188,9 @@ Expression* Logarithm::simplify(){
             if(operandBase->type == base1->type)
             {
 
-                if (base1 == operandBase)
+                if (base1->toString() == operandBase->toString())
                 {
+
                     return operandExp;
                 }
 
