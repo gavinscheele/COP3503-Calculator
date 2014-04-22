@@ -13,6 +13,7 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->operand = operand;
     this->root = root;
     this->coefficient = coefficient;
+    this->simplify();
 
     if ((root % 2) == 0 && operand < 0) {
         throw runtime_error("unreal answer");

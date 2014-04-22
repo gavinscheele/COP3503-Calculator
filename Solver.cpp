@@ -218,6 +218,9 @@ string Solver::evaluateString(){
                         Logarithm *a = (Logarithm *)e2;
                         a->simplify();
                         e2 = a;
+                    }else{
+                        stk.push(e1->exp + " + " + e2->exp);
+                        out = e1->toString() + " + " + e2->toString();
                     }
                 }
             }else if(token == "-"){
@@ -343,7 +346,7 @@ Expression* Solver::bindToExpressionType(string e){
         else if(e[i] == 'p' && e[i+1] == 'i' && e[i+2] != '^' && e[i+3] != '^'){
             if (e[i-1] == '-') {
                 a = new MultipleExpressions("-1 * pi");
-            }else if(e[i-1]){
+            }else if(e[0] != 'p'){
                 string coeff = "";
                 for (int j = 0; j < e.length(); j++) {
                     if (e[j] == 'p') {

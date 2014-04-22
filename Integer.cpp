@@ -107,7 +107,12 @@ Expression* Integer::divide(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value/=b->getValue();
+        if(this->value % b->getValue() == 0){
+            this->value/=b->getValue();
+        }else{
+            Rational *c = new Rational(this->value,b->getValue());
+            return c;
+        }
 
     }else if(a->type == "logarithm"){
 

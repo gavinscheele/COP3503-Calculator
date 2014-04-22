@@ -28,6 +28,8 @@ public:
     bool canSubtract(Expression* b);
     bool canMultiply(Expression* b);
     bool canDivide(Expression* b);
+    
+    string meType;
 private:
     string expressions;
     vector<string> vectorExpressions;
