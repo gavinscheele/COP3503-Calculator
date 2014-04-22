@@ -339,15 +339,15 @@ string Logarithm::toString(){
     ss << "Log_" << *this->eBase << ":" << *this->eOperand;
 
     return ss.str();
-<<<<<<< HEAD
+
 };
-=======
-}
+
+
 
 
 
 bool Logarithm::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
-    
+
     if (this->type == b->type && this->type != "logarithm") {
         if (this->type == "nthRoot") {
         }
@@ -391,7 +391,7 @@ bool Logarithm::canMultiply(Expression* b){
         }
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
-    
+
 }
 bool Logarithm::canDivide(Expression* b){
     if (this->type == b->type) {
@@ -410,4 +410,4 @@ bool Logarithm::canDivide(Expression* b){
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
->>>>>>> 5e9ab237ab415107f75639d48f565f973ba84c8a
+
