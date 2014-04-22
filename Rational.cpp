@@ -138,7 +138,12 @@ Expression* Rational::simplify(int num){
 }
 Expression* Rational::simplify(Expression* eNumerator){
     if(this->eNumerator->type == this->eDenominator->type){
-        if(this->eNumerator->type == "euler"){
+        if(this->eNumerator->type == "integer"){
+            syncIntToExp();
+            this->simplify(1);
+            syncExpToInt();
+        }
+        else if(this->eNumerator->type == "euler"){
             Euler *num = (Euler *)eNumerator;
             Euler *den = (Euler *)eDenominator;
             eNumerator = num->getCoefficient();
@@ -376,3 +381,71 @@ string Rational::toString(){
     return s.str();
 }
 
+
+
+
+
+bool Rational::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool Rational::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool Rational::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+    
+}
+bool Rational::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if( b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}

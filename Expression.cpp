@@ -12,46 +12,6 @@ Expression::Expression(){
 Expression::~Expression(){
     
 }
-bool Expression::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
-    
-    if (this->type == b->type && this->type != "logarithm") {
-        if (this->type == "nthRoot") {
-        }
-        return true;
-    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
-        return true;
-    }
-    return false;
-}
-bool Expression::canSubtract(Expression* b){
-    if (this->type == b->type) {
-        return true;
-    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
-        return true;
-    }
-    return false;
-}
-bool Expression::canMultiply(Expression* b){
-    if (this->type == b->type) {
-        return true;
-    }
-    else if(this->type == "integer" && b->type == "rational") return true;
-    else if(this->type == "rational" && b->type == "integer") return true;
-
-    return false;
-
-}
-bool Expression::canDivide(Expression* b){
-    if (this->type == b->type) {
-        return true;
-    }
-    else if(this->type == "integer"){
-        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
-    }
-    else if(this->type == "rational" && b->type == "integer") return true;
-    
-    return false;
-}
 ostream& operator<<(ostream &output, Expression &e){
     return e.print(output);
 }

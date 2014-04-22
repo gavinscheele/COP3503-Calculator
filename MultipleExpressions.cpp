@@ -5,6 +5,15 @@ MultipleExpressions::MultipleExpressions(string s){
     this->expressions = s;
     this->exp = s;
     this->vectorExpressions = this->parseBySpaces(s);
+    if (this->vectorExpressions.size() > 1) {
+        if (this->vectorExpressions.at(1) == "+" || this->vectorExpressions.at(1) == "-") {
+            this->meType = "as";
+        }else if(this->vectorExpressions.at(1) == "*" || this->vectorExpressions.at(1) == "/"){
+            this->meType = "md";
+        }else{
+            throw runtime_error("Error: Multiple Expression does not have a type");
+        }
+    }
 }
 MultipleExpressions::~MultipleExpressions(){
     delete this;
@@ -16,21 +25,132 @@ string MultipleExpressions:: getExpressions()
 }
 Expression* MultipleExpressions::add(Expression* a)
 {
+    Solver *s = new Solver();
+    size_t aSize = this->vectorExpressions.size();
+    bool changed = false;
+    Expression *result;
+    
+    if (a->type == "multiple") {
+        MultipleExpressions *b = (MultipleExpressions *)a;
+        if (b->vectorExpressions.size() == 3 && this->vectorExpressions.size() == 3
+            && b->vectorExpressions.at(1) == "*" && this->vectorExpressions.at(1) == "*") {
+            
+            Expression *eB0 = s->bindToExpressionType(b->vectorExpressions.at(0));
+            Expression *eThis0 = s->bindToExpressionType(this->vectorExpressions.at(0));
+            Expression *eB1 = s->bindToExpressionType(b->vectorExpressions.at(2));
+            Expression *eThis1 = s->bindToExpressionType(this->vectorExpressions.at(2));
+            if (eB0->type == eThis0->type || eB0->canAdd(eThis0)) {
+                if (eB0->toString() == eThis0->toString()) {
+                    s = new Solver(eB0->toString() + " * " + eB1->add(eThis1)->toString());
+                    result = s->bindToExpressionType(s->solve(false));
+                    vectorExpressions = this->parseBySpaces(result->toString());
+                    return this;
+                }else{
+                    s = new Solver(eB1->toString() + " * " + eB0->add(eThis0)->toString());
+                    result = s->bindToExpressionType(s->solve(false));
+                    vectorExpressions = this->parseBySpaces(result->toString());
+                    return this;
+
+                }
+            }
+        }
+    }
+    
+    
+    
+    for (int i = 0; i < aSize; i++) {
+        if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
+            Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
+            if ((i == aSize-1 && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/")) {
+                changed = true;
+                if (vectorExpressions.at(i-1) == "-") {
+                    result = a->subtract(operand1);
+                    vectorExpressions.at(i-1) = "+";
+                }else{
+                    result = operand1->add(a);
+                }
+                vectorExpressions.at(i) = result->toString();
+            }
+            else if (operand1->canAdd(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+                changed = true;
+                Expression *result = operand1->add(a);
+                vectorExpressions.at(i) = result->toString();
+            }
+        }
+    }
+    if (!changed) {
+        this->vectorExpressions.push_back("+");
+        this->vectorExpressions.push_back(a->toString());
+    }
     return this;
 }
 
 Expression* MultipleExpressions::subtract(Expression* a)
 {
+    Solver *s = new Solver();
+    size_t aSize = this->vectorExpressions.size();
+    bool changed = false;
+    for (int i = 0; i < this->vectorExpressions.size(); i++) {
+        if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
+            Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
+            if ((i == aSize-1 && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/")) {
+                changed = true;
+                Expression *result = operand1->subtract(a);
+                vectorExpressions.at(i) = result->toString();
+            }
+            else if (operand1->canSubtract(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+                changed = true;
+                Expression *result = operand1->subtract(a);
+                vectorExpressions.at(i) = result->toString();
+            }
+        }
+    }
+    if (!changed) {
+        this->vectorExpressions.push_back("-");
+        this->vectorExpressions.push_back(a->toString());
+    }
     return this;
 }
 
 Expression* MultipleExpressions::multiply(Expression* a)
 {
+    Solver *s = new Solver();
+    bool changed = false;
+    for (int i = 0; i < this->vectorExpressions.size(); i++) {
+        if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
+            Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
+            if (operand1->canMultiply(a)) {
+                changed = true;
+                Expression *result = operand1->multiply(a);
+                vectorExpressions.at(i) = result->toString();
+            }
+        }
+    }
+    if (!changed) {
+        this->vectorExpressions.push_back("*");
+        this->vectorExpressions.push_back(a->toString());
+    }
     return this;
 }
 
 Expression* MultipleExpressions::divide(Expression* a)
 {
+    Solver *s = new Solver();
+    bool changed = false;
+    for (int i = 0; i < this->vectorExpressions.size(); i++) {
+        if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
+            Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
+            if (operand1->canDivide(a)) {
+                changed = true;
+                Expression *result = operand1->divide(a);
+                vectorExpressions.at(i) = result->toString();
+            }
+        }
+    }
+    if (!changed) {
+        this->vectorExpressions.push_back("/");
+        this->vectorExpressions.push_back(a->toString());
+    }
     return this;
 }
 vector<string> MultipleExpressions::parseBySpaces(string expression){
@@ -72,13 +192,83 @@ vector<string> MultipleExpressions::getVectorExpressions(){
 }
 
 string MultipleExpressions:: toString(){
+    this->expressions = "";
+    for (int i = 0; i < vectorExpressions.size(); i++) {
+        this->expressions += vectorExpressions.at(i);
+        if (i != vectorExpressions.size()-1) {
+            this->expressions += " ";
+        }
+    }
     stringstream s;
 	s<<this->expressions;
 	return s.str();
 }
 
 ostream& MultipleExpressions::print(std::ostream& output) const{
-    output << expressions;
+    MultipleExpressions *a = (MultipleExpressions *)this;
+    output << a->toString();
     return output;
+}
+
+bool MultipleExpressions::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((this->meType == "as" && m->meType == "as") || (this->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }
+    else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool MultipleExpressions::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((this->meType == "as" && m->meType == "as") || (this->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool MultipleExpressions::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((this->meType == "as" && m->meType == "as") || (this->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+    
+}
+bool MultipleExpressions::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if( b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((this->meType == "as" && m->meType == "as") || (this->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
 }
 

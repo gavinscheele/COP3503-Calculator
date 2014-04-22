@@ -39,6 +39,11 @@ public:
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
+    bool canAdd(Expression* b);
+    bool canSubtract(Expression* b);
+    bool canMultiply(Expression* b);
+    bool canDivide(Expression* b);
+    
     ostream& print(std::ostream& output) const;
     string toString();
     Expression* simplifyOperand();

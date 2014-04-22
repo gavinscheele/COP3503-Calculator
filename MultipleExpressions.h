@@ -23,6 +23,13 @@ public:
     Expression* multiply(Expression* a);
     Expression* divide(Expression* a);
     vector<string> getVectorExpressions();
+    
+    bool canAdd(Expression* b);
+    bool canSubtract(Expression* b);
+    bool canMultiply(Expression* b);
+    bool canDivide(Expression* b);
+    
+    string meType;
 private:
     string expressions;
     vector<string> vectorExpressions;

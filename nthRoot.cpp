@@ -13,6 +13,7 @@ nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->operand = operand;
     this->root = root;
     this->coefficient = coefficient;
+    this->simplify();
 
     if ((root % 2) == 0 && operand < 0) {
         throw runtime_error("unreal answer");
@@ -232,4 +233,72 @@ string nthRoot::toString() {
     stringstream s;
     s << coefficient << "*" << root << "rt:" << operand;
     return s.str();
+}
+
+
+
+
+bool nthRoot::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool nthRoot::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool nthRoot::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+    
+}
+bool nthRoot::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if( b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
 }

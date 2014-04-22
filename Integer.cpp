@@ -42,7 +42,7 @@ Expression* Integer::add(Expression* a){
         return b;
 
     }else{
-        cout << "type not recognized" << endl;
+        throw runtime_error("Error: Type not recognized");
     }
     return this;
 }
@@ -63,7 +63,8 @@ Expression* Integer::subtract(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
+       // b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
+        b->setNumerator(this->multiply(b->geteDenominator())->subtract(b->geteNumerator()));
         //multiplies Integer by the denominator of the Rational to give it a common denominator then performs subtraction
         return b;
         //this = b;
@@ -92,6 +93,7 @@ Expression* Integer::multiply(Expression* a){
         Rational *b = (Rational *) a;
         Integer *i = new Integer(b->getNumerator()*this->getValue());
         b->setNumerator(i);
+        b->simplify(b);
         //multiplies the Integer with the numerator of the Rational
         return b;
     }else{
@@ -106,7 +108,12 @@ Expression* Integer::divide(Expression* a){
 
     }else if(a->type == "integer"){
         Integer *b = (Integer *)a;
-        this->value/=b->getValue();
+        if(this->value % b->getValue() == 0){
+            this->value/=b->getValue();
+        }else{
+            Rational *c = new Rational(this->value,b->getValue());
+            return c;
+        }
 
     }else if(a->type == "logarithm"){
 
@@ -119,6 +126,8 @@ Expression* Integer::divide(Expression* a){
         Expression * c = b->geteNumerator();
         b->setNumerator(b->geteDenominator()->multiply(this));
         b->setDenominator(c);
+        b->simplify(b);
+
         //multiplies the Integer with the denominator of the Rational
         return b;
     }else{
@@ -135,4 +144,71 @@ string Integer::toString() {
     stringstream ss;
     ss << value;
     return ss.str();
+}
+
+
+
+bool Integer::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool Integer::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+}
+bool Integer::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
+    
+}
+bool Integer::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if( b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    else if(this->type == "multiple" && b->type == "multiple"){
+        MultipleExpressions *t = (MultipleExpressions *)this;
+        MultipleExpressions *m = (MultipleExpressions *)b;
+        if ((t->meType == "as" && m->meType == "as") || (t->meType == "md" && m->meType == "md")) {
+            return true;
+        }
+    }else if(this->type == "multiple" || b->type == "multiple") return true;
+    return false;
 }
