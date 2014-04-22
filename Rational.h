@@ -36,6 +36,8 @@ public:
     void setNumerator(Expression* numerator);
     int getNumerator();
     int getDenominator();
+    Expression* simplify(int num);
+    Expression* simplify(Expression* exp);
 
     bool hasIntegerOperands();
     
@@ -51,8 +53,6 @@ private:
     int denominator;
     Expression *eNumerator;
     Expression *eDenominator;
-    Expression* simplify(int num);
-    Expression* simplify(Expression* exp);
     Rational* findCommonDenominator(Rational * a);
     void syncIntToExp();
     void syncExpToInt();

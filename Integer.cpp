@@ -93,6 +93,7 @@ Expression* Integer::multiply(Expression* a){
         Rational *b = (Rational *) a;
         Integer *i = new Integer(b->getNumerator()*this->getValue());
         b->setNumerator(i);
+        b->simplify(b);
         //multiplies the Integer with the numerator of the Rational
         return b;
     }else{

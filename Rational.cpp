@@ -138,7 +138,12 @@ Expression* Rational::simplify(int num){
 }
 Expression* Rational::simplify(Expression* eNumerator){
     if(this->eNumerator->type == this->eDenominator->type){
-        if(this->eNumerator->type == "euler"){
+        if(this->eNumerator->type == "integer"){
+            syncIntToExp();
+            this->simplify(1);
+            syncExpToInt();
+        }
+        else if(this->eNumerator->type == "euler"){
             Euler *num = (Euler *)eNumerator;
             Euler *den = (Euler *)eDenominator;
             eNumerator = num->getCoefficient();
