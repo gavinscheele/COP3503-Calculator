@@ -17,10 +17,10 @@ class Expression {
 public:
     Expression();
     virtual ~Expression();
-    bool canAdd(Expression* b);             //these methods are implemented in Expression.cpp. They do not change based on type.
-    bool canSubtract(Expression* b);
-    bool canMultiply(Expression* b);
-    bool canDivide(Expression* b);
+    virtual bool canAdd(Expression* b) = 0;
+    virtual bool canSubtract(Expression* b) = 0;
+    virtual bool canMultiply(Expression* b) = 0;
+    virtual bool canDivide(Expression* b) = 0;
     friend ostream& operator<<(ostream &output, Expression &e);
     
     virtual ostream& print(std::ostream& output) const =0;

@@ -63,7 +63,8 @@ Expression* Integer::subtract(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
+       // b->setNumerator(b->geteNumerator()->subtract(this->multiply(b->geteDenominator())));
+        b->setNumerator(this->multiply(b->geteDenominator())->subtract(b->geteNumerator()));
         //multiplies Integer by the denominator of the Rational to give it a common denominator then performs subtraction
         return b;
         //this = b;
@@ -135,4 +136,48 @@ string Integer::toString() {
     stringstream ss;
     ss << value;
     return ss.str();
+}
+
+
+
+bool Integer::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool Integer::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool Integer::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+    
+}
+bool Integer::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
 }

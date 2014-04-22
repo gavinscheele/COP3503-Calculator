@@ -233,3 +233,48 @@ string nthRoot::toString() {
     s << coefficient << "*" << root << "rt:" << operand;
     return s.str();
 }
+
+
+
+
+bool nthRoot::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool nthRoot::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool nthRoot::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+    
+}
+bool nthRoot::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+}

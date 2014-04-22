@@ -82,3 +82,45 @@ ostream& MultipleExpressions::print(std::ostream& output) const{
     return output;
 }
 
+bool MultipleExpressions::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool MultipleExpressions::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool MultipleExpressions::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+    
+}
+bool MultipleExpressions::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+}
+

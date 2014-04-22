@@ -31,6 +31,11 @@ public:
 	Integer* getCoefficient();
 	void setCoefficient(Integer* x);
     ostream& print(std::ostream& output) const;
+    
+    bool canAdd(Expression* b);
+    bool canSubtract(Expression* b);
+    bool canMultiply(Expression* b);
+    bool canDivide(Expression* b);
 private:
     Integer* coefficient;
 };

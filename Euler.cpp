@@ -126,7 +126,7 @@ string Euler:: toString(){
     if (this->coefficient->getValue() == 1) {
         s<<"e";
     }else{
-        s<<*this->coefficient <<" " <<"*"<<" "<<"e";
+        s<<*this->coefficient <<"e";
     }
 	return s.str();
 }
@@ -135,8 +135,51 @@ ostream& Euler::print(std::ostream& output) const{
     if (this->coefficient->getValue() == 1) {
         output <<"e";
     }else{
-        output <<*this->coefficient <<" " <<"*"<<" "<<"e";
+        output <<*this->coefficient <<"e";
     }
     return output;
+}
+
+
+bool Euler::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
+    
+    if (this->type == b->type && this->type != "logarithm") {
+        if (this->type == "nthRoot") {
+        }
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool Euler::canSubtract(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }else if((this->type == "integer" && b->type == "rational") || (this->type == "rational" && b->type == "integer")){
+        return true;
+    }
+    return false;
+}
+bool Euler::canMultiply(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if((this->type == "euler" && b->type == "integer") || (this->type == "integer" && b->type == "euler")) return true;
+    else if(this->type == "integer" && b->type == "rational") return true;
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
+    
+}
+bool Euler::canDivide(Expression* b){
+    if (this->type == b->type) {
+        return true;
+    }
+    else if(this->type == "integer"){
+        if(b->type == "euler" || b->type == "pi" || b->type == "rational") return true;
+    }
+    else if(this->type == "rational" && b->type == "integer") return true;
+    
+    return false;
 }
 

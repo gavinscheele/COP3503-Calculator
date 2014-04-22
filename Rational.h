@@ -38,6 +38,12 @@ public:
     int getDenominator();
 
     bool hasIntegerOperands();
+    
+    
+    bool canAdd(Expression* b);
+    bool canSubtract(Expression* b);
+    bool canMultiply(Expression* b);
+    bool canDivide(Expression* b);
 
 private:
     int findCommonFactor(int n);
