@@ -165,17 +165,13 @@ Expression* Exponential::subtract(Expression* a){
     return this;
 }
 Expression* Exponential::multiply(Expression* a){
-	if (this->base->type == a->type){
-		//checks to see if base is the same type
-		if (this->base* == a*) {
-			//checks to see if bases are equal (assumed overloaded == operator)
-			Rational* oneRat = new Rational(1, 1);
+	if(a->type == "euler"){
+    	if (this->base->type == "euler") {
+    		if (this->base->getCoefficient() == a->getCoefficient()) {
+    			Rational* oneRat = new Rational(1, 1);
 			this->exponent->add(oneRat);
-			//adds one to exponent
-			return this;
-		}
-		
-    }else if(a->type == "euler"){
+    		}
+    	}
 
     }else if(a->type == "exponential"){
 		Exponential* ex = (Exponential *) a;
@@ -190,6 +186,12 @@ Expression* Exponential::multiply(Expression* a){
     }else if(a->type == "nthRoot"){
 
     }else if(a->type == "pi"){
+    	if (this->base->type == "pi") {
+    		if (this->base->getCoefficient() == a->getCoefficient()) {
+    			Rational* oneRat = new Rational(1, 1);
+			this->exponent->add(oneRat);
+    		}
+    	}
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) a;
@@ -202,17 +204,13 @@ Expression* Exponential::multiply(Expression* a){
     return this;
 }
 Expression* Exponential::divide(Expression* a){
-	if (this->base->type == a->type){
-		//checks to see if base is the same type
-		if (this->base* == a*) {
-			//checks to see if bases are equal (assumed overloaded == operator)
-			Rational* oneRat = new Rational(1, 1);
-			this->exponent->subtract(oneRat);
-			//subtracts one from exponent
-			return this;
-		}
-		
-    } else if(a->type == "euler"){
+	if(a->type == "euler"){
+		if (this->base->type == "euler") {
+    			if (this->base->getCoefficient() == a->getCoefficient()) {
+    				Rational* oneRat = new Rational(1, 1);
+				this->exponent->subtract(oneRat);
+    			}
+    		}
 
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
@@ -227,6 +225,12 @@ Expression* Exponential::divide(Expression* a){
     }else if(a->type == "nthRoot"){
 
     }else if(a->type == "pi"){
+    	if (this->base->type == "pi") {
+    			if (this->base->getCoefficient() == a->getCoefficient()) {
+    				Rational* oneRat = new Rational(1, 1);
+				this->exponent->subtract(oneRat);
+    			}
+    		}
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) a;
