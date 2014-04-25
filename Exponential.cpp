@@ -270,7 +270,10 @@ void Exponential::setBase(Expression* e) {
 
 string Exponential::toString() {
     stringstream str;
-    if(exponent->getDenominator() == 1){
+    if(exponent->getNumerator() == 1 && exponent->getDenominator() == 1){
+        str << *base;
+    }
+    else if(exponent->getDenominator() == 1){
         str << *base << "^" << *exponent->geteNumerator();
     }else{
         str << *base << "^" << *exponent;
@@ -280,7 +283,8 @@ string Exponential::toString() {
 
 
 ostream& Exponential::print(std::ostream& output) const{
-    output << *base << "^" << "("<< *exponent << ")";
+    Exponential *a = (Exponential *)this;
+    output << a->toString();
     return output;
 }
 
