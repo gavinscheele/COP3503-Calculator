@@ -18,16 +18,16 @@ Solver::Solver(std::string a){
     output = "";
 }
 Solver::~Solver(){
-    
+
 }
 std::string Solver::solve(bool floatingPoint){
 
     this->expressions = this->parseBySpaces(localExpression);   //pass string to method and get a vector back with the expressions parsed by spaces
-    
+
     shuntingYard(); //use shunting yard algorithm to put into correct order of operations without parenthesis
 
     this->expressions = this->parseBySpaces(output);    //parse new expression string by spaces
-    
+
     if (floatingPoint) {                //if we are calculating the float value, call the float evaluation method
         return evaluateFloatString();
     }else
@@ -106,7 +106,7 @@ string Solver::evaluateFloatString(){
     string out = *new string("");
     string result = *new string("");
     stack<string> stk = *new stack<string>();
-    
+
     if (expressions.size() == 1) {
         stringstream s;
         s << this->bindToExpressionFloat(expressions.at(0));
@@ -115,15 +115,15 @@ string Solver::evaluateFloatString(){
     }
     for(int i = 0; i < expressions.size(); i++){
         string token = expressions.at(i);
-        
+
         if(!isAnOperator(token)){
             stk.push(token);
         }
         else{
-            
+
             float e2 = bindToExpressionFloat(stk.top());
             stk.pop();
-            
+
             float e1 = 0;
             if (i == 0) {
                 e1 = bindToExpressionFloat(stk.top());
@@ -133,7 +133,7 @@ string Solver::evaluateFloatString(){
                 stk.pop();
             }
 
-            
+
             //check function call and call appropriate method
             if(token == "+"){
                 e1 += e2;
@@ -153,7 +153,7 @@ string Solver::evaluateFloatString(){
                 s << e1;
                 stk.push(s.str());
                 out = s.str();
-                
+
             }else if(token == "/"){
                 e1 /= e2;
                 stringstream s;
@@ -171,9 +171,9 @@ string Solver::evaluateFloatString(){
             }else{
                 cout << "Error: Invalid Operator" << endl;
             }
-            
+
         }
-        
+
     }
     return out;
 }
@@ -206,7 +206,7 @@ string Solver::evaluateString(){
             e1->exp = stk.top();
             result = e1->exp;
             stk.pop();
-            
+
             //check function call and call appropriate method
             if(token == "+"){
                 if(e1->canAdd(e2)){
@@ -238,7 +238,7 @@ string Solver::evaluateString(){
                 }else{
                     if (e2->type == "logarithm") {
                         Logarithm *a = (Logarithm *)e2;
-                        a->simplify();
+                        a->simplifyOperand(); //TESSEDIT simplifyOperand instead of simplify
                         e2 = a;
                     }else{
                         stk.push(e1->exp + " + " + e2->exp);
@@ -247,7 +247,7 @@ string Solver::evaluateString(){
                 }
             }else if(token == "-"){
                 if(e1->canSubtract(e2)){
-                    
+
                     if (e1->type == "multiple") {
                        // MultipleExpressions *d = (MultipleExpressions *)e1;
                        // if (d->meType == "as") {
@@ -314,7 +314,7 @@ string Solver::evaluateString(){
                     }
                 }
                 else if(e1->canMultiply(e2)){
-                    
+
                     if (e1->type == "multiple") {
                         //MultipleExpressions *d = (MultipleExpressions *)e1;
                         //if (d->meType == "md") {
@@ -341,11 +341,11 @@ string Solver::evaluateString(){
                         out = result->toString();
                     }
                 }else{
-                    
+
                     stk.push(e1->exp + " * " + e2->exp);
                     out = e1->toString() + " * " + e2->toString();
                 }
-                
+
 
             }else if(token == "/"){
                 if (e1->type == "integer" && e2->type == "integer") {
@@ -363,7 +363,7 @@ string Solver::evaluateString(){
                     }
                 }
                 else if(e1->canDivide(e2)){
-                    
+
                     if (e1->type == "multiple") {
                         //MultipleExpressions *d = (MultipleExpressions *)e1;
                         //if (d->meType == "md") {
@@ -386,7 +386,7 @@ string Solver::evaluateString(){
                             //out = e1->toString() + " / " + e2->toString();
                         //}
                     }else{
-                    
+
                     Expression *result = e1->divide(e2);
                     if (result->type == "rational") {
                         Rational * a = (Rational *)result;
@@ -435,10 +435,11 @@ string Solver::evaluateString(){
     return out;
 }
 Expression* Solver::bindToExpressionType(string e){
+    size_t found = e.find("log"); //TESSEDIT
     Expression *a = new MultipleExpressions("0");     //so the compiler doesnt complain. Will be set to appropriate type later
     for(int i = 0; i < e.length(); i++){
         if(e[i] == '*' || e[i] == '/' || e[i] == '+' || e[i] == '-'){
-            if (e[i-1] == ' ' && e[i+1] == ' ') {
+            if (e[i-1] == ' ' && e[i+1] == ' ' && found == string::npos) { //TESSEDIT (the found == string::npos)
                 a = new MultipleExpressions(e);
                 return a;
             }
@@ -523,7 +524,7 @@ Expression* Solver::bindToExpressionType(string e){
                 a = c;
             }else{
                 Logarithm *c = new Logarithm(b,o);
-                a = c->simplify();
+                a = c->simplifyOperand();//TESSEDIT simplifyOperand
             }
             break;
         }else if(e[i] == 'r' && e[i+1] == 't' & e[i+2] == ':'){
@@ -540,7 +541,7 @@ Expression* Solver::bindToExpressionType(string e){
                 rt = new Integer(2);
                 op = this->bindToExpressionType(operand);
                 a = new nthRoot(2,op,1);
-                
+
             }else{
                 int j = 0;
                 while (e[j] != 'r') {
@@ -548,7 +549,7 @@ Expression* Solver::bindToExpressionType(string e){
                     j++;
                 }
                 j = i+3;
-            
+
                 while (j < e.length()) {
                     operand.push_back(e[j]);
                     j++;
@@ -670,7 +671,7 @@ vector<string> Solver::parseBySpaces(string expression){
             }
             expressions.push_back(temp);
             count = i+1;
-            
+
         }else if(i == expression.size()-1){
             temp = "";
             for (int j = count; j <= i; j++) {

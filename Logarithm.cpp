@@ -76,6 +76,20 @@ Expression* Logarithm::simplifyOperand(){
         string number = "";
 
         vector<Expression* > logs;
+
+        if(position.size() == 0)
+        {
+            string number1 = operand1.substr(0);
+            Solver* s = new Solver();
+            Expression* expression1 = s->bindToExpressionType(number1);
+            Logarithm* simpleLog1 = new Logarithm(this->eBase, expression1);
+            Expression* simpleLog11 = simpleLog1->simplify();
+            logs.push_back(simpleLog11);
+
+
+        }
+        else if(position.size() > 0)
+            {
         for(int j =0; j<position.size();j++){//creates a string of the new logs or integers
                 Solver* s = new Solver();
                 int positionofop1 = position.at(j);
@@ -112,6 +126,7 @@ Expression* Logarithm::simplifyOperand(){
                 logs.push_back(simpleLog22);
 
 
+        }
         }
 
 
@@ -159,6 +174,42 @@ Expression* Logarithm::simplify(){
                 return answer;
             }
             else{
+                Logarithm* answer = new Logarithm(eBase, eOperand);
+                return answer;
+            }
+
+        }
+
+        if(eOperand->type == "exponential"){
+            Exponential* op = (Exponential*)eOperand;
+            Expression* operandBase = op->getBase();
+            Rational* operandExp = op->getExponent();
+            Expression* base1 = this->getEBase();
+            if(operandBase->type == base1->type)
+            {
+                if(base1->type == "integer")
+                   {
+
+                        op->exponentiate();
+                        Expression* op1 = op->getBase();
+                        Integer* ans = (Integer*)op1;
+                        int ans1 = ans->getValue();
+                        Integer* ans2 = new Integer(ans1);
+                        Logarithm* newLog = new Logarithm(base1,ans2);
+                        Expression* answer = newLog->simplifyOperand();
+                        return answer;
+                   }
+
+
+                else if (base1->toString() == operandBase->toString())
+                {
+
+                    return operandExp;
+                }
+
+            }
+            else
+            {
                 Logarithm* answer = new Logarithm(eBase, eOperand);
                 return answer;
             }
@@ -317,12 +368,15 @@ string Logarithm::toString(){
     ss << "Log_" << *this->eBase << ":" << *this->eOperand;
 
     return ss.str();
-}
+
+};
+
+
 
 
 
 bool Logarithm::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
-    
+
     if (this->type == b->type && this->type != "logarithm") {
         if (this->type == "nthRoot") {
         }
@@ -366,7 +420,7 @@ bool Logarithm::canMultiply(Expression* b){
         }
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
-    
+
 }
 bool Logarithm::canDivide(Expression* b){
     if (this->type == b->type) {
@@ -385,3 +439,4 @@ bool Logarithm::canDivide(Expression* b){
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
 }
+
