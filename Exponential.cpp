@@ -166,11 +166,10 @@ Expression* Exponential::subtract(Expression* a){
 }
 Expression* Exponential::multiply(Expression* a){
 	if(a->type == "euler"){
-    	if (this->base->type == "euler") {
-    		if (this->base->getCoefficient() == a->getCoefficient()) {
+    		if (this->base->type == "euler") {
     			Rational* oneRat = new Rational(1, 1);
 			this->exponent->add(oneRat);
-    		}
+    		
     	}
 
     }else if(a->type == "exponential"){
@@ -187,10 +186,8 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "pi"){
     	if (this->base->type == "pi") {
-    		if (this->base->getCoefficient() == a->getCoefficient()) {
     			Rational* oneRat = new Rational(1, 1);
 			this->exponent->add(oneRat);
-    		}
     	}
 
     }else if(a->type == "rational"){
@@ -206,10 +203,8 @@ Expression* Exponential::multiply(Expression* a){
 Expression* Exponential::divide(Expression* a){
 	if(a->type == "euler"){
 		if (this->base->type == "euler") {
-    			if (this->base->getCoefficient() == a->getCoefficient()) {
     				Rational* oneRat = new Rational(1, 1);
 				this->exponent->subtract(oneRat);
-    			}
     		}
 
     }else if(a->type == "exponential"){
@@ -226,10 +221,8 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "pi"){
     	if (this->base->type == "pi") {
-    			if (this->base->getCoefficient() == a->getCoefficient()) {
     				Rational* oneRat = new Rational(1, 1);
 				this->exponent->subtract(oneRat);
-    			}
     		}
 
     }else if(a->type == "rational"){
