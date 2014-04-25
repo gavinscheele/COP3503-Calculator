@@ -76,18 +76,20 @@ bool Exponential::canExponentiate() {
 }
 
 void Exponential::exponentiate(){
+	Integer* one = new Integer(1);
+        Rational* oneRat = new Rational(1, 1);
 	if (this->base->type = "rational") {
 		Rational* ratBase = (Rational *) this->base;
-		ratBase->getNumerator()->exponeniate();
-		ratBase->getDenominator()->exponentiate();
+		Exponential* numAsExponential = new Exponential (ratBase->getNumerator(), this->exponent);
+		Exponential* denAsExponential = new Exponential (ratBase->getDenominator(), this->exponent);
+		this->exponent = oneRat;
 	}
 	else {
 
     if (this->exponent->getNumerator()==0) {
-        Integer* oneInt = new Integer(1);
-        Rational* oneRat = new Rational(1, 1);
+        
        this->exponent=oneRat;
-       this->base=oneInt;
+       this->base=one;
 
     }
     bool toFlip = false;
@@ -106,7 +108,6 @@ void Exponential::exponentiate(){
     while (exponent->getNumerator()>1)
     	{
         base->multiply(constantBase);
-        Integer* one = new Integer(1);
         exponent->setNumerator(exponent->geteNumerator()->subtract(one));
     }
     if (toFlip) {
