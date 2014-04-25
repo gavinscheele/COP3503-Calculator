@@ -80,8 +80,8 @@ void Exponential::exponentiate(){
         Rational* oneRat = new Rational(1, 1);
 	if (this->base->type == "rational") {
 		Rational* ratBase = (Rational *) this->base;
-		Exponential* numAsExponential = new Exponential (ratBase->getNumerator(), this->exponent);  //no matching constructor for exponential
-		Exponential* denAsExponential = new Exponential (ratBase->getDenominator(), this->exponent);    //same error
+		Exponential* numAsExponential = new Exponential (ratBase->geteNumerator(), this->exponent);  //no matching constructor for exponential
+		Exponential* denAsExponential = new Exponential (ratBase->geteDenominator(), this->exponent);    //same error
 		this->exponent = oneRat;
 	}
 	else {
