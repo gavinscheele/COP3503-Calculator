@@ -76,6 +76,12 @@ bool Exponential::canExponentiate() {
 }
 
 void Exponential::exponentiate(){
+	if (this->base->type = "rational") {
+		Rational* ratBase = (Rational *) this->base;
+		ratBase->getNumerator()->exponeniate();
+		ratBase->getDenominator()->exponentiate();
+	}
+	else {
 
     if (this->exponent->getNumerator()==0) {
         Integer* oneInt = new Integer(1);
@@ -108,6 +114,8 @@ void Exponential::exponentiate(){
         Rational* mouse = new Rational(one, base);
     	base = mouse;
     }
+    
+	}
 
 }
 
