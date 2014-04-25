@@ -71,7 +71,7 @@ Expression* MultipleExpressions::add(Expression* a)
                 }
                 vectorExpressions.at(i) = result->toString();
             }
-            else if (operand1->canAdd(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+            else if (operand1->canAdd(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
                 changed = true;
                 Expression *result = operand1->add(a);
                 vectorExpressions.at(i) = result->toString();
@@ -98,7 +98,7 @@ Expression* MultipleExpressions::subtract(Expression* a)
                 Expression *result = operand1->subtract(a);
                 vectorExpressions.at(i) = result->toString();
             }
-            else if (operand1->canSubtract(a) && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+            else if (operand1->canSubtract(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
                 changed = true;
                 Expression *result = operand1->subtract(a);
                 vectorExpressions.at(i) = result->toString();

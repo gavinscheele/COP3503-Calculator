@@ -263,7 +263,8 @@ string Solver::evaluateString(){
                         //if (d->meType == "as") {
                             Integer *t = new Integer(-1);
                             Expression *result1 = e2->multiply(t);
-                            Expression *result = e2->add(result1);
+                            result1 = this->bindToExpressionType(result1->toString());
+                            Expression *result = result1->add(e1);
                             delete t;
                             stk.push(result->toString());
                             out = result->toString();
