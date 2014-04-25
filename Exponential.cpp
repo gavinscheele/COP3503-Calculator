@@ -201,7 +201,9 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) a;
-	r->setNumerator(r->geteNumerator()->multiply(this));        //Error: expected expression
+	Expression* numToSet = r->geteNumerator();
+	numToSet->multiply(this);
+	r->setNumerator(numToSet);
 	return r;
 
     }else{
@@ -236,7 +238,9 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "rational"){
 	Rational* r = (Rational *) a;
-	r->setDenominator(r->geteDenominator()->multiply(this));      //Error: member reference type 'int' is not a pointer
+	Expression* denToSet = r->geteDenominator();
+	denToSet->multiply(this);
+	r->setDenominator(denToSet);
 	return r;
 
     }else{
