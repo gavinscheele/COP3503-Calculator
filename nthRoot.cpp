@@ -46,7 +46,7 @@ nthRoot::~nthRoot() {
 
 }
 
-int* nthRoot::primeFactorization(int n, int div, int k) {
+/* int* nthRoot::primeFactorization(int n, int div, int k) {
     if (n % div == 0) {
         factors[k] = div;
         if (div == n) {
@@ -60,9 +60,9 @@ int* nthRoot::primeFactorization(int n, int div, int k) {
         primeFactorization(n, div++, k);
     }
     return factors;
-}
+} */
 
-/*int* nthRoot::primeFactorization(int n) {    //non-recursive version
+int* nthRoot::primeFactorization(int n) {    //non-recursive version
     int k = 0;
     while (n%2 == 0) {
         factors[k] = 2;
@@ -83,7 +83,7 @@ int* nthRoot::primeFactorization(int n, int div, int k) {
     }
     return factors;
     // added bonus: factors should be sorted already
-} */
+} 
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
