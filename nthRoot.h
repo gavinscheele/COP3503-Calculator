@@ -39,6 +39,7 @@ public:
     Expression* simplify();
     string toString();
     bool isPrime(int n);
+    int* primeFactorization(int n);
 
 private:
     int coefficient;
