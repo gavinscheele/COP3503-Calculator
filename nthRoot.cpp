@@ -7,6 +7,7 @@
 //
 
 #include "nthRoot.h"
+#include <array>
 using namespace std;
 nthRoot::nthRoot(int root, int operand, int coefficient) {
     this->type = "nthRoot";
@@ -25,14 +26,14 @@ nthRoot::nthRoot(int root, Expression* eoperand, int coefficient) {
     this->eoperand = eoperand;
     this->root = root;
     this->coefficient = coefficient;
-    
+
     if ((root % 2) == 0 && eoperand->type == "integer") {
         Integer *a = (Integer *)eoperand;
         if (a->getValue() < 0) {
             throw runtime_error("unreal answer");
         }
     }
-    
+
     if ((root % 2) == 0 && eoperand->type == "Rational"){
         Rational *b = (Rational*)eoperand;
         if ((b->getNumerator() < 0 || b->getDenominator() < 0)
@@ -46,67 +47,69 @@ nthRoot::~nthRoot() {
 
 }
 
-/* int* nthRoot::primeFactorization(int n, int div, int k) {
+ int* nthRoot::primeFactorization(int n, int div, int k) {
     if (n % div == 0) {
         factors[k] = div;
         if (div == n) {
             return factors;
         }
         else {
-            primeFactorization((n / div), div, k++);
+            primeFactorization((n / div), div, (k + 1));
         }
     }
     else if (div <= n) {
         primeFactorization(n, div++, k);
     }
-    return factors;
-} */
+ //   return factors;
+}
 
-int* nthRoot::primeFactorization(int n) {    //non-recursive version
+/*int* nthRoot::primeFactorization(int n, int num, int number) {    //non-recursive version
     int k = 0;
+    int* factors;
     while (n%2 == 0) {
         factors[k] = 2;
         k++;
         n = n/2;
     }
     for (int i = 3; i <= sqrt(n); i = i + 2) {
-        if (n%i == 0) {
+//        if (n%i == 0) {
             while (n%i == 0) {
                 factors[k] = i;
                 k++;
                 n = n/i;
             }
-        }
+//        }
     }
-    if (n > 1) {
+    if (n > 2) {
         factors[k] = n;
     }
+    n = 3;
     return factors;
     // added bonus: factors should be sorted already
-} 
+} */
 
 Expression* nthRoot::simplify(){
     //if coefficient == 0 then return 0?
     //if operand < 0 throw an error
-    if ((root % 2) == 0 && operand < 0) {  
+    if ((root % 2) == 0 && operand < 0) {
         throw runtime_error("unreal answer");
     }
-   // factors = this->primeFactorization(operand);
-    
-    copy(this->primeFactorization(operand, 2, 0), this->primeFactorization(operand, 2, 0)+50, factors);
+//    int *factorsCopy = this->primeFactorization(operand, 2, 0);
+      this->primeFactorization(operand, 2, 0);
+//    copy(this->primeFactorization(operand, 2, 0)+50, factors);
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 
     while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand
         int j = i;               //and puts them into the coefficient
-        int count = 0;
+        int count = 1;
         while (j <= factorsSize && factors[j + 1] == factors[j]) {
             count++;
             j++;
         }
         if (count >= root) {
-            coefficient *= (factors[i] ^ (count/root));
-            operand = operand / (factors[i] ^ (count - (count % root)));
+            coefficient = coefficient * (factors[i] ^ (count/root));
+            operand = (operand / (factors[i] ^ (count - (count % root)))); //this line won't work
         }
         i = j + 1;
     }
@@ -244,7 +247,7 @@ string nthRoot::toString() {
 
 
 bool nthRoot::canAdd(Expression* b){     //use "this" as comparison. Solver will call someExpression.canAdd(&someOtherExpression)
-    
+
     if (this->type == b->type && this->type != "logarithm") {
         if (this->type == "nthRoot") {
         }
@@ -288,7 +291,7 @@ bool nthRoot::canMultiply(Expression* b){
         }
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
-    
+
 }
 bool nthRoot::canDivide(Expression* b){
     if (this->type == b->type) {
