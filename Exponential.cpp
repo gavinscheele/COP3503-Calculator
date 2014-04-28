@@ -340,6 +340,9 @@ bool Exponential::canMultiply(Expression* b){
     if (this->type == b->type) {
         return true;
     }
+    else if (this->base->type == b->type) {
+    	return true;
+    }
     else if(this->type == "integer" && b->type == "rational") return true;
     else if(this->type == "rational" && b->type == "integer") return true;
     else if(this->type == "multiple" && b->type == "multiple"){
@@ -355,6 +358,9 @@ bool Exponential::canMultiply(Expression* b){
 bool Exponential::canDivide(Expression* b){
     if (this->type == b->type) {
         return true;
+    }
+    else if (this->base->type == b->type) {
+    	return true;
     }
     else if(this->type == "integer"){
         if( b->type == "rational") return true;
