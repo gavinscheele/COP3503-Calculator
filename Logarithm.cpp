@@ -359,13 +359,13 @@ Expression* Logarithm::divide(Expression* a){//this set up is "this" divided by 
     return c;
 }
 ostream& Logarithm::print(std::ostream& output) const{
-    output << "Log_" << *eBase << ":" << *eOperand;
+    output << "log_" << *eBase << ":(" << *eOperand << ")";
 
     return output;
 }
 string Logarithm::toString(){
     stringstream ss;
-    ss << "Log_" << *this->eBase << ":" << *this->eOperand;
+    ss << "log_" << *this->eBase << ":(" << *this->eOperand << ")";
 
     return ss.str();
 
