@@ -149,7 +149,7 @@ Expression* MultipleExpressions::divide(Expression* a)
         if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if (operand1->canDivide(a)) {
-                if (vectorExpressions.at(i-1) == "/") {
+                if (i >1 && vectorExpressions.at(i-1) == "/") {
                     Rational *t = new Rational(new Integer(1),a);
                     this->multiply(t);
                 }
@@ -164,7 +164,13 @@ Expression* MultipleExpressions::divide(Expression* a)
                 }else if(result->type == "rational"){
                     Rational *t = (Rational *)result;
                     vectorExpressions.at(i) = t->geteNumerator()->toString();
-                    Expression *n = s->bindToExpressionType(vectorExpressions.at(i+2));
+                    Expression *n;
+                    size_t j = (size_t)i+2;
+                    if(vectorExpressions.size() >= j){
+                        s->bindToExpressionType(vectorExpressions.at(i+2));
+                    }else{
+                        s->bindToExpressionType(vectorExpressions.at(i-2));
+                    }
                     if (t->geteDenominator()->canMultiply(n)) {
                         vectorExpressions.at(i+2) = t->geteDenominator()->multiply(n)->toString();
                     }else{
