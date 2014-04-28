@@ -60,9 +60,16 @@ nthRoot::~nthRoot() {
     else if (div <= n) {
         primeFactorization(n, div++, k);
     }
-    return factors;
+ //   return factors;
 }
 
+int nthRoot::localExponentiate(int under, int locExponent) {
+    for (int i = 1; i < locExponent; i++) {
+        under *= under;
+    }
+    cout << under << "\n";
+    return under;
+}
 /*int* nthRoot::primeFactorization(int n, int num, int number) {    //non-recursive version
     int k = 0;
     int* factors;
