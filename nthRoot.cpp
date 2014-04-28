@@ -67,7 +67,7 @@ int nthRoot::localExponentiate(int under, int locExponent) {
     for (int i = 1; i < locExponent; i++) {
         under *= under;
     }
-    cout << under << "\n";
+//    cout << under << "\n";
     return under;
 }
 /*int* nthRoot::primeFactorization(int n, int num, int number) {    //non-recursive version
@@ -115,8 +115,9 @@ Expression* nthRoot::simplify(){
             j++;
         }
         if (count >= root) {
-            coefficient = coefficient * (factors[i] ^ (count/root));
-            operand = (operand / (factors[i] ^ (count - (count % root)))); //this line won't work
+
+            coefficient = coefficient * localExponentiate(factors[i], (count/root));
+            operand = (operand / localExponentiate(factors[i], (count - (count % root))));
         }
         i = j + 1;
     }
