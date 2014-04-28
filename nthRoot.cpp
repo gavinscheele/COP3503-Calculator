@@ -60,7 +60,7 @@ nthRoot::~nthRoot() {
     else if (div <= n) {
         primeFactorization(n, div++, k);
     }
- //   return factors;
+    return factors;
 }
 
 /*int* nthRoot::primeFactorization(int n, int num, int number) {    //non-recursive version
