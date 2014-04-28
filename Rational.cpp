@@ -373,10 +373,10 @@ string Rational::toString(){
         if (den->getValue() == 1) {
             s << *eNumerator;
         }else{
-            s << *eNumerator << "/" << *eDenominator;
+            s << *eNumerator << " / " << *eDenominator;
         }
     }else{
-        s << *eNumerator << "/" << *eDenominator;
+        s << *eNumerator << " / " << *eDenominator;
     }
     return s.str();
 }

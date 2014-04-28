@@ -91,8 +91,14 @@ Expression* Integer::multiply(Expression* a){
 
     }else if(a->type == "rational"){
         Rational *b = (Rational *) a;
-        Integer *i = new Integer(b->getNumerator()*this->getValue());
-        b->setNumerator(i);
+        if (b->getNumerator() != 0) {
+            Integer *i = new Integer(b->getNumerator()*this->getValue());
+            b->setNumerator(i);
+        }else{
+            Rational *i = new Rational(b->geteNumerator()->multiply(new Integer(this->getValue())), b->geteDenominator());
+            b = i;
+        }
+
         b->simplify(b);
         //multiplies the Integer with the numerator of the Rational
         return b;
