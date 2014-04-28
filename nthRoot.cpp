@@ -60,7 +60,7 @@ nthRoot::~nthRoot() {
     else if (div <= n) {
         primeFactorization(n, div++, k);
     }
- //   return factors;
+    return factors;
 }
 
 int nthRoot::localExponentiate(int under, int locExponent) {

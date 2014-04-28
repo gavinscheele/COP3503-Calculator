@@ -488,7 +488,7 @@ Expression* Solver::bindToExpressionType(string e){
                 a = new Pi();
             }
             break;
-        }else if(e[i] == 'e' && e[i+1] != '^'){
+        }else if(e[i] == 'e' && e[i+1] != '^' && e[i+2] != '^'){
             a = new Euler();
             break;
         }else if(e[i] == 'l' && e[i+1] == 'o' && e[i+2] == 'g'){

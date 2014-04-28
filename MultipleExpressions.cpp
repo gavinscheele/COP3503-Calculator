@@ -122,7 +122,15 @@ Expression* MultipleExpressions::multiply(Expression* a)
             if (operand1->canMultiply(a)) {
                 changed = true;
                 Expression *result = operand1->multiply(a);
-                vectorExpressions.at(i) = result->toString();
+                if (result->type == "integer") {
+                    Integer *t = (Integer *)result;
+                    if (t->getValue() == 1) {
+                        vectorExpressions.at(i) = result->toString();
+                        vectorExpressions.erase(vectorExpressions.begin() + i-1,vectorExpressions.begin() + i+1);
+                    }
+                }else{
+                    vectorExpressions.at(i) = result->toString();
+                }
             }
         }
     }
@@ -141,9 +149,30 @@ Expression* MultipleExpressions::divide(Expression* a)
         if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if (operand1->canDivide(a)) {
+                if (vectorExpressions.at(i-1) == "/") {
+                    Rational *t = new Rational(new Integer(1),a);
+                    this->multiply(t);
+                }
                 changed = true;
                 Expression *result = operand1->divide(a);
-                vectorExpressions.at(i) = result->toString();
+                if (result->type == "integer") {
+                    Integer *t = (Integer *)result;
+                    if (t->getValue() == 1) {
+                        vectorExpressions.at(i) = result->toString();
+                        vectorExpressions.erase(vectorExpressions.begin() + i-1,vectorExpressions.begin() + i+1);
+                    }
+                }else if(result->type == "rational"){
+                    Rational *t = (Rational *)result;
+                    vectorExpressions.at(i) = t->geteNumerator()->toString();
+                    Expression *n = s->bindToExpressionType(vectorExpressions.at(i+2));
+                    if (t->geteDenominator()->canMultiply(n)) {
+                        vectorExpressions.at(i+2) = t->geteDenominator()->multiply(n)->toString();
+                    }else{
+                        vectorExpressions.at(i) = result->toString();
+                    }
+                }else{
+                    vectorExpressions.at(i) = result->toString();
+                }
             }
         }
     }
