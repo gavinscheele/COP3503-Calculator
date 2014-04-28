@@ -64,17 +64,52 @@ Expression* MultipleExpressions::add(Expression* a)
             if ((i == aSize-1 && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/")) {
                 changed = true;
                 if (vectorExpressions.at(i-1) == "-") {
+                    if (a->canSubtract(operand1)) {
+                        result = a->subtract(operand1);
+                        if (result->toString() == "0") {
+                            vectorExpressions.erase(vectorExpressions.begin()+i-1,vectorExpressions.begin()+i+1);
+                            break;
+                        }
+                        vectorExpressions.at(i-1) = "+";
+                        vectorExpressions.at(i) = result->toString();
+                        break;
+                    }else{
+                        if (a->toString() == "0") {
+                            break;
+                        }
+                        vectorExpressions.push_back("+");
+                        vectorExpressions.push_back(a->toString());
+                        break;
+                    }
+                }else{
+                    if (operand1->canAdd(a)) {
+                        result = operand1->add(a);
+                        if (result->toString() == "0") {
+                            break;
+                        }
+                        vectorExpressions.at(i) = result->toString();
+                        break;
+                    }
+                    else{
+                        if (a->toString() == "0") {
+                            break;
+                        }
+                        vectorExpressions.push_back("+");
+                        vectorExpressions.push_back(a->toString());
+                        break;
+                    }
+                }
+            }
+            else if (operand1->canAdd(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
+                changed = true;
+                Expression *result;
+                if (vectorExpressions.at(i) == "-") {
                     result = a->subtract(operand1);
-                    vectorExpressions.at(i-1) = "+";
                 }else{
                     result = operand1->add(a);
                 }
                 vectorExpressions.at(i) = result->toString();
-            }
-            else if (operand1->canAdd(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
-                changed = true;
-                Expression *result = operand1->add(a);
-                vectorExpressions.at(i) = result->toString();
+                break;
             }
         }
     }
@@ -95,13 +130,27 @@ Expression* MultipleExpressions::subtract(Expression* a)
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if ((i == aSize-1 && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/")) {
                 changed = true;
-                Expression *result = operand1->subtract(a);
-                vectorExpressions.at(i) = result->toString();
+                if(operand1->canSubtract(a)){
+                    Expression *result = operand1->subtract(a);
+                    vectorExpressions.at(i) = result->toString();
+                    break;
+                }else{
+                    vectorExpressions.push_back("-");
+                    vectorExpressions.push_back(a->toString());
+                    break;
+                }
             }
             else if (operand1->canSubtract(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
                 changed = true;
-                Expression *result = operand1->subtract(a);
-                vectorExpressions.at(i) = result->toString();
+                if (operand1->canSubtract(a)) {
+                    Expression *result = operand1->subtract(a);
+                    vectorExpressions.at(i) = result->toString();
+                    break;
+                }else{
+                    vectorExpressions.push_back("-");
+                    vectorExpressions.push_back(a->toString());
+                    break;
+                }
             }
         }
     }
