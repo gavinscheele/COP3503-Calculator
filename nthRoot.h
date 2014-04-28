@@ -20,6 +20,7 @@ public:
     ~nthRoot();
     //Expression simplify();
     int* primeFactorization(int n, int div, int k);
+    int localExponentiate(int under, int locExponent);
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
@@ -28,7 +29,7 @@ public:
     bool canSubtract(Expression* b);
     bool canMultiply(Expression* b);
     bool canDivide(Expression* b);
-    
+
     int getRoot();
     int getOperand();
     int getCoefficient();
@@ -39,7 +40,6 @@ public:
     Expression* simplify();
     string toString();
     bool isPrime(int n);
-    int* primeFactorization(int n);
 
 private:
     int coefficient;
