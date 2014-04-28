@@ -101,6 +101,19 @@ Expression* MultipleExpressions::add(Expression* a)
                 }
             }
             else if (operand1->canAdd(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
+                if (i > 1) {
+                    if (vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+                        changed = true;
+                        Expression *result;
+                        if (vectorExpressions.at(i) == "-") {
+                            result = a->subtract(operand1);
+                        }else{
+                            result = operand1->add(a);
+                        }
+                        vectorExpressions.at(i) = result->toString();
+                        break;
+                    }
+                }else{
                 changed = true;
                 Expression *result;
                 if (vectorExpressions.at(i) == "-") {
@@ -110,6 +123,7 @@ Expression* MultipleExpressions::add(Expression* a)
                 }
                 vectorExpressions.at(i) = result->toString();
                 break;
+                }
             }
         }
     }
@@ -125,13 +139,41 @@ Expression* MultipleExpressions::subtract(Expression* a)
     Solver *s = new Solver();
     size_t aSize = this->vectorExpressions.size();
     bool changed = false;
+    Expression *result;
+    if (a->type == "multiple") {
+        MultipleExpressions *b = (MultipleExpressions *)a;
+        if (b->vectorExpressions.size() == 3 && this->vectorExpressions.size() == 3
+            && b->vectorExpressions.at(1) == "*" && this->vectorExpressions.at(1) == "*") {
+            
+            Expression *eB0 = s->bindToExpressionType(b->vectorExpressions.at(0));
+            Expression *eThis0 = s->bindToExpressionType(this->vectorExpressions.at(0));
+            Expression *eB1 = s->bindToExpressionType(b->vectorExpressions.at(2));
+            Expression *eThis1 = s->bindToExpressionType(this->vectorExpressions.at(2));
+            if (eB0->type == eThis0->type || eB0->canAdd(eThis0)) {
+                if (eB0->toString() == eThis0->toString()) {
+                    s = new Solver(eB0->toString() + " * " + eThis1->subtract(eB1)->toString());
+                    result = s->bindToExpressionType(s->solve(false));
+                    vectorExpressions = this->parseBySpaces(result->toString());
+                    return this;
+                }else{
+                    s = new Solver(eB1->toString() + " * " + eThis0->subtract(eB0)->toString());
+                    result = s->bindToExpressionType(s->solve(false));
+                    vectorExpressions = this->parseBySpaces(result->toString());
+                    return this;
+                    
+                }
+            }
+        }
+    }
+    
+    
     for (int i = 0; i < this->vectorExpressions.size(); i++) {
         if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if ((i == aSize-1 && vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/")) {
                 changed = true;
                 if(operand1->canSubtract(a)){
-                    Expression *result = operand1->subtract(a);
+                    result = operand1->subtract(a);
                     vectorExpressions.at(i) = result->toString();
                     break;
                 }else{
@@ -141,15 +183,30 @@ Expression* MultipleExpressions::subtract(Expression* a)
                 }
             }
             else if (operand1->canSubtract(a) && vectorExpressions.at(i) != "*" && vectorExpressions.at(i) != "/") {
-                changed = true;
-                if (operand1->canSubtract(a)) {
-                    Expression *result = operand1->subtract(a);
-                    vectorExpressions.at(i) = result->toString();
-                    break;
+                if (i > 1) {
+                    if (vectorExpressions.at(i-1) != "*" && vectorExpressions.at(i-1) != "/") {
+                        changed = true;
+                        if (operand1->canSubtract(a)) {
+                            result = operand1->subtract(a);
+                            vectorExpressions.at(i) = result->toString();
+                            break;
+                        }else{
+                            vectorExpressions.push_back("-");
+                            vectorExpressions.push_back(a->toString());
+                            break;
+                        }
+                    }
                 }else{
-                    vectorExpressions.push_back("-");
-                    vectorExpressions.push_back(a->toString());
-                    break;
+                    changed = true;
+                    if (operand1->canSubtract(a)) {
+                        result = operand1->subtract(a);
+                        vectorExpressions.at(i) = result->toString();
+                        break;
+                    }else{
+                        vectorExpressions.push_back("-");
+                        vectorExpressions.push_back(a->toString());
+                        break;
+                    }
                 }
             }
         }
