@@ -435,11 +435,11 @@ string Solver::evaluateString(){
     return out;
 }
 Expression* Solver::bindToExpressionType(string e){
-    size_t found = e.find("log"); //TESSEDIT
+    //size_t found = e.find("log"); //TESSEDIT
     Expression *a = new MultipleExpressions("0");     //so the compiler doesnt complain. Will be set to appropriate type later
     for(int i = 0; i < e.length(); i++){
         if(e[i] == '*' || e[i] == '/' || e[i] == '+' || e[i] == '-'){
-            if (e[i-1] == ' ' && e[i+1] == ' ' && found == string::npos) { //TESSEDIT (the found == string::npos)
+            if (e[i-1] == ' ' && e[i+1] == ' '/* && found == string::npos*/) { //TESSEDIT (the found == string::npos)
                 a = new MultipleExpressions(e);
                 return a;
             }

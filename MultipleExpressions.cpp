@@ -156,14 +156,16 @@ Expression* MultipleExpressions::divide(Expression* a)
 vector<string> MultipleExpressions::parseBySpaces(string expression){
     int count = 0;
     string temp = "";
-    vector<string> expressions;
+    vector<string> expressions = *new vector<string>();
     for(int i = 0; i < expression.size(); i ++){       //creates an array of expressions and operations
         if (expression.at(i) == 'l' && expression.at(i+1) == 'o' && expression.at(i+2) == 'g') {
+            temp = "";
             for (int j = i; j < expression.size(); j++) {
                 temp.push_back(expression.at(j));
                 if (expression.at(j) == ')') {
                     i = j+1;
                     expressions.push_back(temp);
+                    count = j + 2;
                     break;
                 }
             }
