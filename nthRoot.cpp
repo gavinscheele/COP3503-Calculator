@@ -7,6 +7,7 @@
 //
 
 #include "nthRoot.h"
+#include "Integer.h"
 #include <array>
 using namespace std;
 nthRoot::nthRoot(int root, int operand, int coefficient) {
@@ -107,10 +108,10 @@ Expression* nthRoot::simplify(){
     int i = 0;
     int factorsSize = sizeof(factors)/sizeof(factors[0]);
 
-    while (i <= factorsSize) {   //all this takes unnecessary factors out of the operand
+    while (i <= factorsSize && factors[i] != 0) {   //all this takes unnecessary factors out of the operand
         int j = i;               //and puts them into the coefficient
         int count = 1;
-        while (j <= factorsSize && factors[j + 1] == factors[j]) {
+        while (j <= factorsSize && factors[j + 1] == factors[j] && factors[j] != 0) {
             count++;
             j++;
         }
