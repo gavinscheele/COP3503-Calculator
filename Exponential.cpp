@@ -185,8 +185,13 @@ Expression* Exponential::multiply(Expression* a){
 
     }else if(a->type == "exponential"){
 		Exponential* ex = (Exponential *) a;
-	if (this->base == ex->getBase()) {
-		this->exponent->add(ex->getExponent());
+	//if (this->base == ex->getBase()) {
+	//	this->exponent->add(ex->getExponent());
+	//}
+	if (ex->base->type == this->base->type) {
+		if ((ex->base->type == "euler") || (ex->base->type == "pi")) {
+			this->exponent->add(ex->exponent);
+		}
 	}
 
     }else if(a->type == "integer"){
@@ -222,8 +227,13 @@ Expression* Exponential::divide(Expression* a){
 
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
-	if (this->base == ex->getBase()) {
-		this->exponent->subtract(ex->getExponent());
+	//if (this->base == ex->getBase()) {
+	//	this->exponent->subtract(ex->getExponent());
+	//}
+	if (ex->base->type == this->base->type) {
+		if ((ex->base->type == "euler") || (ex->base->type == "pi")) {
+			this->exponent->subtract(ex->exponent);
+		}
 	}
 
     }else if(a->type == "integer"){
