@@ -414,7 +414,7 @@ string Solver::evaluateString(){
                     e2 = b;
                 }
                 Exponential *a = new Exponential(e1,(Rational *)e2);
-                output += a->toString();
+                //output = a->toString();
                 Rational *t = (Rational *)e2;
                 if (t->getNumerator() == 1 && t->getDenominator() == 1) {
                     stk.push(e1->toString());
@@ -423,8 +423,8 @@ string Solver::evaluateString(){
                     stk.push("1");
                     out = "1";
                 }else{
-                    stk.push(e1->toString() + " ^ " + e2->toString());
-                    out = e1->toString() + " ^ " + e2->toString();
+                    stk.push(a->toString());
+                    out = a->toString();
                 }
 
 

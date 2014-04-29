@@ -253,6 +253,8 @@ void nthRoot::setRoot(int n) {
 ostream& nthRoot::print(std::ostream& output) const {
     if (this->operand == 1) {
         output << this->coefficient;
+    }else if(this->coefficient == 1){
+        output << this->root << "rt:" << this->operand;
     }else{
         output << this->coefficient  << "*" << this->root << "rt:" << this->operand;
     }
@@ -263,6 +265,8 @@ string nthRoot::toString() {
     stringstream s;
     if (this->operand == 1) {
         s << this->coefficient;
+    }else if(this->coefficient == 1){
+        s << this->root << "rt:" << this->operand;
     }else{
         s << this->coefficient  << "*" << this->root << "rt:" << this->operand;
     }
