@@ -116,6 +116,7 @@ void Exponential::exponentiate(){
         Integer* one = new Integer(1);
         Rational* mouse = new Rational(one, base);
     	base = mouse;
+        exponent = new Rational(1,1);
     }
     
 	}
