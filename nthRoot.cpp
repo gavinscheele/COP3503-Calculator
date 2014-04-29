@@ -52,6 +52,7 @@ nthRoot::~nthRoot() {
     if (n % div == 0) {
         factors[k] = div;
         if (div == n) {
+            factors[k+1] = 0; //the zero works as a stopping point later on
             return factors;
         }
         else {
@@ -59,7 +60,7 @@ nthRoot::~nthRoot() {
         }
     }
     else if (div <= n) {
-        primeFactorization(n, div++, k);
+        primeFactorization(n, (div + 1), k);
     }
     return factors;
 }
