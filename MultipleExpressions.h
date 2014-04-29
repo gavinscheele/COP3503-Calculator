@@ -34,6 +34,8 @@ private:
     string expressions;
     vector<string> vectorExpressions;
     vector<string> parseBySpaces(string expression);
+    MultipleExpressions* foil(Expression *one, string operation1, Expression *two, Expression *three, string operation2, Expression *four);
+
 };
 
 

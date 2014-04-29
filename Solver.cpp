@@ -496,8 +496,18 @@ Expression* Solver::bindToExpressionType(string e){
             string operand;
             int  j = i + 4;
             while (e[j] != ':') {
+                if (e[j] == '-') {
+                    throw runtime_error("Error: Logarithms cannot have negative bases");
+                }
                 base.push_back(e[j]);
                 j++;
+            }
+            if (bindToExpressionType(base)->type == "integer") {
+                Expression *t = this->bindToExpressionType(base);
+                Integer *d = (Integer *)t;
+                if (d->getValue() <= 1) {
+                    throw runtime_error("Error: Logarithms cannot have a base less than or equal to one");
+                }
             }
             for (int k = j+2; k < e.length()-1; k++) {
                 if ((e[k] != '(' || e[k] != ')')) {
@@ -683,7 +693,6 @@ vector<string> Solver::parseBySpaces(string expression){
     }
     return expressions;
 }
-
 
 
 

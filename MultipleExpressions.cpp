@@ -222,6 +222,22 @@ Expression* MultipleExpressions::multiply(Expression* a)
 {
     Solver *s = new Solver();
     bool changed = false;
+    
+    if (a->type == "multiple") {
+        MultipleExpressions *b = (MultipleExpressions *)a;
+        if (b->meType == "as" && this->meType == "as") {
+            Expression *first = s->bindToExpressionType(b->vectorExpressions.at(0));
+            string op1 = b->vectorExpressions.at(1);
+            Expression *second = s->bindToExpressionType(b->vectorExpressions.at(2));
+            
+            Expression *third = s->bindToExpressionType(this->vectorExpressions.at(0));
+            string op2 = this->vectorExpressions.at(1);
+            Expression *fourth = s->bindToExpressionType(this->vectorExpressions.at(2));
+            
+            this->vectorExpressions = foil(first, op1, second, third, op2, fourth)->vectorExpressions;
+            return this;
+        }
+    }
     for (int i = 0; i < this->vectorExpressions.size(); i++) {
         if ((i % 2 == 0  || i == 0 ) && i != 1) {   //odd numbers only
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
@@ -413,5 +429,85 @@ bool MultipleExpressions::canDivide(Expression* b){
         }
     }else if(this->type == "multiple" || b->type == "multiple") return true;
     return false;
+}
+
+
+
+MultipleExpressions* MultipleExpressions::foil(Expression *one, string operation1, Expression *two, Expression *three, string operation2, Expression *four){
+    MultipleExpressions *result = new MultipleExpressions("");
+    Solver *s = new Solver();
+    Expression* o = s->bindToExpressionType(one->toString());
+    Expression* t = s->bindToExpressionType(two->toString());
+    Expression* tr = s->bindToExpressionType(three->toString());
+    Expression* f = s->bindToExpressionType(four->toString());
+    
+    
+    if (one->canMultiply(three)) {
+        result->vectorExpressions.push_back(one->multiply(three)->toString());
+    }else{
+        result->vectorExpressions.push_back(one->toString());
+        result->vectorExpressions.push_back("*");
+        result->vectorExpressions.push_back(three->toString());
+    }
+    one = o;
+    three = tr;
+    if (two->canMultiply(three)) {
+        if (operation1 == "-") {
+            result->vectorExpressions.push_back(one->multiply(three)->multiply(new Integer(-1))->toString());
+        }else
+            result->vectorExpressions.push_back(one->multiply(three)->toString());
+    }else{
+        result->vectorExpressions.push_back(operation1);
+        result->vectorExpressions.push_back(two->toString());
+        result->vectorExpressions.push_back("*");
+        result->vectorExpressions.push_back(three->toString());
+    }
+    two = t;
+    three = tr;
+    
+    if (one->canMultiply(four)) {
+        if (operation2 == "-") {
+            result->vectorExpressions.push_back(one->multiply(four)->multiply(new Integer(-1))->toString());
+        }else
+            result->vectorExpressions.push_back(one->multiply(four)->toString());
+    }else{
+        result->vectorExpressions.push_back(operation2);
+        result->vectorExpressions.push_back(one->toString());
+        result->vectorExpressions.push_back("*");
+        result->vectorExpressions.push_back(four->toString());
+    }
+    one = o;
+    four = f;
+    
+    if (two->canMultiply(four)) {
+        if (operation1 == "-" && operation2 == "-") {
+            result->vectorExpressions.push_back("+");
+        }else if(operation1 == "-" || operation2 == "-"){
+            result->vectorExpressions.push_back("-");
+        }else{
+            result->vectorExpressions.push_back("+");
+        }
+        if (operation1 == "-" && operation2 == "-") {
+            result->vectorExpressions.push_back(two->multiply(four)->toString());
+        }
+        else if (operation2 == "-") {
+            result->vectorExpressions.push_back(two->multiply(four)->multiply(new Integer(-1))->toString());
+        }else
+            result->vectorExpressions.push_back(two->multiply(four)->toString());
+    }else{
+        if (operation1 == "-" && operation2 == "-") {
+            result->vectorExpressions.push_back("+");
+        }else if(operation1 == "-" || operation2 == "-"){
+            result->vectorExpressions.push_back("-");
+        }else{
+            result->vectorExpressions.push_back("+");
+        }
+        result->vectorExpressions.push_back(two->toString());
+        result->vectorExpressions.push_back("*");
+        result->vectorExpressions.push_back(two->toString());
+    }
+    two = t;
+    four = f;
+    return result;
 }
 

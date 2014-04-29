@@ -48,7 +48,5 @@ private:
     float answer;
     vector<string> parseBySpaces(string expression);
 
-
-
 };
 #endif /* defined(__Calculator__Solver__) */
