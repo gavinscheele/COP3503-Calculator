@@ -127,7 +127,7 @@ Expression* Exponential::add(Expression* a){
 
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
-	if (ex->getBase()==this->base) {
+	if ((ex->getBase()->type == this->base->type) && ((this->base->type == "euler") || (this->base->type == "pi"))) {
 		if (ex->getExponent()==this->exponent) {
 			Integer* two = new Integer(2);
 			this->multiply(two);
@@ -154,7 +154,7 @@ Expression* Exponential::subtract(Expression* a){
 
     }else if(a->type == "exponential"){
 	Exponential* ex = (Exponential *) a;
-	if (ex->getBase()==this->base) {
+	if ((ex->getBase()->type == this->base->type) && ((this->base->type == "euler") || (this->base->type == "pi"))) {
 		if (ex->getExponent()==this->exponent) {
 			Integer* zero = new Integer(0);
 			this->multiply(zero);
