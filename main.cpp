@@ -61,7 +61,7 @@ int main(int argc, char * argv[])  {
             cout << "----------------------------------" << endl;
             cout << "*Enter 'a' from the menu to begin a calculation" << endl;
             cout << "*Calculation operands and operations should each be seperated by a space" << endl;
-            cout << "*Ex: ( 4 + 3 ) - log_3:(2) - log_pi:(pi * pi ) * e^2 / ( pi * pi ) + 2rt:8 + 2 / 3" << endl;
+            cout << "*Ex: ( 4 + 3 ) - log_3:(2) - log_pi:(pi * pi) * ( e ^ 2 ) / ( pi ^ 2 ) + 2rt:8 + 2 / 3" << endl;
             cout << "*After each calculation, enter 'y' to proceed with another calculation, or 'n' to go back to the main menu" << endl;
             cout << "*Enter 'c' from the main menu to view previous answers normally or in float form" << endl;
             cout << "*From this menu, you can also refer to the previous answer as 'ans'" << endl;

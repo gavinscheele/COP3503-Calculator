@@ -438,6 +438,9 @@ Expression* Solver::bindToExpressionType(string e){
     //size_t found = e.find("log"); //TESSEDIT
     Expression *a = new MultipleExpressions("0");     //so the compiler doesnt complain. Will be set to appropriate type later
     for(int i = 0; i < e.length(); i++){
+        if (e[i] == 'l') {
+            break;
+        }
         if(e[i] == '*' || e[i] == '/' || e[i] == '+' || e[i] == '-'){
             if (e[i-1] == ' ' && e[i+1] == ' '/* && found == string::npos*/) { //TESSEDIT (the found == string::npos)
                 a = new MultipleExpressions(e);
@@ -520,8 +523,10 @@ Expression* Solver::bindToExpressionType(string e){
             if (operand.at(0) == ' ') {
                 operand.erase(0,1);
             }
+            Solver *s = new Solver(operand);
+            Expression *o = bindToExpressionType(s->solve(false));
             Expression *b = this->bindToExpressionType(base);
-            Expression *o = this->bindToExpressionType(operand);
+            //Expression *o = this->bindToExpressionType(operand);
             if (b->type == "integer" && o->type == "integer") {
                 Integer *ba = (Integer *)b;
                 Integer *op = (Integer *)o;

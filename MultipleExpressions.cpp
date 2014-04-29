@@ -131,6 +131,7 @@ Expression* MultipleExpressions::add(Expression* a)
         this->vectorExpressions.push_back("+");
         this->vectorExpressions.push_back(a->toString());
     }
+    delete s;
     return this;
 }
 
@@ -215,6 +216,7 @@ Expression* MultipleExpressions::subtract(Expression* a)
         this->vectorExpressions.push_back("-");
         this->vectorExpressions.push_back(a->toString());
     }
+    delete s;
     return this;
 }
 
@@ -243,7 +245,12 @@ Expression* MultipleExpressions::multiply(Expression* a)
             Expression *operand1 = s->bindToExpressionType(this->vectorExpressions.at(i));
             if (operand1->canMultiply(a)) {
                 changed = true;
-                Expression *result = operand1->multiply(a);
+                Expression *result;
+                if (operand1->type != "multiple") {
+                    result = a->multiply(operand1);
+                }else{
+                    result = operand1->multiply(a);
+                }
                 if (result->type == "integer") {
                     Integer *t = (Integer *)result;
                     if (t->getValue() == 1) {
@@ -274,6 +281,7 @@ Expression* MultipleExpressions::divide(Expression* a)
                 if (i >1 && vectorExpressions.at(i-1) == "/") {
                     Rational *t = new Rational(new Integer(1),a);
                     this->multiply(t);
+                    delete t;
                 }
                 changed = true;
                 Expression *result = operand1->divide(a);
@@ -282,6 +290,8 @@ Expression* MultipleExpressions::divide(Expression* a)
                     if (t->getValue() == 1) {
                         vectorExpressions.at(i) = result->toString();
                         vectorExpressions.erase(vectorExpressions.begin() + i-1,vectorExpressions.begin() + i+1);
+                    }else{
+                        vectorExpressions.at(i) = result->toString();
                     }
                 }else if(result->type == "rational"){
                     Rational *t = (Rational *)result;
@@ -308,6 +318,7 @@ Expression* MultipleExpressions::divide(Expression* a)
         this->vectorExpressions.push_back("/");
         this->vectorExpressions.push_back(a->toString());
     }
+    delete s;
     return this;
 }
 vector<string> MultipleExpressions::parseBySpaces(string expression){
@@ -508,6 +519,7 @@ MultipleExpressions* MultipleExpressions::foil(Expression *one, string operation
     }
     two = t;
     four = f;
+    delete s;
     return result;
 }
 
