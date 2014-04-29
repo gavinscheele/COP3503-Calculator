@@ -31,8 +31,8 @@ Exponential::~Exponential(){
 }
 
 bool Exponential::canExponentiate() {
-	this->exponent->getNumerator()
-	if (this->exNu == 0) {
+	this->exponent->getNumerator();
+	if (this->exnu == 0) {
 		return true;
 	}
     if(base->type == "euler"){
@@ -81,7 +81,7 @@ bool Exponential::canExponentiate() {
 
 void Exponential::exponentiate(){
 	Integer* one = new Integer(1);
-	if (this->exNu == 0) {
+	if (this->exnu == 0) {
 		return one;
 	}
         Rational* oneRat = new Rational(1, 1);
