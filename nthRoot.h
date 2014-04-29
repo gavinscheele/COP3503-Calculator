@@ -20,7 +20,7 @@ public:
     ~nthRoot();
     //Expression simplify();
     int* primeFactorization(int n, int div, int k);
-    int localExponentiate(int under, int locExponent);
+    int localExponentiate(int base, int locExponent);
     Expression* add(Expression* a);
     Expression* subtract(Expression* a);
     Expression* multiply(Expression* a);
