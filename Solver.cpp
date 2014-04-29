@@ -417,8 +417,8 @@ string Solver::evaluateString(){
                 //output = a->toString();
                 Rational *t = (Rational *)e2;
                 if (t->getNumerator() == 1 && t->getDenominator() == 1) {
-                    stk.push(e1->toString());
-                    out = e1->toString();
+                    stk.push(a->getBase()->toString());
+                    out = a->getBase()->toString();
                 }else if(t->getNumerator() == 0){
                     stk.push("1");
                     out = "1";
@@ -565,6 +565,7 @@ Expression* Solver::bindToExpressionType(string e){
                 while (e[j] != 'r') {
                     root.push_back(e[j]);
                     j++;
+                    
                 }
                 j = i+3;
 

@@ -17,13 +17,14 @@ Exponential::Exponential(Expression* base, Rational* exponent){
     if (exde->getValue() != 1) {
     	//if the denominator of the exponent is not 1, make the base a root of the denominator, then setting the denominator equal to 1
     	Integer* baseAsInteger = (Integer *) base;
-        base = new nthRoot(exde->getValue(), baseAsInteger->getValue(), 1);
+        this->base = new nthRoot(exde->getValue(), baseAsInteger->getValue(), 1);
         Integer* one = new Integer(1);
-        exponent->setDenominator(one);
-    }
-    this->exnu = new Integer(exponent->getNumerator());
-    if (canExponentiate()) {
-    	exponentiate();
+        this->exponent->setDenominator(one);
+    }else{
+        this->exnu = new Integer(exponent->getNumerator());
+        if (canExponentiate()) {
+            exponentiate();
+        }
     }
 }
 Exponential::~Exponential(){
