@@ -113,6 +113,10 @@ void Exponential::exponentiate(){
         exponent->setNumerator(exponent->geteNumerator()->subtract(one));
     }
     if (toFlip) {
+        while (exnu->getValue() > 1) {
+            base->multiply(constantBase);
+            exnu->subtract(one);
+        }
         Integer* one = new Integer(1);
         Rational* mouse = new Rational(one, base);
     	base = mouse;
