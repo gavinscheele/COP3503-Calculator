@@ -419,6 +419,9 @@ string Solver::evaluateString(){
                 if (t->getNumerator() == 1 && t->getDenominator() == 1) {
                     stk.push(e1->toString());
                     out = e1->toString();
+                }else if(t->getNumerator() == 0){
+                    stk.push("1");
+                    out = "1";
                 }else{
                     stk.push(e1->toString() + " ^ " + e2->toString());
                     out = e1->toString() + " ^ " + e2->toString();
