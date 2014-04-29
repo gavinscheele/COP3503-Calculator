@@ -65,6 +65,13 @@ nthRoot::~nthRoot() {
     return factors;
 }
 
+int nthRoot::localExponentiate(int base, int locExponent) {
+    if (locExponent >= 1)
+        return base * (localExponentiate(base, locExponent - 1));
+    else return 1;
+}
+
+/*
 int nthRoot::localExponentiate(int under, int locExponent) {
     for (int i = 1; i < locExponent; i++) {
         under *= under;
@@ -72,6 +79,7 @@ int nthRoot::localExponentiate(int under, int locExponent) {
 //    cout << under << "\n";
     return under;
 }
+*/
 /*int* nthRoot::primeFactorization(int n, int num, int number) {    //non-recursive version
     int k = 0;
     int* factors;
