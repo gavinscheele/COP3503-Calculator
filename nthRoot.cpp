@@ -137,7 +137,6 @@ Expression* nthRoot::simplify(){
     }
     else {
         Expression* newRoot = new nthRoot(root, operand, coefficient);
-        delete this;  //is this necessary?
         return newRoot;
     }
 
